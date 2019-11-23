@@ -73,7 +73,7 @@ head(data)
 #Skill/Characteristics - classify the most important attributes into skills and characteristics
 #Make sure p values are good
 #Use the model to predict. Use multvariable regression
-#TEST
+#TESTsfd
 
 ```
 
