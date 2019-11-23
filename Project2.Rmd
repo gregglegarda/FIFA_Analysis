@@ -59,6 +59,7 @@ Testing
 #### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
 ```{r S3, echo=FALSE, include=TRUE}
 #TEST used:  multivariate regression
+Testinguhwfsdf
 
 ```
 
@@ -74,7 +75,7 @@ Testing
 #Skill/Characteristics - classify the most important attributes into skills and characteristics
 #Make sure p values are good
 #Use the model to predict. Use multvariable regression
-
+#TESTsfd
 
 ```
 
