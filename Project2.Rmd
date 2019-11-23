@@ -48,6 +48,7 @@ head(data)
 ### Smart Question 2 (RUSSELL)
 #### What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
 ```{r S2, echo=FALSE, include=TRUE}
+Testing
 
 ```
 
