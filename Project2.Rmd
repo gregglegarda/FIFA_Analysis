@@ -21,8 +21,9 @@ options(scientific=T, digits = 3)
 # can add quietly=T option to the require() function
 loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.packages(x,dep=T,repos="http://cran.us.r-project.org"); if(!require(x,character.only=T)) stop("Package not found") } }
 ```
+### Introduction
 
-### FIFA Dataset hjjhkljgkhk
+### FIFA Dataset 
 
 The FIFA dataset was collected in outerspace blhablah blah. Describe the dataset, where it came from, interesting topics.
 
@@ -48,7 +49,7 @@ head(data)
 ### Smart Question 2 (RUSSELL)
 #### What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
 ```{r S2, echo=FALSE, include=TRUE}
-Testing
+
 
 ```
 
@@ -59,7 +60,7 @@ Testing
 #### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
 ```{r S3, echo=FALSE, include=TRUE}
 #TEST used:  multivariate regression
-Testinguhwfsdf
+
 
 ```
 
@@ -75,7 +76,14 @@ Testinguhwfsdf
 #Skill/Characteristics - classify the most important attributes into skills and characteristics
 #Make sure p values are good
 #Use the model to predict. Use multvariable regression
-#TESTsfd
+
+
+
+
+
+
+
+
 
 ```
 
