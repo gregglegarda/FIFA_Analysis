@@ -58,7 +58,7 @@ head(data)
 #### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
 ```{r S3, echo=FALSE, include=TRUE}
 #TEST used:  multivariate regression
-Testinguhwf
+Testinguhwfsdf
 
 ```
 
