@@ -48,6 +48,7 @@ head(data)
 ### Smart Question 2 (RUSSELL)
 #### What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
 ```{r S2, echo=FALSE, include=TRUE}
+Testing
 
 ```
 
@@ -74,7 +75,7 @@ Testinguhwfsdf
 #Skill/Characteristics - classify the most important attributes into skills and characteristics
 #Make sure p values are good
 #Use the model to predict. Use multvariable regression
-
+#TESTsfd
 
 ```
 
