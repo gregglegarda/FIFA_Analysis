@@ -1516,406 +1516,14 @@ div.tocify {
 </div>
 
 
-<div id="fifa-dataset-hjjhkljgkhk" class="section level3">
-<h3>FIFA Dataset hjjhkljgkhk</h3>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+</div>
+<div id="fifa-dataset" class="section level3">
+<h3>FIFA Dataset</h3>
 <p>The FIFA dataset was collected in outerspace blhablah blah. Describe the dataset, where it came from, interesting topics.</p>
-<div id="preparing-and-exploring-the-data" class="section level4">
-<h4>Preparing and exploring the data</h4>
-<pre><code>## 'data.frame':    18207 obs. of  89 variables:
-##  $                         : int  0 1 2 3 4 5 6 7 8 9 ...
-##  $ ID                      : int  158023 20801 190871 193080 192985 183277 177003 176580 155862 200389 ...
-##  $ Name                    : chr  &quot;L. Messi&quot; &quot;Cristiano Ronaldo&quot; &quot;Neymar Jr&quot; &quot;De Gea&quot; ...
-##  $ Age                     : int  31 33 26 27 27 27 32 31 32 25 ...
-##  $ Photo                   : chr  &quot;https://cdn.sofifa.org/players/4/19/158023.png&quot; &quot;https://cdn.sofifa.org/players/4/19/20801.png&quot; &quot;https://cdn.sofifa.org/players/4/19/190871.png&quot; &quot;https://cdn.sofifa.org/players/4/19/193080.png&quot; ...
-##  $ Nationality             : chr  &quot;Argentina&quot; &quot;Portugal&quot; &quot;Brazil&quot; &quot;Spain&quot; ...
-##  $ Flag                    : chr  &quot;https://cdn.sofifa.org/flags/52.png&quot; &quot;https://cdn.sofifa.org/flags/38.png&quot; &quot;https://cdn.sofifa.org/flags/54.png&quot; &quot;https://cdn.sofifa.org/flags/45.png&quot; ...
-##  $ Overall                 : int  94 94 92 91 91 91 91 91 91 90 ...
-##  $ Potential               : int  94 94 93 93 92 91 91 91 91 93 ...
-##  $ Club                    : chr  &quot;FC Barcelona&quot; &quot;Juventus&quot; &quot;Paris Saint-Germain&quot; &quot;Manchester United&quot; ...
-##  $ Club Logo               : chr  &quot;https://cdn.sofifa.org/teams/2/light/241.png&quot; &quot;https://cdn.sofifa.org/teams/2/light/45.png&quot; &quot;https://cdn.sofifa.org/teams/2/light/73.png&quot; &quot;https://cdn.sofifa.org/teams/2/light/11.png&quot; ...
-##  $ Value                   : chr  &quot;€110.5M&quot; &quot;€77M&quot; &quot;€118.5M&quot; &quot;€72M&quot; ...
-##  $ Wage                    : chr  &quot;€565K&quot; &quot;€405K&quot; &quot;€290K&quot; &quot;€260K&quot; ...
-##  $ Special                 : int  2202 2228 2143 1471 2281 2142 2280 2346 2201 1331 ...
-##  $ Preferred Foot          : chr  &quot;Left&quot; &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; ...
-##  $ International Reputation: int  5 5 5 4 4 4 4 5 4 3 ...
-##  $ Weak Foot               : int  4 4 5 3 5 4 4 4 3 3 ...
-##  $ Skill Moves             : int  4 5 5 1 4 4 4 3 3 1 ...
-##  $ Work Rate               : chr  &quot;Medium/ Medium&quot; &quot;High/ Low&quot; &quot;High/ Medium&quot; &quot;Medium/ Medium&quot; ...
-##  $ Body Type               : chr  &quot;Messi&quot; &quot;C. Ronaldo&quot; &quot;Neymar&quot; &quot;Lean&quot; ...
-##  $ Real Face               : chr  &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; ...
-##  $ Position                : chr  &quot;RF&quot; &quot;ST&quot; &quot;LW&quot; &quot;GK&quot; ...
-##  $ Jersey Number           : int  10 7 10 1 7 10 10 9 15 1 ...
-##  $ Joined                  : chr  &quot;Jul 1, 2004&quot; &quot;Jul 10, 2018&quot; &quot;Aug 3, 2017&quot; &quot;Jul 1, 2011&quot; ...
-##  $ Loaned From             : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
-##  $ Contract Valid Until    : chr  &quot;2021&quot; &quot;2022&quot; &quot;2022&quot; &quot;2020&quot; ...
-##  $ Height                  : chr  &quot;5'7&quot; &quot;6'2&quot; &quot;5'9&quot; &quot;6'4&quot; ...
-##  $ Weight                  : chr  &quot;159lbs&quot; &quot;183lbs&quot; &quot;150lbs&quot; &quot;168lbs&quot; ...
-##  $ LS                      : chr  &quot;88+2&quot; &quot;91+3&quot; &quot;84+3&quot; &quot;&quot; ...
-##  $ ST                      : chr  &quot;88+2&quot; &quot;91+3&quot; &quot;84+3&quot; &quot;&quot; ...
-##  $ RS                      : chr  &quot;88+2&quot; &quot;91+3&quot; &quot;84+3&quot; &quot;&quot; ...
-##  $ LW                      : chr  &quot;92+2&quot; &quot;89+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ LF                      : chr  &quot;93+2&quot; &quot;90+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ CF                      : chr  &quot;93+2&quot; &quot;90+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ RF                      : chr  &quot;93+2&quot; &quot;90+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ RW                      : chr  &quot;92+2&quot; &quot;89+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ LAM                     : chr  &quot;93+2&quot; &quot;88+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ CAM                     : chr  &quot;93+2&quot; &quot;88+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ RAM                     : chr  &quot;93+2&quot; &quot;88+3&quot; &quot;89+3&quot; &quot;&quot; ...
-##  $ LM                      : chr  &quot;91+2&quot; &quot;88+3&quot; &quot;88+3&quot; &quot;&quot; ...
-##  $ LCM                     : chr  &quot;84+2&quot; &quot;81+3&quot; &quot;81+3&quot; &quot;&quot; ...
-##  $ CM                      : chr  &quot;84+2&quot; &quot;81+3&quot; &quot;81+3&quot; &quot;&quot; ...
-##  $ RCM                     : chr  &quot;84+2&quot; &quot;81+3&quot; &quot;81+3&quot; &quot;&quot; ...
-##  $ RM                      : chr  &quot;91+2&quot; &quot;88+3&quot; &quot;88+3&quot; &quot;&quot; ...
-##  $ LWB                     : chr  &quot;64+2&quot; &quot;65+3&quot; &quot;65+3&quot; &quot;&quot; ...
-##  $ LDM                     : chr  &quot;61+2&quot; &quot;61+3&quot; &quot;60+3&quot; &quot;&quot; ...
-##  $ CDM                     : chr  &quot;61+2&quot; &quot;61+3&quot; &quot;60+3&quot; &quot;&quot; ...
-##  $ RDM                     : chr  &quot;61+2&quot; &quot;61+3&quot; &quot;60+3&quot; &quot;&quot; ...
-##  $ RWB                     : chr  &quot;64+2&quot; &quot;65+3&quot; &quot;65+3&quot; &quot;&quot; ...
-##  $ LB                      : chr  &quot;59+2&quot; &quot;61+3&quot; &quot;60+3&quot; &quot;&quot; ...
-##  $ LCB                     : chr  &quot;47+2&quot; &quot;53+3&quot; &quot;47+3&quot; &quot;&quot; ...
-##  $ CB                      : chr  &quot;47+2&quot; &quot;53+3&quot; &quot;47+3&quot; &quot;&quot; ...
-##  $ RCB                     : chr  &quot;47+2&quot; &quot;53+3&quot; &quot;47+3&quot; &quot;&quot; ...
-##  $ RB                      : chr  &quot;59+2&quot; &quot;61+3&quot; &quot;60+3&quot; &quot;&quot; ...
-##  $ Crossing                : int  84 84 79 17 93 81 86 77 66 13 ...
-##  $ Finishing               : int  95 94 87 13 82 84 72 93 60 11 ...
-##  $ HeadingAccuracy         : int  70 89 62 21 55 61 55 77 91 15 ...
-##  $ ShortPassing            : int  90 81 84 50 92 89 93 82 78 29 ...
-##  $ Volleys                 : int  86 87 84 13 82 80 76 88 66 13 ...
-##  $ Dribbling               : int  97 88 96 18 86 95 90 87 63 12 ...
-##  $ Curve                   : int  93 81 88 21 85 83 85 86 74 13 ...
-##  $ FKAccuracy              : int  94 76 87 19 83 79 78 84 72 14 ...
-##  $ LongPassing             : int  87 77 78 51 91 83 88 64 77 26 ...
-##  $ BallControl             : int  96 94 95 42 91 94 93 90 84 16 ...
-##  $ Acceleration            : int  91 89 94 57 78 94 80 86 76 43 ...
-##  $ SprintSpeed             : int  86 91 90 58 76 88 72 75 75 60 ...
-##  $ Agility                 : int  91 87 96 60 79 95 93 82 78 67 ...
-##  $ Reactions               : int  95 96 94 90 91 90 90 92 85 86 ...
-##  $ Balance                 : int  95 70 84 43 77 94 94 83 66 49 ...
-##  $ ShotPower               : int  85 95 80 31 91 82 79 86 79 22 ...
-##  $ Jumping                 : int  68 95 61 67 63 56 68 69 93 76 ...
-##  $ Stamina                 : int  72 88 81 43 90 83 89 90 84 41 ...
-##  $ Strength                : int  59 79 49 64 75 66 58 83 83 78 ...
-##  $ LongShots               : int  94 93 82 12 91 80 82 85 59 12 ...
-##  $ Aggression              : int  48 63 56 38 76 54 62 87 88 34 ...
-##  $ Interceptions           : int  22 29 36 30 61 41 83 41 90 19 ...
-##  $ Positioning             : int  94 95 89 12 87 87 79 92 60 11 ...
-##  $ Vision                  : int  94 82 87 68 94 89 92 84 63 70 ...
-##  $ Penalties               : int  75 85 81 40 79 86 82 85 75 11 ...
-##  $ Composure               : int  96 95 94 68 88 91 84 85 82 70 ...
-##  $ Marking                 : int  33 28 27 15 68 34 60 62 87 27 ...
-##  $ StandingTackle          : int  28 31 24 21 58 27 76 45 92 12 ...
-##  $ SlidingTackle           : int  26 23 33 13 51 22 73 38 91 18 ...
-##  $ GKDiving                : int  6 7 9 90 15 11 13 27 11 86 ...
-##  $ GKHandling              : int  11 11 9 85 13 12 9 25 8 92 ...
-##  $ GKKicking               : int  15 15 15 87 5 6 7 31 9 78 ...
-##  $ GKPositioning           : int  14 14 15 88 10 8 14 33 7 88 ...
-##  $ GKReflexes              : int  8 11 11 94 13 8 9 37 11 89 ...
-##  $ Release Clause          : chr  &quot;€226.5M&quot; &quot;€127.1M&quot; &quot;€228.1M&quot; &quot;€138.6M&quot; ...</code></pre>
-<pre><code>##                        ID             Name                Age      
-##  Min.   :    0   Min.   :    16   Length:18207       Min.   :16.0  
-##  1st Qu.: 4552   1st Qu.:200316   Class :character   1st Qu.:21.0  
-##  Median : 9103   Median :221759   Mode  :character   Median :25.0  
-##  Mean   : 9103   Mean   :214298                      Mean   :25.1  
-##  3rd Qu.:13654   3rd Qu.:236530                      3rd Qu.:28.0  
-##  Max.   :18206   Max.   :246620                      Max.   :45.0  
-##                                                                    
-##     Photo           Nationality            Flag              Overall    
-##  Length:18207       Length:18207       Length:18207       Min.   :46.0  
-##  Class :character   Class :character   Class :character   1st Qu.:62.0  
-##  Mode  :character   Mode  :character   Mode  :character   Median :66.0  
-##                                                           Mean   :66.2  
-##                                                           3rd Qu.:71.0  
-##                                                           Max.   :94.0  
-##                                                                         
-##    Potential        Club            Club Logo            Value          
-##  Min.   :48.0   Length:18207       Length:18207       Length:18207      
-##  1st Qu.:67.0   Class :character   Class :character   Class :character  
-##  Median :71.0   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :71.3                                                           
-##  3rd Qu.:75.0                                                           
-##  Max.   :95.0                                                           
-##                                                                         
-##      Wage              Special     Preferred Foot    
-##  Length:18207       Min.   : 731   Length:18207      
-##  Class :character   1st Qu.:1457   Class :character  
-##  Mode  :character   Median :1635   Mode  :character  
-##                     Mean   :1598                     
-##                     3rd Qu.:1787                     
-##                     Max.   :2346                     
-##                                                      
-##  International Reputation   Weak Foot    Skill Moves   Work Rate        
-##  Min.   :1.0              Min.   :1.0   Min.   :1.0   Length:18207      
-##  1st Qu.:1.0              1st Qu.:3.0   1st Qu.:2.0   Class :character  
-##  Median :1.0              Median :3.0   Median :2.0   Mode  :character  
-##  Mean   :1.1              Mean   :2.9   Mean   :2.4                     
-##  3rd Qu.:1.0              3rd Qu.:3.0   3rd Qu.:3.0                     
-##  Max.   :5.0              Max.   :5.0   Max.   :5.0                     
-##  NA's   :48               NA's   :48    NA's   :48                      
-##   Body Type          Real Face           Position         Jersey Number 
-##  Length:18207       Length:18207       Length:18207       Min.   : 1.0  
-##  Class :character   Class :character   Class :character   1st Qu.: 8.0  
-##  Mode  :character   Mode  :character   Mode  :character   Median :17.0  
-##                                                           Mean   :19.5  
-##                                                           3rd Qu.:26.0  
-##                                                           Max.   :99.0  
-##                                                           NA's   :60    
-##     Joined          Loaned From        Contract Valid Until
-##  Length:18207       Length:18207       Length:18207        
-##  Class :character   Class :character   Class :character    
-##  Mode  :character   Mode  :character   Mode  :character    
-##                                                            
-##                                                            
-##                                                            
-##                                                            
-##     Height             Weight               LS           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##       ST                 RS                 LW           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##       LF                 CF                 RF           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##       RW                LAM                CAM           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##      RAM                 LM                LCM           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##       CM                RCM                 RM           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##      LWB                LDM                CDM           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##      RDM                RWB                 LB           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##      LCB                 CB                RCB           
-##  Length:18207       Length:18207       Length:18207      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##       RB               Crossing      Finishing    HeadingAccuracy
-##  Length:18207       Min.   : 5.0   Min.   : 2.0   Min.   : 4.0   
-##  Class :character   1st Qu.:38.0   1st Qu.:30.0   1st Qu.:44.0   
-##  Mode  :character   Median :54.0   Median :49.0   Median :56.0   
-##                     Mean   :49.7   Mean   :45.6   Mean   :52.3   
-##                     3rd Qu.:64.0   3rd Qu.:62.0   3rd Qu.:64.0   
-##                     Max.   :93.0   Max.   :95.0   Max.   :94.0   
-##                     NA's   :48     NA's   :48     NA's   :48     
-##   ShortPassing     Volleys       Dribbling        Curve     
-##  Min.   : 7.0   Min.   : 4.0   Min.   : 4.0   Min.   : 6.0  
-##  1st Qu.:54.0   1st Qu.:30.0   1st Qu.:49.0   1st Qu.:34.0  
-##  Median :62.0   Median :44.0   Median :61.0   Median :48.0  
-##  Mean   :58.7   Mean   :42.9   Mean   :55.4   Mean   :47.2  
-##  3rd Qu.:68.0   3rd Qu.:57.0   3rd Qu.:68.0   3rd Qu.:62.0  
-##  Max.   :93.0   Max.   :90.0   Max.   :97.0   Max.   :94.0  
-##  NA's   :48     NA's   :48     NA's   :48     NA's   :48    
-##    FKAccuracy    LongPassing    BallControl    Acceleration 
-##  Min.   : 3.0   Min.   : 9.0   Min.   : 5.0   Min.   :12.0  
-##  1st Qu.:31.0   1st Qu.:43.0   1st Qu.:54.0   1st Qu.:57.0  
-##  Median :41.0   Median :56.0   Median :63.0   Median :67.0  
-##  Mean   :42.9   Mean   :52.7   Mean   :58.4   Mean   :64.6  
-##  3rd Qu.:57.0   3rd Qu.:64.0   3rd Qu.:69.0   3rd Qu.:75.0  
-##  Max.   :94.0   Max.   :93.0   Max.   :96.0   Max.   :97.0  
-##  NA's   :48     NA's   :48     NA's   :48     NA's   :48    
-##   SprintSpeed      Agility       Reactions       Balance     ShotPower   
-##  Min.   :12.0   Min.   :14.0   Min.   :21.0   Min.   :16   Min.   : 2.0  
-##  1st Qu.:57.0   1st Qu.:55.0   1st Qu.:56.0   1st Qu.:56   1st Qu.:45.0  
-##  Median :67.0   Median :66.0   Median :62.0   Median :66   Median :59.0  
-##  Mean   :64.7   Mean   :63.5   Mean   :61.8   Mean   :64   Mean   :55.5  
-##  3rd Qu.:75.0   3rd Qu.:74.0   3rd Qu.:68.0   3rd Qu.:74   3rd Qu.:68.0  
-##  Max.   :96.0   Max.   :96.0   Max.   :96.0   Max.   :96   Max.   :95.0  
-##  NA's   :48     NA's   :48     NA's   :48     NA's   :48   NA's   :48    
-##     Jumping        Stamina        Strength      LongShots   
-##  Min.   :15.0   Min.   :12.0   Min.   :17.0   Min.   : 3.0  
-##  1st Qu.:58.0   1st Qu.:56.0   1st Qu.:58.0   1st Qu.:33.0  
-##  Median :66.0   Median :66.0   Median :67.0   Median :51.0  
-##  Mean   :65.1   Mean   :63.2   Mean   :65.3   Mean   :47.1  
-##  3rd Qu.:73.0   3rd Qu.:74.0   3rd Qu.:74.0   3rd Qu.:62.0  
-##  Max.   :95.0   Max.   :96.0   Max.   :97.0   Max.   :94.0  
-##  NA's   :48     NA's   :48     NA's   :48     NA's   :48    
-##    Aggression   Interceptions   Positioning     Vision       Penalties   
-##  Min.   :11.0   Min.   : 3.0   Min.   : 2   Min.   :10.0   Min.   : 5.0  
-##  1st Qu.:44.0   1st Qu.:26.0   1st Qu.:38   1st Qu.:44.0   1st Qu.:39.0  
-##  Median :59.0   Median :52.0   Median :55   Median :55.0   Median :49.0  
-##  Mean   :55.9   Mean   :46.7   Mean   :50   Mean   :53.4   Mean   :48.5  
-##  3rd Qu.:69.0   3rd Qu.:64.0   3rd Qu.:64   3rd Qu.:64.0   3rd Qu.:60.0  
-##  Max.   :95.0   Max.   :92.0   Max.   :95   Max.   :94.0   Max.   :92.0  
-##  NA's   :48     NA's   :48     NA's   :48   NA's   :48     NA's   :48    
-##    Composure       Marking     StandingTackle SlidingTackle 
-##  Min.   : 3.0   Min.   : 3.0   Min.   : 2.0   Min.   : 3.0  
-##  1st Qu.:51.0   1st Qu.:30.0   1st Qu.:27.0   1st Qu.:24.0  
-##  Median :60.0   Median :53.0   Median :55.0   Median :52.0  
-##  Mean   :58.6   Mean   :47.3   Mean   :47.7   Mean   :45.7  
-##  3rd Qu.:67.0   3rd Qu.:64.0   3rd Qu.:66.0   3rd Qu.:64.0  
-##  Max.   :96.0   Max.   :94.0   Max.   :93.0   Max.   :91.0  
-##  NA's   :48     NA's   :48     NA's   :48     NA's   :48    
-##     GKDiving      GKHandling     GKKicking    GKPositioning 
-##  Min.   : 1.0   Min.   : 1.0   Min.   : 1.0   Min.   : 1.0  
-##  1st Qu.: 8.0   1st Qu.: 8.0   1st Qu.: 8.0   1st Qu.: 8.0  
-##  Median :11.0   Median :11.0   Median :11.0   Median :11.0  
-##  Mean   :16.6   Mean   :16.4   Mean   :16.2   Mean   :16.4  
-##  3rd Qu.:14.0   3rd Qu.:14.0   3rd Qu.:14.0   3rd Qu.:14.0  
-##  Max.   :90.0   Max.   :92.0   Max.   :91.0   Max.   :90.0  
-##  NA's   :48     NA's   :48     NA's   :48     NA's   :48    
-##    GKReflexes   Release Clause    
-##  Min.   : 1.0   Length:18207      
-##  1st Qu.: 8.0   Class :character  
-##  Median :11.0   Mode  :character  
-##  Mean   :16.7                     
-##  3rd Qu.:14.0                     
-##  Max.   :94.0                     
-##  NA's   :48</code></pre>
-<pre><code>##         ID              Name Age
-## 1 0 158023          L. Messi  31
-## 2 1  20801 Cristiano Ronaldo  33
-## 3 2 190871         Neymar Jr  26
-## 4 3 193080            De Gea  27
-## 5 4 192985      K. De Bruyne  27
-## 6 5 183277         E. Hazard  27
-##                                            Photo Nationality
-## 1 https://cdn.sofifa.org/players/4/19/158023.png   Argentina
-## 2  https://cdn.sofifa.org/players/4/19/20801.png    Portugal
-## 3 https://cdn.sofifa.org/players/4/19/190871.png      Brazil
-## 4 https://cdn.sofifa.org/players/4/19/193080.png       Spain
-## 5 https://cdn.sofifa.org/players/4/19/192985.png     Belgium
-## 6 https://cdn.sofifa.org/players/4/19/183277.png     Belgium
-##                                  Flag Overall Potential
-## 1 https://cdn.sofifa.org/flags/52.png      94        94
-## 2 https://cdn.sofifa.org/flags/38.png      94        94
-## 3 https://cdn.sofifa.org/flags/54.png      92        93
-## 4 https://cdn.sofifa.org/flags/45.png      91        93
-## 5  https://cdn.sofifa.org/flags/7.png      91        92
-## 6  https://cdn.sofifa.org/flags/7.png      91        91
-##                  Club                                    Club Logo   Value
-## 1        FC Barcelona https://cdn.sofifa.org/teams/2/light/241.png €110.5M
-## 2            Juventus  https://cdn.sofifa.org/teams/2/light/45.png    €77M
-## 3 Paris Saint-Germain  https://cdn.sofifa.org/teams/2/light/73.png €118.5M
-## 4   Manchester United  https://cdn.sofifa.org/teams/2/light/11.png    €72M
-## 5     Manchester City  https://cdn.sofifa.org/teams/2/light/10.png   €102M
-## 6             Chelsea   https://cdn.sofifa.org/teams/2/light/5.png    €93M
-##    Wage Special Preferred Foot International Reputation Weak Foot
-## 1 €565K    2202           Left                        5         4
-## 2 €405K    2228          Right                        5         4
-## 3 €290K    2143          Right                        5         5
-## 4 €260K    1471          Right                        4         3
-## 5 €355K    2281          Right                        4         5
-## 6 €340K    2142          Right                        4         4
-##   Skill Moves      Work Rate  Body Type Real Face Position Jersey Number
-## 1           4 Medium/ Medium      Messi       Yes       RF            10
-## 2           5      High/ Low C. Ronaldo       Yes       ST             7
-## 3           5   High/ Medium     Neymar       Yes       LW            10
-## 4           1 Medium/ Medium       Lean       Yes       GK             1
-## 5           4     High/ High     Normal       Yes      RCM             7
-## 6           4   High/ Medium     Normal       Yes       LF            10
-##         Joined Loaned From Contract Valid Until Height Weight   LS   ST
-## 1  Jul 1, 2004                             2021    5'7 159lbs 88+2 88+2
-## 2 Jul 10, 2018                             2022    6'2 183lbs 91+3 91+3
-## 3  Aug 3, 2017                             2022    5'9 150lbs 84+3 84+3
-## 4  Jul 1, 2011                             2020    6'4 168lbs          
-## 5 Aug 30, 2015                             2023   5'11 154lbs 82+3 82+3
-## 6  Jul 1, 2012                             2020    5'8 163lbs 83+3 83+3
-##     RS   LW   LF   CF   RF   RW  LAM  CAM  RAM   LM  LCM   CM  RCM   RM
-## 1 88+2 92+2 93+2 93+2 93+2 92+2 93+2 93+2 93+2 91+2 84+2 84+2 84+2 91+2
-## 2 91+3 89+3 90+3 90+3 90+3 89+3 88+3 88+3 88+3 88+3 81+3 81+3 81+3 88+3
-## 3 84+3 89+3 89+3 89+3 89+3 89+3 89+3 89+3 89+3 88+3 81+3 81+3 81+3 88+3
-## 4                                                                      
-## 5 82+3 87+3 87+3 87+3 87+3 87+3 88+3 88+3 88+3 88+3 87+3 87+3 87+3 88+3
-## 6 83+3 89+3 88+3 88+3 88+3 89+3 89+3 89+3 89+3 89+3 82+3 82+3 82+3 89+3
-##    LWB  LDM  CDM  RDM  RWB   LB  LCB   CB  RCB   RB Crossing Finishing
-## 1 64+2 61+2 61+2 61+2 64+2 59+2 47+2 47+2 47+2 59+2       84        95
-## 2 65+3 61+3 61+3 61+3 65+3 61+3 53+3 53+3 53+3 61+3       84        94
-## 3 65+3 60+3 60+3 60+3 65+3 60+3 47+3 47+3 47+3 60+3       79        87
-## 4                                                         17        13
-## 5 77+3 77+3 77+3 77+3 77+3 73+3 66+3 66+3 66+3 73+3       93        82
-## 6 66+3 63+3 63+3 63+3 66+3 60+3 49+3 49+3 49+3 60+3       81        84
-##   HeadingAccuracy ShortPassing Volleys Dribbling Curve FKAccuracy
-## 1              70           90      86        97    93         94
-## 2              89           81      87        88    81         76
-## 3              62           84      84        96    88         87
-## 4              21           50      13        18    21         19
-## 5              55           92      82        86    85         83
-## 6              61           89      80        95    83         79
-##   LongPassing BallControl Acceleration SprintSpeed Agility Reactions
-## 1          87          96           91          86      91        95
-## 2          77          94           89          91      87        96
-## 3          78          95           94          90      96        94
-## 4          51          42           57          58      60        90
-## 5          91          91           78          76      79        91
-## 6          83          94           94          88      95        90
-##   Balance ShotPower Jumping Stamina Strength LongShots Aggression
-## 1      95        85      68      72       59        94         48
-## 2      70        95      95      88       79        93         63
-## 3      84        80      61      81       49        82         56
-## 4      43        31      67      43       64        12         38
-## 5      77        91      63      90       75        91         76
-## 6      94        82      56      83       66        80         54
-##   Interceptions Positioning Vision Penalties Composure Marking
-## 1            22          94     94        75        96      33
-## 2            29          95     82        85        95      28
-## 3            36          89     87        81        94      27
-## 4            30          12     68        40        68      15
-## 5            61          87     94        79        88      68
-## 6            41          87     89        86        91      34
-##   StandingTackle SlidingTackle GKDiving GKHandling GKKicking GKPositioning
-## 1             28            26        6         11        15            14
-## 2             31            23        7         11        15            14
-## 3             24            33        9          9        15            15
-## 4             21            13       90         85        87            88
-## 5             58            51       15         13         5            10
-## 6             27            22       11         12         6             8
-##   GKReflexes Release Clause
-## 1          8        €226.5M
-## 2         11        €127.1M
-## 3         11        €228.1M
-## 4         94        €138.6M
-## 5         13        €196.4M
-## 6          8        €172.1M</code></pre>
+<div id="preparing-and-exploring-the-data-include-f" class="section level4">
+<h4>Preparing and exploring the data (include =F)</h4>
 </div>
 </div>
 <div id="smart-question-1-bin" class="section level3">
@@ -1940,6 +1548,90 @@ div.tocify {
 <h3>Smart Question 4 (GREGG)</h3>
 <div id="how-do-specific-skill-sets-characteristics-affect-a-players-wage-how-about-value-can-we-say-skills-are-a-good-predictor-of-wage-and-value" class="section level4">
 <h4>How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?</h4>
+<pre><code>##   Wage Crossing Finishing HeadingAccuracy ShortPassing Volleys Dribbling
+## 1 565K       84        95              70           90      86        97
+## 2 405K       84        94              89           81      87        88
+## 3 290K       79        87              62           84      84        96
+## 4 260K       17        13              21           50      13        18
+## 5 355K       93        82              55           92      82        86
+## 6 340K       81        84              61           89      80        95
+##   Curve FKAccuracy LongPassing BallControl Acceleration SprintSpeed
+## 1    93         94          87          96           91          86
+## 2    81         76          77          94           89          91
+## 3    88         87          78          95           94          90
+## 4    21         19          51          42           57          58
+## 5    85         83          91          91           78          76
+## 6    83         79          83          94           94          88
+##   Agility Reactions Balance ShotPower Jumping Stamina Strength LongShots
+## 1      91        95      95        85      68      72       59        94
+## 2      87        96      70        95      95      88       79        93
+## 3      96        94      84        80      61      81       49        82
+## 4      60        90      43        31      67      43       64        12
+## 5      79        91      77        91      63      90       75        91
+## 6      95        90      94        82      56      83       66        80
+##   Aggression Interceptions Positioning Vision Penalties Composure Marking
+## 1         48            22          94     94        75        96      33
+## 2         63            29          95     82        85        95      28
+## 3         56            36          89     87        81        94      27
+## 4         38            30          12     68        40        68      15
+## 5         76            61          87     94        79        88      68
+## 6         54            41          87     89        86        91      34
+##   StandingTackle SlidingTackle GKDiving GKHandling GKKicking GKPositioning
+## 1             28            26        6         11        15            14
+## 2             31            23        7         11        15            14
+## 3             24            33        9          9        15            15
+## 4             21            13       90         85        87            88
+## 5             58            51       15         13         5            10
+## 6             27            22       11         12         6             8
+##   GKReflexes
+## 1          8
+## 2         11
+## 3         11
+## 4         94
+## 5         13
+## 6          8</code></pre>
+<pre><code>##     Value Crossing Finishing HeadingAccuracy ShortPassing Volleys
+## 1 €110.5M       84        95              70           90      86
+## 2    €77M       84        94              89           81      87
+## 3 €118.5M       79        87              62           84      84
+## 4    €72M       17        13              21           50      13
+## 5   €102M       93        82              55           92      82
+## 6    €93M       81        84              61           89      80
+##   Dribbling Curve FKAccuracy LongPassing BallControl Acceleration
+## 1        97    93         94          87          96           91
+## 2        88    81         76          77          94           89
+## 3        96    88         87          78          95           94
+## 4        18    21         19          51          42           57
+## 5        86    85         83          91          91           78
+## 6        95    83         79          83          94           94
+##   SprintSpeed Agility Reactions Balance ShotPower Jumping Stamina Strength
+## 1          86      91        95      95        85      68      72       59
+## 2          91      87        96      70        95      95      88       79
+## 3          90      96        94      84        80      61      81       49
+## 4          58      60        90      43        31      67      43       64
+## 5          76      79        91      77        91      63      90       75
+## 6          88      95        90      94        82      56      83       66
+##   LongShots Aggression Interceptions Positioning Vision Penalties
+## 1        94         48            22          94     94        75
+## 2        93         63            29          95     82        85
+## 3        82         56            36          89     87        81
+## 4        12         38            30          12     68        40
+## 5        91         76            61          87     94        79
+## 6        80         54            41          87     89        86
+##   Composure Marking StandingTackle SlidingTackle GKDiving GKHandling
+## 1        96      33             28            26        6         11
+## 2        95      28             31            23        7         11
+## 3        94      27             24            33        9          9
+## 4        68      15             21            13       90         85
+## 5        88      68             58            51       15         13
+## 6        91      34             27            22       11         12
+##   GKKicking GKPositioning GKReflexes
+## 1        15            14          8
+## 2        15            14         11
+## 3        15            15         11
+## 4        87            88         94
+## 5         5            10         13
+## 6         6             8          8</code></pre>
 </div>
 </div>
 <div id="smart-question-5-jay" class="section level3">

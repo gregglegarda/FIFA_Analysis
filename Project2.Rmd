@@ -31,8 +31,8 @@ The FIFA dataset was collected in outerspace blhablah blah. Describe the dataset
 data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
 ```
 
-#### Preparing and exploring the data
-```{r echo=FALSE, include=TRUE}
+#### Preparing and exploring the data (include =F)
+```{r echo=FALSE, include= FALSE}
 str(data)
 summary(data)
 head(data)
@@ -77,9 +77,39 @@ head(data)
 #Make sure p values are good
 #Use the model to predict. Use multvariable regression
 
+wage_skills <- c("Wage","Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
+
+value_skills <- c("Value", "Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
+
+#clean data
+library('stringr')
+data_wage_skills <- na.omit(data[c(wage_skills)])
+data_value_skills <- na.omit(data[c(value_skills)])
+
+data_wage_skills$Wage <- str_replace(
+    data_wage_skills$Wage, # column we want to search
+    pattern = '[€]', # what to find
+    replacement = '' # what to replace it with
+)
 
 
 
+head(data_wage_skills)
+head(data_value_skills)
+
+
+
+# PCA wage_skills
+#pca_wage_skills_center <- prcomp(data_wage_skills, center = TRUE,scale. = TRUE) #center
+#pca_wage_skills_raw <- prcomp(data_wage_skills, center = TRUE,scale. = FALSE) #raw
+#summary(pca_wage_skills_center)
+#summary(pca_wage_skills_raw)
+
+# pca value_skills
+#pca_value_skills_center <- prcomp(data_value_skills, center = TRUE,scale. = TRUE) #center
+#pca_value_skills_raw <- prcomp(data_value_skills, center = TRUE,scale. = FALSE) #raw
+#summary(pca_value_skills_center)
+#summary(pca_value_skills_raw)
 
 
 
