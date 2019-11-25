@@ -46,6 +46,124 @@ head(data)
 ```
 
 
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+```
+
+
+```{r}
+fifa <- read.csv('data-2.csv')
+```
+
+
+```{r}
+positions_names <- c("LS", "ST", "RS", "LW", "LF", "CF", "RF", "RW", "LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LWB", "LDM", "CDM", "RDM", "RWB", "LB", "LCB", "CB", "RCB", "RB")
+skills_names <- c("Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
+```
+
+```{r}
+for (position in positions_names) {
+  fifa[position] <- lapply(fifa[position], function(rating){
+    as.integer(substr(rating, 0, 2))
+  })
+}
+```
+
+
+```{r}
+fifa_players <- na.omit(fifa[c(positions_names, skills_names)])
+```
+
+
+```{r}
+middle <- c("LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LDM", "CDM", "RDM")
+left <- c("LS", "LW", "LF", "LAM", "LM", "LCM", "LWB", "LDM", "LB", "LCB")
+right <- c("RS", "RF", "RW", "RAM", "RCM", "RM", "RDM", "RWB", "RCB", "RB")
+```
+
+
+```{r}
+middle_players <- fifa_players[c(middle, skills_names)]
+left_players <- fifa_players[c(left, skills_names)]
+right_players <- fifa_players[c(right, skills_names)]
+```
+```{r}
+head(middle_players)
+
+```
+
+```{r}
+middle_players$value <- (middle_players$LAM + middle_players$CAM + middle_players$RAM + middle_players$LM + middle_players$LCM + middle_players$CM + middle_players$RCM + middle_players$RM + middle_players$LDM + middle_players$CDM + middle_players$RDM)/11
+middle_players$value <- round(middle_players$value)
+head(middle_players)
+```
+
+
+```{r}
+middle_players_skills <- middle_players[-c(1:11, 46)]
+head(middle_players_skills)
+```
+
+```{r}
+middle_players_skills_scale = data.frame(scale(middle_players_skills))
+head(middle_players_skills_scale)
+```
+
+
+
+
+```{r}
+mps.pr.out =prcomp(middle_players_skills_scale, scale =TRUE)
+summary(mps.pr.out)
+mps.pr.out$rotation
+```
+
+```{r}
+biplot(mps.pr.out, scale = 0)
+```
+
+
+```{r}
+plot(mps.pr.out, type="l")
+```
+
+```{r}
+mps.pr.var <- (mps.pr.out$sdev^2)
+mps.pve <- mps.pr.var/sum(mps.pr.var)
+plot(cumsum(mps.pve), xlab="Principal Component (standardized)", ylab ="Cumulative Proportion of Variance Explained",ylim=c(0,1),type="b")
+```
+
+
+
+```{r}
+head(middle_players_skills_scale)
+```
+
+```{r}
+mps.pr.out$rotation
+```
+
+```{r}
+mp.pca <- cbind(middle_players[46], data.frame(mps.pr.out$x))
+head(mp.pca)
+```
+
+```{r}
+mp.pcr1 <- lm(value ~., data = mp.pca)
+summary(mp.pcr1)
+```
+
+```{r}
+mp.pcr2 <- lm(value ~ PC1 + PC2 + PC3, data = mp.pca)
+summary(mp.pcr2)
+```
+
+```{r}
+anova(mp.pcr1, mp.pcr2)
+```
+
 ### Smart Question 2 (RUSSELL)
 #### What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
 ```{r S2, echo=FALSE, include=TRUE}
