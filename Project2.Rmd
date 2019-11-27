@@ -31,7 +31,7 @@ In this study, the CSV data file comes from FIFA 2019 database (https://www.kagg
 
 ```{r source data, include=F}
 library(readr)
-fifa <- read_csv("fifa.csv")
+fifa <- read_csv("data.csv")
 str(fifa)
 
 ```
@@ -99,7 +99,7 @@ library(ggplot2)
 
 
 ```{r}
-fifa <- read.csv('data-2.csv')
+fifa <- read.csv('data.csv')
 ```
 
 
@@ -232,7 +232,7 @@ anova(mp.pcr1, mp.pcr2)
 
 ### Smart Question 4 (GREGG)
 #### How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?
-```{r S4, echo=FALSE, include=TRUE}
+```{r S4, echo=FALSE}
 #TEST used: 
 #Wage - do PCA/PCR to find out the attributes that explain it the most
 #Value- do PCA/PCR to find out the attributes that explain it the most
@@ -290,7 +290,7 @@ head(data_value_skills)
 
 ```{r import fifa, include=F}
 #import data
-Dataa <- read.csv("fifa.csv")
+Dataa <- read.csv("data.csv")
 fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
 
 ```
