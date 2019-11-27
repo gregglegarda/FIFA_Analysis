@@ -22,16 +22,16 @@ options(scientific=T, digits = 3)
 loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.packages(x,dep=T,repos="http://cran.us.r-project.org"); if(!require(x,character.only=T)) stop("Package not found") } }
 ```
 <<<<<<< HEAD
-# Introduction
+### Introduction
 
-# FIFA Dataset 
+### FIFA Dataset 
 =======
-## Chapter 1: Introduction (Curtis)
+### Chapter 1: Introduction (Curtis)
 
-## Chapter 2: Description of Data
+### Chapter 2: Description of Data
 >>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
 
-### 2.1 Source Data
+#### 2.1 Source Data
 
 In this study, the CSV data file comes from FIFA 2019 database (https://www.kaggle.com/karangadiya/fifa19). This dataset contains 18,207 soccer player information in FIFA 2019 with 89 variables such as name, age, nationality, skill level, potential, club, transferred value, wage, preferred foot, body type, position in the field, height, and weight.	
 
@@ -427,7 +427,7 @@ summary(PCA_value_skills_R)
 
 ```{r import fifa, include=F}
 #import data
-Dataa <- read.csv("fifa.csv")
+Dataa <- read.csv("data.csv")
 fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
 
 ```
