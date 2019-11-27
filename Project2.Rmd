@@ -246,17 +246,7 @@ anova(mp.pcr1, mp.pcr2)
 
 
 
-<<<<<<< HEAD
-### Smart Question 4 (GREGG)
-#### How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?
-```{r S4, echo=FALSE}
-#TEST used: 
-#Wage - do PCA/PCR to find out the attributes that explain it the most
-#Value- do PCA/PCR to find out the attributes that explain it the most
-#Skill/Characteristics - classify the most important attributes into skills and characteristics
-#Make sure p values are good
-#Use the model to predict. Use multvariable regression
-=======
+
 # Smart Question 4 (GREGG)
 ## How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?
 
@@ -266,7 +256,7 @@ data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
 ```
 
 ```{r S44, echo=FALSE, include=TRUE}
->>>>>>> 13c728da59ae89b09cdacf1d9400c4f1217ae295
+
 
 wage_skills <- c("Wage","Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
 
@@ -418,7 +408,7 @@ summary(PCA_value_skills_R)
 
 
 
-<<<<<<< HEAD
+
 # Smart Question 5 (JAY)
 ## How do physical factors (age, preferred foot, overall skill, international reputation, position in the field, weight, and height) help the soccer professionals to get wage for higher 100,000 Euro per week?
 ```{r S5, echo=FALSE, include=TRUE}
