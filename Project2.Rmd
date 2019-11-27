@@ -37,17 +37,15 @@ In this study, the CSV data file comes from FIFA 2019 database (https://www.kagg
 
 ```{r source data, include=F}
 library(readr)
-fifa <- read_csv("fifa.csv")
-str(fifa)
+#fifa <- read_csv("fifa.csv")
+#str(fifa)
 
 ```
 
 <<<<<<< HEAD
 ### Preparing and exploring the data (include =F)
 ```{r echo=FALSE, include= FALSE}
-str(data)
-summary(data)
-head(data)
+
 ```
 
 # Smart Question 1 (BIN)
