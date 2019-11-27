@@ -37,7 +37,7 @@ In this study, the CSV data file comes from FIFA 2019 database (https://www.kagg
 
 ```{r source data, include=F}
 library(readr)
-fifa <- read_csv("fifa.csv")
+fifa <- read_csv("data.csv")
 str(fifa)
 
 ```
