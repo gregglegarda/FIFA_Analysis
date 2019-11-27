@@ -418,11 +418,12 @@ summary(PCA_value_skills_R)
 #Height (Integer)
 #International reputation (Factor) – 5 level.
 #Position (Factor) – 4 types, including Goalkeeper, defense, midfield, and attack.
-=======
+#=======
 ## Chapter 7: Earning higher 100,000 Euro per week of soccer players (Jay)
 
 ### 7.1 SMART Question
 #### How do physical factors help the soccer professionals to get wage for higher 100,000 Euro per week?
+```
 
 ```{r import fifa, include=F}
 #import data
