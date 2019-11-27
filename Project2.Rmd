@@ -264,7 +264,7 @@ value_skills <- c("Value", "Crossing", "Finishing", "HeadingAccuracy", "ShortPas
 ```
 
 
-### ***Clean Up Wage and Value Data
+### ***Clean Up Wage and Value Data fff
 ```{r S4a, echo=FALSE, include=TRUE}
 ####CLEAN DATA (Wage and Value having same range. remove M and K and period)
 
