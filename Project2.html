@@ -1548,96 +1548,127 @@ div.tocify {
 <h3>Smart Question 4 (GREGG)</h3>
 <div id="how-do-specific-skill-sets-characteristics-affect-a-players-wage-how-about-value-can-we-say-skills-are-a-good-predictor-of-wage-and-value" class="section level4">
 <h4>How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?</h4>
-<pre><code>##   Wage Crossing Finishing HeadingAccuracy ShortPassing Volleys Dribbling
-## 1 565K       84        95              70           90      86        97
-## 2 405K       84        94              89           81      87        88
-## 3 290K       79        87              62           84      84        96
-## 4 260K       17        13              21           50      13        18
-## 5 355K       93        82              55           92      82        86
-## 6 340K       81        84              61           89      80        95
-##   Curve FKAccuracy LongPassing BallControl Acceleration SprintSpeed
-## 1    93         94          87          96           91          86
-## 2    81         76          77          94           89          91
-## 3    88         87          78          95           94          90
-## 4    21         19          51          42           57          58
-## 5    85         83          91          91           78          76
-## 6    83         79          83          94           94          88
-##   Agility Reactions Balance ShotPower Jumping Stamina Strength LongShots
-## 1      91        95      95        85      68      72       59        94
-## 2      87        96      70        95      95      88       79        93
-## 3      96        94      84        80      61      81       49        82
-## 4      60        90      43        31      67      43       64        12
-## 5      79        91      77        91      63      90       75        91
-## 6      95        90      94        82      56      83       66        80
-##   Aggression Interceptions Positioning Vision Penalties Composure Marking
-## 1         48            22          94     94        75        96      33
-## 2         63            29          95     82        85        95      28
-## 3         56            36          89     87        81        94      27
-## 4         38            30          12     68        40        68      15
-## 5         76            61          87     94        79        88      68
-## 6         54            41          87     89        86        91      34
-##   StandingTackle SlidingTackle GKDiving GKHandling GKKicking GKPositioning
-## 1             28            26        6         11        15            14
-## 2             31            23        7         11        15            14
-## 3             24            33        9          9        15            15
-## 4             21            13       90         85        87            88
-## 5             58            51       15         13         5            10
-## 6             27            22       11         12         6             8
-##   GKReflexes
-## 1          8
-## 2         11
-## 3         11
-## 4         94
-## 5         13
-## 6          8</code></pre>
-<pre><code>##     Value Crossing Finishing HeadingAccuracy ShortPassing Volleys
-## 1 €110.5M       84        95              70           90      86
-## 2    €77M       84        94              89           81      87
-## 3 €118.5M       79        87              62           84      84
-## 4    €72M       17        13              21           50      13
-## 5   €102M       93        82              55           92      82
-## 6    €93M       81        84              61           89      80
-##   Dribbling Curve FKAccuracy LongPassing BallControl Acceleration
-## 1        97    93         94          87          96           91
-## 2        88    81         76          77          94           89
-## 3        96    88         87          78          95           94
-## 4        18    21         19          51          42           57
-## 5        86    85         83          91          91           78
-## 6        95    83         79          83          94           94
-##   SprintSpeed Agility Reactions Balance ShotPower Jumping Stamina Strength
-## 1          86      91        95      95        85      68      72       59
-## 2          91      87        96      70        95      95      88       79
-## 3          90      96        94      84        80      61      81       49
-## 4          58      60        90      43        31      67      43       64
-## 5          76      79        91      77        91      63      90       75
-## 6          88      95        90      94        82      56      83       66
-##   LongShots Aggression Interceptions Positioning Vision Penalties
-## 1        94         48            22          94     94        75
-## 2        93         63            29          95     82        85
-## 3        82         56            36          89     87        81
-## 4        12         38            30          12     68        40
-## 5        91         76            61          87     94        79
-## 6        80         54            41          87     89        86
-##   Composure Marking StandingTackle SlidingTackle GKDiving GKHandling
-## 1        96      33             28            26        6         11
-## 2        95      28             31            23        7         11
-## 3        94      27             24            33        9          9
-## 4        68      15             21            13       90         85
-## 5        88      68             58            51       15         13
-## 6        91      34             27            22       11         12
-##   GKKicking GKPositioning GKReflexes
-## 1        15            14          8
-## 2        15            14         11
-## 3        15            15         11
-## 4        87            88         94
-## 5         5            10         13
-## 6         6             8          8</code></pre>
 </div>
+</div>
+<div id="clean-up-wage-and-value-data" class="section level1">
+<h1>***Clean Up Wage and Value Data</h1>
+<p>***Cleaned up Wage Data</p>
+<p>***Cleaned up Value Data</p>
+<div id="tests" class="section level3">
+<h3>Tests</h3>
+<pre class="r"><code>#TEST used: 
+#Wage - do PCA/PCR to find out the attributes that explain it the most
+#Value- do PCA/PCR to find out the attributes that explain it the most
+#Skill/Characteristics - classify the most important attributes into skills and characteristics
+#Make sure p values are good
+#Use the model to predict. Use multvariable regression
+# PCA wage_skills
+
+data_wage_skills &lt;- na.omit(data_wage_skills[c(wage_skills)])
+data_value_skills &lt;- na.omit(data_value_skills[c(value_skills)])
+
+#head(data_wage_skills)
+#tail(data_wage_skills)
+#summary(data_wage_skills)
+#head(data_value_skills)
+#tail(data_value_skills)
+#summary(data_value_skills)</code></pre>
+</div>
+<div id="pca-wage-skills-raw-and-centered" class="section level3">
+<h3>PCA Wage-Skills raw and centered</h3>
+<pre><code>## Importance of components:
+##                         PC1   PC2    PC3    PC4    PC5    PC6    PC7
+## Standard deviation     4.35 2.216 1.6575 1.3086 1.1501 0.8561 0.7822
+## Proportion of Variance 0.54 0.140 0.0785 0.0489 0.0378 0.0209 0.0175
+## Cumulative Proportion  0.54 0.681 0.7592 0.8081 0.8459 0.8668 0.8843
+##                           PC8    PC9    PC10    PC11   PC12    PC13
+## Standard deviation     0.6420 0.5967 0.54609 0.52389 0.4985 0.48205
+## Proportion of Variance 0.0118 0.0102 0.00852 0.00784 0.0071 0.00664
+## Cumulative Proportion  0.8961 0.9063 0.91479 0.92263 0.9297 0.93637
+##                           PC14    PC15    PC16    PC17    PC18    PC19
+## Standard deviation     0.47245 0.45321 0.44757 0.42805 0.41240 0.37211
+## Proportion of Variance 0.00638 0.00587 0.00572 0.00523 0.00486 0.00396
+## Cumulative Proportion  0.94275 0.94862 0.95434 0.95958 0.96443 0.96839
+##                           PC20    PC21    PC22    PC23    PC24    PC25
+## Standard deviation     0.35811 0.35269 0.34378 0.32778 0.30353 0.28866
+## Proportion of Variance 0.00366 0.00355 0.00338 0.00307 0.00263 0.00238
+## Cumulative Proportion  0.97206 0.97561 0.97899 0.98206 0.98469 0.98707
+##                           PC26    PC27    PC28    PC29    PC30    PC31
+## Standard deviation     0.26852 0.26119 0.25513 0.24778 0.19373 0.19311
+## Proportion of Variance 0.00206 0.00195 0.00186 0.00175 0.00107 0.00107
+## Cumulative Proportion  0.98913 0.99108 0.99294 0.99469 0.99576 0.99683
+##                           PC32    PC33    PC34    PC35
+## Standard deviation     0.17616 0.17427 0.16319 0.15144
+## Proportion of Variance 0.00089 0.00087 0.00076 0.00066
+## Cumulative Proportion  0.99772 0.99858 0.99934 1.00000</code></pre>
+<pre><code>## Importance of components:
+##                          PC1      PC2  PC3  PC4  PC5  PC6  PC7  PC8  PC9
+## Standard deviation     22024 72.38621 42.1 21.8 20.5 15.6 10.7 9.95 8.82
+## Proportion of Variance     1  0.00001  0.0  0.0  0.0  0.0  0.0 0.00 0.00
+## Cumulative Proportion      1  0.99999  1.0  1.0  1.0  1.0  1.0 1.00 1.00
+##                        PC10 PC11 PC12 PC13 PC14 PC15 PC16 PC17 PC18 PC19
+## Standard deviation     8.71 8.34 8.27 7.82 7.12  6.9 6.81 6.55 6.42 6.13
+## Proportion of Variance 0.00 0.00 0.00 0.00 0.00  0.0 0.00 0.00 0.00 0.00
+## Cumulative Proportion  1.00 1.00 1.00 1.00 1.00  1.0 1.00 1.00 1.00 1.00
+##                        PC20 PC21 PC22 PC23 PC24 PC25 PC26 PC27 PC28 PC29
+## Standard deviation     6.07 5.89 5.84 5.56 5.41 5.29 4.96  4.6 3.92 3.91
+## Proportion of Variance 0.00 0.00 0.00 0.00 0.00 0.00 0.00  0.0 0.00 0.00
+## Cumulative Proportion  1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.0 1.00 1.00
+##                        PC30 PC31 PC32 PC33 PC34 PC35
+## Standard deviation     3.27 3.23 3.22 3.06 2.95 2.91
+## Proportion of Variance 0.00 0.00 0.00 0.00 0.00 0.00
+## Cumulative Proportion  1.00 1.00 1.00 1.00 1.00 1.00</code></pre>
+</div>
+<div id="pca-value-skills-raw-and-centered" class="section level3">
+<h3>PCA Value-Skills raw and centered</h3>
+<pre><code>## Importance of components:
+##                          PC1   PC2    PC3   PC4    PC5    PC6    PC7
+## Standard deviation     4.351 2.217 1.6636 1.310 1.1521 0.8516 0.7659
+## Proportion of Variance 0.541 0.140 0.0791 0.049 0.0379 0.0207 0.0168
+## Cumulative Proportion  0.541 0.681 0.7603 0.809 0.8472 0.8680 0.8847
+##                           PC8    PC9    PC10    PC11    PC12    PC13
+## Standard deviation     0.6329 0.5976 0.54619 0.52228 0.49884 0.48140
+## Proportion of Variance 0.0115 0.0102 0.00852 0.00779 0.00711 0.00662
+## Cumulative Proportion  0.8962 0.9064 0.91489 0.92268 0.92979 0.93642
+##                           PC14    PC15    PC16    PC17    PC18    PC19
+## Standard deviation     0.47251 0.45287 0.44760 0.42810 0.41185 0.37171
+## Proportion of Variance 0.00638 0.00586 0.00572 0.00524 0.00485 0.00395
+## Cumulative Proportion  0.94279 0.94865 0.95438 0.95961 0.96446 0.96841
+##                           PC20    PC21    PC22    PC23    PC24    PC25
+## Standard deviation     0.35820 0.35268 0.34353 0.32760 0.30321 0.28864
+## Proportion of Variance 0.00367 0.00355 0.00337 0.00307 0.00263 0.00238
+## Cumulative Proportion  0.97207 0.97563 0.97900 0.98207 0.98469 0.98707
+##                           PC26    PC27    PC28    PC29    PC30    PC31
+## Standard deviation     0.26845 0.26102 0.25506 0.24778 0.19374 0.19311
+## Proportion of Variance 0.00206 0.00195 0.00186 0.00175 0.00107 0.00107
+## Cumulative Proportion  0.98913 0.99108 0.99294 0.99469 0.99576 0.99683
+##                           PC32    PC33    PC34    PC35
+## Standard deviation     0.17615 0.17429 0.16319 0.15139
+## Proportion of Variance 0.00089 0.00087 0.00076 0.00065
+## Cumulative Proportion  0.99772 0.99858 0.99935 1.00000</code></pre>
+<pre><code>## Importance of components:
+##                            PC1 PC2 PC3  PC4  PC5  PC6  PC7  PC8  PC9 PC10
+## Standard deviation     5601319  72  42 21.6 20.6 15.5 10.7 9.94 8.82  8.7
+## Proportion of Variance       1   0   0  0.0  0.0  0.0  0.0 0.00 0.00  0.0
+## Cumulative Proportion        1   1   1  1.0  1.0  1.0  1.0 1.00 1.00  1.0
+##                        PC11 PC12 PC13 PC14 PC15 PC16 PC17 PC18 PC19 PC20
+## Standard deviation     8.36 8.27 7.78 7.12  6.9 6.81 6.53 6.42 6.13 6.07
+## Proportion of Variance 0.00 0.00 0.00 0.00  0.0 0.00 0.00 0.00 0.00 0.00
+## Cumulative Proportion  1.00 1.00 1.00 1.00  1.0 1.00 1.00 1.00 1.00 1.00
+##                        PC21 PC22 PC23 PC24 PC25 PC26 PC27 PC28 PC29 PC30
+## Standard deviation     5.89 5.84 5.56 5.41 5.28 4.96 4.58 3.92 3.91 3.27
+## Proportion of Variance 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+## Cumulative Proportion  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+##                        PC31 PC32 PC33 PC34 PC35
+## Standard deviation     3.23 3.22 3.06 2.96 2.91
+## Proportion of Variance 0.00 0.00 0.00 0.00 0.00
+## Cumulative Proportion  1.00 1.00 1.00 1.00 1.00</code></pre>
 </div>
 <div id="smart-question-5-jay" class="section level3">
 <h3>Smart Question 5 (JAY)</h3>
 <div id="how-do-physical-factors-age-preferred-foot-overall-skill-international-reputation-position-in-the-field-weight-and-height-help-the-soccer-professionals-to-get-wage-for-higher-100000-euro-per-week" class="section level4">
 <h4>How do physical factors (age, preferred foot, overall skill, international reputation, position in the field, weight, and height) help the soccer professionals to get wage for higher 100,000 Euro per week?</h4>
+</div>
 </div>
 </div>
 

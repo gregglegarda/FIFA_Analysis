@@ -21,9 +21,9 @@ options(scientific=T, digits = 3)
 # can add quietly=T option to the require() function
 loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.packages(x,dep=T,repos="http://cran.us.r-project.org"); if(!require(x,character.only=T)) stop("Package not found") } }
 ```
-### Introduction
+# Introduction
 
-### FIFA Dataset 
+# FIFA Dataset 
 
 The FIFA dataset was collected in outerspace blhablah blah. Describe the dataset, where it came from, interesting topics.
 
@@ -31,15 +31,15 @@ The FIFA dataset was collected in outerspace blhablah blah. Describe the dataset
 data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
 ```
 
-#### Preparing and exploring the data (include =F)
+### Preparing and exploring the data (include =F)
 ```{r echo=FALSE, include= FALSE}
 str(data)
 summary(data)
 head(data)
 ```
 
-### Smart Question 1 (BIN)
-#### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
+# Smart Question 1 (BIN)
+## How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
 
 ```{r S1, echo=FALSE, include=TRUE}
 #TEST used: Classification (KNN, Decision trees)
@@ -54,7 +54,7 @@ library(ggplot2)
 
 
 ```{r}
-fifa <- read.csv('data-2.csv')
+fifa <- read.csv('data.csv')
 ```
 
 
@@ -164,8 +164,8 @@ summary(mp.pcr2)
 anova(mp.pcr1, mp.pcr2)
 ```
 
-### Smart Question 2 (RUSSELL)
-#### What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
+# Smart Question 2 (RUSSELL)
+## What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
 ```{r S2, echo=FALSE, include=TRUE}
 
 
@@ -174,8 +174,8 @@ anova(mp.pcr1, mp.pcr2)
 
 
 
-### Smart Question 3 (CURTIS)
-#### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
+# Smart Question 3 (CURTIS)
+## What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
 ```{r S3, echo=FALSE, include=TRUE}
 #TEST used:  multivariate regression
 
@@ -185,21 +185,27 @@ anova(mp.pcr1, mp.pcr2)
 
 
 
-### Smart Question 4 (GREGG)
-#### How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?
+# Smart Question 4 (GREGG)
+## How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?
+
+```{r r, echo=FALSE, include=TRUE}
+## reading data
+data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
+```
+
 ```{r S4, echo=FALSE, include=TRUE}
-#TEST used: 
-#Wage - do PCA/PCR to find out the attributes that explain it the most
-#Value- do PCA/PCR to find out the attributes that explain it the most
-#Skill/Characteristics - classify the most important attributes into skills and characteristics
-#Make sure p values are good
-#Use the model to predict. Use multvariable regression
 
 wage_skills <- c("Wage","Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
 
 value_skills <- c("Value", "Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
+```
 
-#clean data
+
+### ***Clean Up Wage and Value Data
+```{r S4a, echo=FALSE, include=TRUE}
+####CLEAN DATA (Wage and Value having same range. remove M and K and period)
+
+#clean data (Removing Pound Sign)
 library('stringr')
 data_wage_skills <- na.omit(data[c(wage_skills)])
 data_value_skills <- na.omit(data[c(value_skills)])
@@ -209,37 +215,138 @@ data_wage_skills$Wage <- str_replace(
     pattern = '[€]', # what to find
     replacement = '' # what to replace it with
 )
+data_value_skills$Value <- str_replace(
+    data_value_skills$Value, # column we want to search
+    pattern = '[€]', # what to find
+    replacement = '' # what to replace it with
+)
+```
 
 
-
-head(data_wage_skills)
-head(data_value_skills)
-
+***Cleaned up Wage Data
+```{r S4b, echo=FALSE, include=TRUE}
 
 
-# PCA wage_skills
-#pca_wage_skills_center <- prcomp(data_wage_skills, center = TRUE,scale. = TRUE) #center
-#pca_wage_skills_raw <- prcomp(data_wage_skills, center = TRUE,scale. = FALSE) #raw
-#summary(pca_wage_skills_center)
-#summary(pca_wage_skills_raw)
+####Start of Wage Cleanup
 
-# pca value_skills
-#pca_value_skills_center <- prcomp(data_value_skills, center = TRUE,scale. = TRUE) #center
-#pca_value_skills_raw <- prcomp(data_value_skills, center = TRUE,scale. = FALSE) #raw
-#summary(pca_value_skills_center)
-#summary(pca_value_skills_raw)
+data_wage_skills$WageM <- str_replace(
+    data_wage_skills$Wage, # column we want to search
+    pattern = 'M', # what to find
+    replacement = '' # what to replace it with
+)
+data_wage_skills$WageK <- str_replace(
+    data_wage_skills$Wage, # column we want to search
+    pattern = 'K', # what to find
+    replacement = '' # what to replace it with
+)
+
+data_wage_skills$WageMM <- rep(0, length(data_wage_skills$WageM))
+data_wage_skills$WageKK <- rep(0, length(data_wage_skills$WageK))
+
+non_alphaM <-grep("[[:alpha:]]",data_wage_skills$WageM, invert = TRUE)
+data_wage_skills$WageMM[non_alphaM] <- data_wage_skills$WageM[non_alphaM]
+
+non_alphaK <-grep("[[:alpha:]]",data_wage_skills$WageK, invert = TRUE)
+data_wage_skills$WageKK[non_alphaK] <- data_wage_skills$WageK[non_alphaK]
+
+data_wage_skills$WageMM <- as.numeric(data_wage_skills$WageMM)*1000000
+data_wage_skills$WageKK <- as.numeric(data_wage_skills$WageKK)*1000
+
+data_wage_skills$Wage <- data_wage_skills$WageMM + data_wage_skills$WageKK
+
+#summary(data_wage_skills$Wage)
+#head(data_wage_skills)
+#tail(data_wage_skills)
+#summary(data_wage_skills)
+
+#### End of Wage CLeanup
+```
 
 
+***Cleaned up Value Data
+```{r S4c, echo=FALSE, include=TRUE}
 
+#### Start of ValueCleanup
 
+data_value_skills$ValueM <- str_replace(
+    data_value_skills$Value, # column we want to search
+    pattern = 'M', # what to find
+    replacement = '' # what to replace it with
+)
+data_value_skills$ValueK <- str_replace(
+    data_value_skills$Value, # column we want to search
+    pattern = 'K', # what to find
+    replacement = '' # what to replace it with
+)
 
+data_value_skills$ValueMM <- rep(0, length(data_value_skills$ValueM))
+data_value_skills$ValueKK <- rep(0, length(data_value_skills$ValueK))
+
+non_alphaVM <-grep("[[:alpha:]]",data_value_skills$ValueM, invert = TRUE)
+data_value_skills$ValueMM[non_alphaVM] <- data_value_skills$ValueM[non_alphaVM]
+
+non_alphaVK <-grep("[[:alpha:]]",data_value_skills$ValueK, invert = TRUE)
+data_value_skills$ValueKK[non_alphaVK] <- data_value_skills$ValueK[non_alphaVK]
+
+data_value_skills$ValueMM <- as.numeric(data_value_skills$ValueMM)*1000000
+data_value_skills$ValueKK <- as.numeric(data_value_skills$ValueKK)*1000
+
+data_value_skills$Value <- data_value_skills$ValueMM + data_value_skills$ValueKK
+
+#summary(data_value_skills$Value)
+#head(data_value_skills)
+#tail(data_value_skills)
+#summary(data_value_skills)
+
+#### End of Value Cleanup
 ```
 
 
 
+### Tests
+```{r S4d, include=TRUE}
 
-### Smart Question 5 (JAY)
-#### How do physical factors (age, preferred foot, overall skill, international reputation, position in the field, weight, and height) help the soccer professionals to get wage for higher 100,000 Euro per week?
+#TEST used: 
+#Wage - do PCA/PCR to find out the attributes that explain it the most
+#Value- do PCA/PCR to find out the attributes that explain it the most
+#Skill/Characteristics - classify the most important attributes into skills and characteristics
+#Make sure p values are good
+#Use the model to predict. Use multvariable regression
+# PCA wage_skills
+
+data_wage_skills <- na.omit(data_wage_skills[c(wage_skills)])
+data_value_skills <- na.omit(data_value_skills[c(value_skills)])
+
+#head(data_wage_skills)
+#tail(data_wage_skills)
+#summary(data_wage_skills)
+#head(data_value_skills)
+#tail(data_value_skills)
+#summary(data_value_skills)
+```
+
+
+### PCA Wage-Skills raw and centered
+```{r S4e, echo=FALSE, include=TRUE}
+PCA_wage_skills_C <- prcomp(data_wage_skills, center = TRUE,scale. = TRUE) #center
+PCA_wage_skills_R <- prcomp(data_wage_skills, center = TRUE,scale. = FALSE) #raw
+summary(PCA_wage_skills_C)
+summary(PCA_wage_skills_R)
+```
+
+
+### PCA Value-Skills raw and centered
+```{r S4f, echo=FALSE, include=TRUE}
+PCA_value_skills_C <- prcomp(data_value_skills, center = TRUE,scale. = TRUE) #center
+PCA_value_skills_R <- prcomp(data_value_skills, center = TRUE,scale. = FALSE) #raw
+summary(PCA_value_skills_C)
+summary(PCA_value_skills_R)
+```
+
+
+
+# Smart Question 5 (JAY)
+## How do physical factors (age, preferred foot, overall skill, international reputation, position in the field, weight, and height) help the soccer professionals to get wage for higher 100,000 Euro per week?
 ```{r S5, echo=FALSE, include=TRUE}
 #Wage(Factor) – 1 (Higher 100k euro per week), 0 (lower 100k euro per week).
 #Age (Integer)
