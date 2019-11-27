@@ -465,7 +465,9 @@ fifaOri <- mutate(fifaOri, Preferred.Foot = y)
 #Weight
 fifaOri$Weight <- as.integer(numextract(fifaOri$Weight))
 #Height 
+
 library(gsubfn)
+
 fifaOri$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + 
             as.numeric(y) * 2.54, sub('"', '', fifaOri$Height)))
 fifaOri$Height <- as.integer(fifaOri$Height)
@@ -709,7 +711,7 @@ We can then quickly run a chi-squared test to see if the two are independent (or
 ```{r 4.3.6a, echo=F}
 chisqres_Q6 = chisq.test(wagepositable)
 chisqres_Q6
->>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
+#>>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
 
 ```
 
