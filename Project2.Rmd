@@ -27,6 +27,18 @@ loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.
 ### FIFA Dataset 
 =======
 ### Chapter 1: Introduction (Curtis)
+FIFA 19 is a football (soccer) simulation video game developed by EAsports. It is a part of the FIFA series, which has been produced for over 20 years. Every year, a FIFA game is released, FIFA 2019 was released in 2018, at the beginning of the 2018-2019 season of major soccer leagues in Europe. FIFA 2019 has over 31 leagues and more than 720 playable teams from around the world. This game contains an enormous amount of data which demonstrates different ratings and information of players, ranging from age and nationality to skillsets such as finishing, kicking, heading, tackling and even weak-foot strength. 
+
+How do they complete such a huge database of ratings for every single player from all the licensed leagues? EA Sports employs a team of 25 EA Producers and 400 outside data contributors, who are led by the Head of Data Collection & Licensing. This team is responsible for ensuring all player data is up to date, while a community of over 6,000 FIFA Data Reviewers or Talent Scouts from all over the world are constantly providing suggestions and alterations to the database. 
+
+In this project, our team will try to catch hold of several insights from the dataset using EDA and other statistical analysis methods. 
+
+Sources
+https://www.ea.com/games/fifa
+https://www.fifplay.com/fifa-19-leagues-and-teams/
+https://www.goal.com/en-ae/news/fifa-player-ratings-explained-how-are-the-card-number-stats/1hszd2fgr7wgf1n2b2yjdpgynu
+
+
 
 ### Chapter 2: Description of Data
 >>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
