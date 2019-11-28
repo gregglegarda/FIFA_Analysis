@@ -325,7 +325,7 @@ data_wage_skills$Wage <- data_wage_skills$WageMM + data_wage_skills$WageKK
 #### End of Wage CLeanup
 ```
 
-#gregg
+
 ***Cleaned up Value Data
 ```{r S4c, echo=FALSE, include=TRUE}
 
@@ -388,20 +388,34 @@ data_value_skills <- na.omit(data_value_skills[c(value_skills)])
 #summary(data_value_skills)
 ```
 
+What is interesting is the skills that affect value and wage the most are reactions, composure, ball control and GK diving. all these made top 5 skills that explain wage and value. These skills are the best predictors of wage and value. 
+
+We can see however that other than these four skills, GK handling seems to explain wage and Short passing seems to explain a Players value.
 
 ```{r S4e, echo=FALSE, include=TRUE}
 
-#wage_regression <- lm(wage, skills)
-#value_regression <- lm(value, skills)
-
-
-
-
-
-
-
-
+wage_lm <- lm(Wage ~ ., data = data_wage_skills)
+summary(wage_lm)
 ```
+Top 5 Skills that Explain Wage:
+Reactions    - 682.6
+Composure    - 212.4
+Ball Control - 209.5
+GK Handling  - 176.8
+GK Diving    - 174.0
+
+
+```{r S4e, echo=FALSE, include=TRUE}
+value_lm <- lm(Value ~ ., data = data_value_skills)
+summary(value_lm)
+```
+Top 5 Skills that Explain Value:
+Reactions     - 208049
+Short Passing - 56542
+Composure     - 53780
+Ball Control  - 52684
+GK Diving     - 44531
+
 
 
 ### PCA Wage-Skills raw and centered
@@ -412,7 +426,6 @@ summary(PCA_wage_skills_C)
 summary(PCA_wage_skills_R)
 ```
 
-
 ### PCA Value-Skills raw and centered
 ```{r S4g, echo=FALSE, include=TRUE}
 PCA_value_skills_C <- prcomp(data_value_skills, center = TRUE,scale. = TRUE) #center
@@ -422,7 +435,7 @@ summary(PCA_value_skills_R)
 ```
 
 
-
+WE then performed a PCA analysis to determine the components needed to explain 80% of the data
 
 # Smart Question 5 (JAY)
 ## How do physical factors (age, preferred foot, overall skill, international reputation, position in the field, weight, and height) help the soccer professionals to get wage for higher 100,000 Euro per week?
