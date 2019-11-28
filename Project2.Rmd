@@ -392,7 +392,7 @@ What is interesting is the skills that affect value and wage the most are reacti
 
 We can see however that other than these four skills, GK handling seems to explain wage and Short passing seems to explain a Players value.
 
-```{r S4g, echo=FALSE, include=TRUE}
+```{r S4e, echo=FALSE, include=TRUE}
 
 wage_lm <- lm(Wage ~ ., data = data_wage_skills)
 summary(wage_lm)
@@ -405,7 +405,7 @@ GK Handling  - 176.8
 GK Diving    - 174.0
 
 
-```{r S4e, echo=FALSE, include=TRUE}
+```{r S4f, echo=FALSE, include=TRUE}
 value_lm <- lm(Value ~ ., data = data_value_skills)
 summary(value_lm)
 ```
@@ -419,7 +419,7 @@ GK Diving     - 44531
 
 
 ### PCA Wage-Skills raw and centered
-```{r S4f, echo=FALSE, include=TRUE}
+```{r S4g, echo=FALSE, include=TRUE}
 PCA_wage_skills_C <- prcomp(data_wage_skills, center = TRUE,scale. = TRUE) #center
 PCA_wage_skills_R <- prcomp(data_wage_skills, center = TRUE,scale. = FALSE) #raw
 summary(PCA_wage_skills_C)
@@ -427,7 +427,7 @@ summary(PCA_wage_skills_R)
 ```
 
 ### PCA Value-Skills raw and centered
-```{r S4g, echo=FALSE, include=TRUE}
+```{r S4h, echo=FALSE, include=TRUE}
 PCA_value_skills_C <- prcomp(data_value_skills, center = TRUE,scale. = TRUE) #center
 PCA_value_skills_R <- prcomp(data_value_skills, center = TRUE,scale. = FALSE) #raw
 summary(PCA_value_skills_C)
