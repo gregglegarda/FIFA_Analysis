@@ -392,7 +392,7 @@ What is interesting is the skills that affect value and wage the most are reacti
 
 We can see however that other than these four skills, GK handling seems to explain wage and Short passing seems to explain a Players value.
 
-```{r S4e, echo=FALSE, include=TRUE}
+```{r S4g, echo=FALSE, include=TRUE}
 
 wage_lm <- lm(Wage ~ ., data = data_wage_skills)
 summary(wage_lm)
