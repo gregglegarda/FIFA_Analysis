@@ -325,7 +325,7 @@ data_wage_skills$Wage <- data_wage_skills$WageMM + data_wage_skills$WageKK
 #### End of Wage CLeanup
 ```
 
-
+#gregg
 ***Cleaned up Value Data
 ```{r S4c, echo=FALSE, include=TRUE}
 
