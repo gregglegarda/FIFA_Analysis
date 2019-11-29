@@ -238,14 +238,69 @@ anova(mp.pcr1, mp.pcr2)
 ```
 
 # Smart Question 2 (RUSSELL)
-## What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
+## What variables contribute most to a player’s skill in penalty shots? How much does Aggression, Composure and physical fitness attributes contribute to a player's skill, and which combinations are most influencial?
 ```{r S2, echo=FALSE, include=TRUE}
+loadPkg("pls")
+
+#Reload data
+data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
+
+#drop NAs
+fifa <- na.omit(data)
+
+#keep numeric variables only
+fifa <- fifa[, !sapply(fifa, is.character)]
+
+#drop ID variable
+fifa <- fifa[, c(-1, -2)]
+```
+
+```{r EDA, echo=False, include=TRUE}
+library(corrplot)
+barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
+
+#subset data
+fifacols <- c("Penalties", "Aggression","Age", "Stamina","ShotPower","Balance", "BallControl","LongPassing","HeadingAccuracy", "Strength")
+fifa <- fifa[fifacols]
+
+#histogram of Penalties
+hist(fifa$Penalties, main="Histogram of Penalties", xlab="Skill in Penalties", ylab="Frequency", col=barcolors)
+
+#histogram of Aggression
+hist(fifa$Aggression, main="Histogram of Aggression", xlab="Player Aggression Score", ylab="Frequency", col=barcolors)
+
+#analog correlation matrix
+M <- cor(fifa)
+M
+
+#graphical correlation matrix
+corrplot(M, method="circle")
+
+```
+
+``` {r PCA, echo=FALSE, include=TRUE}
+barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
+
+#scale data
+prscale <- prcomp(fifa, scale=TRUE)
+
+#summary of scaled data
+summary(prscale)
+
+#biplot of scaled data PCA
+#biplot(prscale,1:2, scale =0)
+#biplot(prscale,2:3, scale =0)
+#biplot(prscale,3:4, scale =0)
+
+plot(prscale, main="PCA", type = "l", col=barcolors)
 
 
 ```
 
+```{r PCR, echo=FALSE, include=TRUE}
 
 
+```
 
 # Smart Question 3 (CURTIS)
 ## What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
