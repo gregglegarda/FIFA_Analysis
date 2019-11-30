@@ -254,6 +254,8 @@ fifa <- fifa[, !sapply(fifa, is.character)]
 #drop ID variable
 fifa <- fifa[, c(-1, -2)]
 ```
+To begin the analysis, we drop all character variables and delete missing values. Additionally we drop the ID variable as it provides no usable information for our analysis. 
+
 
 ```{r EDA, echo=FALSE, include=TRUE}
 library(corrplot)
@@ -264,12 +266,11 @@ fifacols <- c("Penalties", "Aggression","Age", "Stamina","ShotPower","Balance", 
 fifa <- fifa[fifacols]
 
 #histogram of Penalties
+summary(fifa$Penalties)
+sd(fifa$Penalties)
 hist(fifa$Penalties, main="Histogram of Penalties", xlab="Skill in Penalties", ylab="Frequency", col=barcolors)
 
-#histogram of Aggression
-hist(fifa$Aggression, main="Histogram of Aggression", xlab="Player Aggression Score", ylab="Frequency", col=barcolors)
-
-#analog correlation matrix
+#summary correlation matrix
 M <- cor(fifa)
 M
 
@@ -277,6 +278,21 @@ M
 corrplot(M, method="circle")
 
 ```
+The EDA process begins by subsetting the data set to include only variables of interest. We maintain Penalties are our dependent variable and include 9 explanatory variables. The summary statistics for Penalties indicate that players' penalties skill range from a low of 5.0 to a high of 92.0 with a mean of 49.0 and a stardard deviation of 15.7. The summary output of the correlation matrix suggest that most variables are correlated in some way to other variables. The graphical display of the correlation matrix visually confirms the correlations. The data may be appropriate for linear regression, but the high correlation associated with some variables may suggest multicollinearity.     
+```{r linear, echo=FALSE, include=TRUE}
+loadPkg("car")
+barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
+
+#add linear reg, calculate mse
+reg <- lm(Penalties ~ ., data=fifa)
+summary(reg)
+vif(reg)
+
+reg.res <- resid(reg)
+hist(reg.res, main="Histogram of Residuals", xlab="Residuals", ylab="Frequency", col=barcolors)
+
+```
+We build a multiple linear regression model where we regress Penalties on Aggression, Age, Stamina, ShotPower, Balance, BallControl, LongPassing, HeadingAccuracy and Strength. The coefficient on the intercept suggests that the mean skill value for players is 0.76, but coefficient is not statistically significant at any level.
 
 ``` {r PCA, echo=FALSE, include=TRUE}
 barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
@@ -286,11 +302,6 @@ prscale <- prcomp(fifa, scale=TRUE)
 
 #summary of scaled data
 summary(prscale)
-
-#biplot of scaled data PCA
-#biplot(prscale,1:2, scale =0)
-#biplot(prscale,2:3, scale =0)
-#biplot(prscale,3:4, scale =0)
 
 plot(prscale, main="PCA", type = "l", col=barcolors)
 ```
@@ -312,26 +323,22 @@ summary(pcr.fit)
 validationplot(pcr.fit, val.type="MSEP")
 
 #plot coefficients
-coefplot(pcr.fit)
+#coefplot(pcr.fit)
 
 #calculate MSE
 pcr.pred <- predict(pcr.fit, fifa.test, ncomp = 6)
 mean((pcr.pred - y.test)^2)
 
-#addlinear reg for mse
-reg <- lm(Penalties ~., data=fifa)
+#linear regression MSE
 mse <- mean(reg$residuals^2)
 mse
 
-#Train PCR on test data, then test
-#set.seed(2)
-#train = sample(1:nrow(fifa), nrow(fifa)/2)
-#test = (-train)
-#fifa.test = fifa[test]
+#fit model
+pcr.fit2 <- pcr(Penalties ~.,data=fifa, scale=TRUE, ncomp=6)
+summary(pcr.fit2)
 
-#PCR model
-#pcr.model <- pcr(Penalties ~ ., data = fifa[train,], scale =TRUE, validation = "CV")
-#pcr.pred <- predict(pcr.model, data=fifa.test, ncomp = 6)
+#show predicted values vs observed
+predplot(pcr.fit2)
 
 
 ```
