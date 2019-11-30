@@ -255,7 +255,7 @@ fifa <- fifa[, !sapply(fifa, is.character)]
 fifa <- fifa[, c(-1, -2)]
 ```
 
-```{r EDA, echo=False, include=TRUE}
+```{r EDA, echo=FALSE, include=TRUE}
 library(corrplot)
 barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
 
@@ -443,8 +443,8 @@ data_value_skills$ValueMM[non_alphaVM] <- data_value_skills$ValueM[non_alphaVM]
 non_alphaVK <-grep("[[:alpha:]]",data_value_skills$ValueK, invert = TRUE)
 data_value_skills$ValueKK[non_alphaVK] <- data_value_skills$ValueK[non_alphaVK]
 
-data_value_skills$ValueMM <- ln(as.numeric(data_value_skills$ValueMM)*1000000)
-data_value_skills$ValueKK <- ln(as.numeric(data_value_skills$ValueKK)*1000)
+data_value_skills$ValueMM <- as.numeric(data_value_skills$ValueMM)*1000000
+data_value_skills$ValueKK <- as.numeric(data_value_skills$ValueKK)*1000
 
 data_value_skills$Value <- data_value_skills$ValueMM + data_value_skills$ValueKK
 
@@ -564,7 +564,7 @@ In this chapter, we use logistic regression with 7 variables including age, skil
 
 The original data are below:
 
-```{r EDA, echo=F}
+```{r EDA11, echo=F}
 str(fifaOri)
 
 ```
