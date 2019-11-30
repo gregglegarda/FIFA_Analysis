@@ -1623,6 +1623,8 @@ data_value_skills &lt;- na.omit(data_value_skills[c(value_skills)])
 #head(data_value_skills)
 #tail(data_value_skills)
 #summary(data_value_skills)</code></pre>
+<p>What is interesting is the skills that affect value and wage the most are reactions, composure, ball control and GK diving. all these made top 5 skills that explain wage and value. These skills are the best predictors of wage and value.</p>
+<p>We can see however that other than these four skills, GK handling seems to explain wage and Short passing seems to explain a Players value.</p>
 <pre><code>## 
 ## Call:
 ## lm(formula = Wage ~ ., data = data_wage_skills)
@@ -1674,6 +1676,7 @@ data_value_skills &lt;- na.omit(data_value_skills[c(value_skills)])
 ## Residual standard error: 18600 on 18124 degrees of freedom
 ## Multiple R-squared:  0.287,  Adjusted R-squared:  0.286 
 ## F-statistic:  214 on 34 and 18124 DF,  p-value: &lt;2e-16</code></pre>
+<p>Top 5 Skills that Explain Wage: Reactions - 682.6 Composure - 212.4 Ball Control - 209.5 GK Handling - 176.8 GK Diving - 174.0</p>
 <pre><code>## 
 ## Call:
 ## lm(formula = Value ~ ., data = data_value_skills)
@@ -1725,6 +1728,7 @@ data_value_skills &lt;- na.omit(data_value_skills[c(value_skills)])
 ## Residual standard error: 4540000 on 18124 degrees of freedom
 ## Multiple R-squared:  0.344,  Adjusted R-squared:  0.343 
 ## F-statistic:  280 on 34 and 18124 DF,  p-value: &lt;2e-16</code></pre>
+<p>Top 5 Skills that Explain Value: Reactions - 208049 Short Passing - 56542 Composure - 53780 Ball Control - 52684 GK Diving - 44531</p>
 </div>
 <div id="pca-wage-skills-raw-and-centered" class="section level3">
 <h3>PCA Wage-Skills raw and centered</h3>
@@ -1815,6 +1819,7 @@ data_value_skills &lt;- na.omit(data_value_skills[c(value_skills)])
 ## Standard deviation     3.23 3.22 3.06 2.96 2.91
 ## Proportion of Variance 0.00 0.00 0.00 0.00 0.00
 ## Cumulative Proportion  1.00 1.00 1.00 1.00 1.00</code></pre>
+<p>WE then performed a PCA analysis to determine the components needed to explain 80% of the data</p>
 </div>
 </div>
 </div>
