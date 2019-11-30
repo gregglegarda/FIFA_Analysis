@@ -27,6 +27,18 @@ loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.
 ### FIFA Dataset 
 =======
 ### Chapter 1: Introduction (Curtis)
+FIFA 19 is a football (soccer) simulation video game developed by EAsports. It is a part of the FIFA series, which has been produced for over 20 years. Every year, a FIFA game is released, FIFA 2019 was released in 2018, at the beginning of the 2018-2019 season of major soccer leagues in Europe. FIFA 2019 has over 31 leagues and more than 720 playable teams from around the world. This game contains an enormous amount of data which demonstrates different ratings and information of players, ranging from age and nationality to skillsets such as finishing, kicking, heading, tackling and even weak-foot strength. 
+
+How do they complete such a huge database of ratings for every single player from all the licensed leagues? EA Sports employs a team of 25 EA Producers and 400 outside data contributors, who are led by the Head of Data Collection & Licensing. This team is responsible for ensuring all player data is up to date, while a community of over 6,000 FIFA Data Reviewers or Talent Scouts from all over the world are constantly providing suggestions and alterations to the database. 
+
+In this project, our team will try to catch hold of several insights from the dataset using EDA and other statistical analysis methods. 
+
+Sources
+https://www.ea.com/games/fifa
+https://www.fifplay.com/fifa-19-leagues-and-teams/
+https://www.goal.com/en-ae/news/fifa-player-ratings-explained-how-are-the-card-number-stats/1hszd2fgr7wgf1n2b2yjdpgynu
+
+
 
 ### Chapter 2: Description of Data
 >>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
@@ -226,14 +238,94 @@ anova(mp.pcr1, mp.pcr2)
 ```
 
 # Smart Question 2 (RUSSELL)
-## What variables contribute most to a player’s amount of penalties? How does Aggression, Composure affect the number of Penalties they receive 
+## What variables contribute most to a player’s skill in penalty shots? How much does Aggression, Composure and physical fitness attributes contribute to a player's skill, and which combinations are most influencial?
 ```{r S2, echo=FALSE, include=TRUE}
+loadPkg("pls")
+
+#Reload data
+data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
+
+#drop NAs
+fifa <- na.omit(data)
+
+#keep numeric variables only
+fifa <- fifa[, !sapply(fifa, is.character)]
+
+#drop ID variable
+fifa <- fifa[, c(-1, -2)]
+```
+
+```{r EDA, echo=False, include=TRUE}
+library(corrplot)
+barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
+
+#subset data
+fifacols <- c("Penalties", "Aggression","Age", "Stamina","ShotPower","Balance", "BallControl","LongPassing","HeadingAccuracy", "Strength")
+fifa <- fifa[fifacols]
+
+#histogram of Penalties
+hist(fifa$Penalties, main="Histogram of Penalties", xlab="Skill in Penalties", ylab="Frequency", col=barcolors)
+
+#histogram of Aggression
+hist(fifa$Aggression, main="Histogram of Aggression", xlab="Player Aggression Score", ylab="Frequency", col=barcolors)
+
+#analog correlation matrix
+M <- cor(fifa)
+M
+
+#graphical correlation matrix
+corrplot(M, method="circle")
+
+```
+
+``` {r PCA, echo=FALSE, include=TRUE}
+barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
+
+#scale data
+prscale <- prcomp(fifa, scale=TRUE)
+
+#summary of scaled data
+summary(prscale)
+
+#biplot of scaled data PCA
+#biplot(prscale,1:2, scale =0)
+#biplot(prscale,2:3, scale =0)
+#biplot(prscale,3:4, scale =0)
+
+plot(prscale, main="PCA", type = "l", col=barcolors)
 
 
 ```
 
+```{r PCR, echo=FALSE, include=TRUE}
+library(pls)
+
+#PCR on training data using CV
+set.seed(2)
+pcr.fit = pcr(Penalties ~., data=fifa, scale=TRUE, validation="CV")
+summary(pcr.fit)
+
+#plot validation
+validationplot(pcr.fit, val.type="MSEP")
+
+#plot predicted vs. measured values
+predplot(pcr.fit)
+
+#plot coefficients
+coefplot(pcr.fit)
+
+#Train PCR on test data, then test
+set.seed(2)
+train = sample(1:nrow(fifa), nrow(fifa)/2)
+test = (-train)
+fifa.test = fifa[test]
+
+#PCR model
+pcr.model <- pcr(Penalties ~ ., data = fifa[train,], scale =TRUE, validation = "CV")
+pcr.pred <- predict(pcr.model, data=fifa.test, ncomp = 6)
 
 
+```
 
 # Smart Question 3 (CURTIS)
 ## What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
