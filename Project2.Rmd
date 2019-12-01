@@ -350,82 +350,82 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 
 # Smart Question 3 (CURTIS)
-## What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc...
-```{r S3, echo=FALSE, include=TRUE}
-#TEST used:  multivariate regression
-```
+<!-- ## What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... -->
+<!-- ```{r S3, echo=FALSE, include=TRUE} -->
+<!-- #TEST used:  multivariate regression -->
+<!-- ``` -->
 
-#import data
-```{r import}
-
-
+<!-- #import data -->
+<!-- ```{r import} -->
 
 
-```
 
-```{r weight height conversion}
-library(stringr)
-numextract <- function(stringr){str_extract(string, "\\-*\\d+\\.*\\d*")}
-#Weight
-data$Weight <- as.integer(numextract(data$Weight))
-#Height
-install.packages("gsubfn")
-library(gsubfn)
-data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 +
-            as.numeric(y) * 2.54, sub('"', '', data$Height)))
-data$Height <- as.integer(data$Height)
 
-```
+<!-- ``` -->
 
-```{r gk}
-gk<- subset(data,Position=="GK")
-gk <- gk[,colSums(is.na(gk))<nrow(gk)]
-gk
-```
+<!-- ```{r weight height conversion} -->
+<!-- library(stringr) -->
+<!-- numextract <- function(stringr){str_extract(string, "\\-*\\d+\\.*\\d*")} -->
+<!-- #Weight -->
+<!-- data$Weight <- as.integer(numextract(data$Weight)) -->
+<!-- #Height -->
+<!-- install.packages("gsubfn") -->
+<!-- library(gsubfn) -->
+<!-- data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + -->
+<!--             as.numeric(y) * 2.54, sub('"', '', data$Height))) -->
+<!-- data$Height <- as.integer(data$Height) -->
 
-```{r normality check}
-install.packages("car")
-library(car)
+<!-- ``` -->
 
-hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange")
+<!-- ```{r gk} -->
+<!-- gk<- subset(data,Position=="GK") -->
+<!-- gk <- gk[,colSums(is.na(gk))<nrow(gk)] -->
+<!-- gk -->
+<!-- ``` -->
 
-qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
-qqline(gk$Potential)
+<!-- ```{r normality check} -->
+<!-- install.packages("car") -->
+<!-- library(car) -->
 
-scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating")
+<!-- hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange") -->
 
-scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
-```
-1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
-2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.
-3. The scatterplot of age and potential rating shows a general downward
-```{r model1, echo=FALSE}
+<!-- qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
+<!-- qqline(gk$Potential) -->
 
-fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk)
-summary(fit1)
-vif(fit1)
-fit1
-```
+<!-- scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating") -->
 
-```{r model1b, echo=F, include=T}
-plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
-```
+<!-- scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating") -->
+<!-- ``` -->
+<!-- 1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. -->
+<!-- 2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings. -->
+<!-- 3. The scatterplot of age and potential rating shows a general downward -->
+<!-- ```{r model1, echo=FALSE} -->
 
-1. Residuals vs Fitted
+<!-- fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk) -->
+<!-- summary(fit1) -->
+<!-- vif(fit1) -->
+<!-- fit1 -->
+<!-- ``` -->
 
-This plot shows if residuals have non-linear patterns. There could be a non-linear relationship between predictor variables and an outcome variable and the pattern could show up in this plot if the model doesn’t capture the non-linear relationship. If you find equally spread residuals around a horizontal line without distinct patterns, that is a good indication you don’t have non-linear relationships.
+<!-- ```{r model1b, echo=F, include=T} -->
+<!-- plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
+<!-- ``` -->
 
-2. Normal Q-Q
+<!-- 1. Residuals vs Fitted -->
 
-This plot shows if residuals are normally distributed. Do residuals follow a straight line well or do they deviate severely? It’s good if residuals are lined well on the straight dashed line.
+<!-- This plot shows if residuals have non-linear patterns. There could be a non-linear relationship between predictor variables and an outcome variable and the pattern could show up in this plot if the model doesn’t capture the non-linear relationship. If you find equally spread residuals around a horizontal line without distinct patterns, that is a good indication you don’t have non-linear relationships. -->
 
-3. Scale-Location
+<!-- 2. Normal Q-Q -->
 
-It’s also called Spread-Location plot. This plot shows if residuals are spread equally along the ranges of predictors. This is how you can check the assumption of equal variance (homoscedasticity). It’s good if you see a horizontal line with equally (randomly) spread points.
+<!-- This plot shows if residuals are normally distributed. Do residuals follow a straight line well or do they deviate severely? It’s good if residuals are lined well on the straight dashed line. -->
 
-4. Residuals vs Leverage
+<!-- 3. Scale-Location -->
 
-This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases.
+<!-- It’s also called Spread-Location plot. This plot shows if residuals are spread equally along the ranges of predictors. This is how you can check the assumption of equal variance (homoscedasticity). It’s good if you see a horizontal line with equally (randomly) spread points. -->
+
+<!-- 4. Residuals vs Leverage -->
+
+<!-- This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases. -->
 
 
 
@@ -449,7 +449,7 @@ wage_value <- c("Value","Wage")
 
 ```
 
-### ***Clean Up Wage and Value Data 
+#### Cleaned Up Wage and Value Data 
 ```{r S4a, echo=FALSE, include=TRUE}
 ####CLEAN DATA (Wage and Value having same range. remove M and K and period)
 
@@ -529,10 +529,7 @@ data_value_skills$ValueKK <- as.numeric(data_value_skills$ValueKK)*1000
 
 data_value_skills$Value <- data_value_skills$ValueMM + data_value_skills$ValueKK
 
-#summary(data_value_skills$Value)
-#head(data_value_skills)
-#tail(data_value_skills)
-#summary(data_value_skills)
+
 #### End of Value Cleanup
 ```
 
@@ -541,6 +538,8 @@ data_value_skills$Value <- data_value_skills$ValueMM + data_value_skills$ValueKK
 data_wage_skills <- na.omit(data_wage_skills[c(wage_skills)])
 data_value_skills <- na.omit(data_value_skills[c(value_skills)])
 
+wage_value$Wage <- data_wage_skills$Wage
+wage_value$Value <- data_value_skills$Value
 ```
 
 What is interesting is the skills that affect value and wage the most are reactions, composure, ball control and GK diving. all these made top 5 skills that explain wage and value. These skills are the best predictors of wage and value. 
@@ -590,7 +589,9 @@ take the log of the column to normalize it.
 
 ### Does Wage and Value Independent??
 ```{r S4i, include=F}
-
+head(wage_value)
+summary(wage_value)
+#t.test(Wage,Value, data = wage_value)
  
 ```
 
