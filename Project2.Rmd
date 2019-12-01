@@ -436,7 +436,11 @@ data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
 ## naming rows
 wage_skills <- c("Wage","Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
 
+
 value_skills <- c("Value", "Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
+
+wage_value <- c("Value","Wage")
+
 ```
 
 ### ***Clean Up Wage and Value Data 
@@ -460,7 +464,6 @@ data_value_skills$Value <- str_replace(
 )
 ```
 
-***Cleaned up Wage Data
 ```{r S4b, echo=FALSE, include=TRUE}
 ####Start of Wage Cleanup
 
@@ -489,10 +492,9 @@ data_wage_skills$WageKK <- as.numeric(data_wage_skills$WageKK)*1000
 
 data_wage_skills$Wage <- data_wage_skills$WageMM + data_wage_skills$WageKK
 
-#### End of Wage CLeanup####
+#### End of Wage CLeanup
 ```
 
-***Cleaned up Value Data
 ```{r S4c, echo=FALSE, include=TRUE}
 #### Start of ValueCleanup
 
@@ -527,7 +529,6 @@ data_value_skills$Value <- data_value_skills$ValueMM + data_value_skills$ValueKK
 #summary(data_value_skills)
 #### End of Value Cleanup
 ```
-
 
 ```{r S4d, echo=FALSE, include=TRUE}
 #More cleanup: 
@@ -565,7 +566,6 @@ Ball Control  - 52684
 GK Diving     - 44531
 
 
-
 ### Plots of Linear Model Wage-Skills
 ```{r S4g, echo=FALSE, include=TRUE}
 plot(wage_lm)
@@ -576,16 +576,30 @@ plot(wage_lm)
 plot(value_lm)
 ```
 
-### explain what the residuals mean
-### Check for pre linearmodel , normailty.. etc.. graphs etc..
-### take the log of the column to normalize it.
+explain what the residuals mean
+Check for pre linearmodel , normailty.. etc.. graphs etc..
+take the log of the column to normalize it.
 
 
 
+### Does Wage and Value Independent??
+```{r S4i, include=F}
 
+ 
+```
+
+##### Chi squared test
+
+
+
+```{r s4j, echo=F}
+
+ 
+
+```
 
 ### PCA Wage-Skills raw and centered
-```{r S4i, echo=FALSE, include=TRUE}
+```{r S4k, echo=FALSE, include=TRUE}
 PCA_wage_skills_C <- prcomp(data_wage_skills, center = TRUE,scale. = TRUE) #center
 PCA_wage_skills_R <- prcomp(data_wage_skills, center = TRUE,scale. = FALSE) #raw
 summary(PCA_wage_skills_C)
@@ -593,7 +607,7 @@ summary(PCA_wage_skills_R)
 ```
 
 ### PCA Value-Skills raw and centered
-```{r S4j, echo=FALSE, include=TRUE}
+```{r S4l, echo=FALSE, include=TRUE}
 PCA_value_skills_C <- prcomp(data_value_skills, center = TRUE,scale. = TRUE) #center
 PCA_value_skills_R <- prcomp(data_value_skills, center = TRUE,scale. = FALSE) #raw
 summary(PCA_value_skills_C)
