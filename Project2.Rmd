@@ -21,7 +21,7 @@ options(scientific=T, digits = 3)
 # can add quietly=T option to the require() function
 loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.packages(x,dep=T,repos="http://cran.us.r-project.org"); if(!require(x,character.only=T)) stop("Package not found") } }
 ```
-<<<<<<< HEAD
+
 ### Introduction
 
 ### FIFA Dataset 
@@ -60,8 +60,8 @@ str(fifa)
 
 ```
 
-# Smart Question 1 (BIN)
-## How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
+## Smart Question 1 (BIN)
+### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
 =======
 ### 2.2 Geographic Coverage of Data
 
@@ -344,7 +344,7 @@ predplot(pcr.fit2)
 ```
 
 # Smart Question 3 (CURTIS)
-## What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
+## What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc...
 ```{r S3, echo=FALSE, include=TRUE}
 #TEST used:  multivariate regression
 ```
@@ -352,17 +352,20 @@ predplot(pcr.fit2)
 #import data
 ```{r import}
 
+
+
+
 ```
 
 ```{r weight height conversion}
 library(stringr)
-numextract <- function(string){str_extract(string, "\\-*\\d+\\.*\\d*")}
+numextract <- function(stringr){str_extract(string, "\\-*\\d+\\.*\\d*")}
 #Weight
 data$Weight <- as.integer(numextract(data$Weight))
-#Height 
+#Height
 install.packages("gsubfn")
 library(gsubfn)
-data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + 
+data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 +
             as.numeric(y) * 2.54, sub('"', '', data$Height)))
 data$Height <- as.integer(data$Height)
 
@@ -387,8 +390,8 @@ scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Ratin
 
 scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
 ```
-1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. 
-2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.  
+1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
+2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.
 3. The scatterplot of age and potential rating shows a general downward
 ```{r model1, echo=FALSE}
 
@@ -430,14 +433,13 @@ data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
 
 ```{r S44, echo=FALSE, include=TRUE}
 
-
+## naming rows
 wage_skills <- c("Wage","Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
 
 value_skills <- c("Value", "Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
 ```
 
-
-### ***Clean Up Wage and Value Data fff
+### ***Clean Up Wage and Value Data 
 ```{r S4a, echo=FALSE, include=TRUE}
 ####CLEAN DATA (Wage and Value having same range. remove M and K and period)
 
@@ -458,11 +460,8 @@ data_value_skills$Value <- str_replace(
 )
 ```
 
-
 ***Cleaned up Wage Data
 ```{r S4b, echo=FALSE, include=TRUE}
-
-
 ####Start of Wage Cleanup
 
 data_wage_skills$WageM <- str_replace(
@@ -490,18 +489,11 @@ data_wage_skills$WageKK <- as.numeric(data_wage_skills$WageKK)*1000
 
 data_wage_skills$Wage <- data_wage_skills$WageMM + data_wage_skills$WageKK
 
-#summary(data_wage_skills$Wage)
-#head(data_wage_skills)
-#tail(data_wage_skills)
-#summary(data_wage_skills)
-
-#### End of Wage CLeanup
+#### End of Wage CLeanup####
 ```
-
 
 ***Cleaned up Value Data
 ```{r S4c, echo=FALSE, include=TRUE}
-
 #### Start of ValueCleanup
 
 data_value_skills$ValueM <- str_replace(
@@ -533,33 +525,15 @@ data_value_skills$Value <- data_value_skills$ValueMM + data_value_skills$ValueKK
 #head(data_value_skills)
 #tail(data_value_skills)
 #summary(data_value_skills)
-
 #### End of Value Cleanup
 ```
 
-### Check for pre linearmodel , normailty.. etc.. graphs etc..
-### take the log of the column to normalize it.
 
-### Tests
 ```{r S4d, echo=FALSE, include=TRUE}
-
-#TEST used: 
-#Wage - do PCA/PCR to find out the attributes that explain it the most
-#Value- do PCA/PCR to find out the attributes that explain it the most
-#Skill/Characteristics - classify the most important attributes into skills and characteristics
-#Make sure p values are good
-#Use the model to predict. Use multvariable regression
-# PCA wage_skills
-
+#More cleanup: 
 data_wage_skills <- na.omit(data_wage_skills[c(wage_skills)])
 data_value_skills <- na.omit(data_value_skills[c(value_skills)])
 
-#head(data_wage_skills)
-#tail(data_wage_skills)
-#summary(data_wage_skills)
-#head(data_value_skills)
-#tail(data_value_skills)
-#summary(data_value_skills)
 ```
 
 What is interesting is the skills that affect value and wage the most are reactions, composure, ball control and GK diving. all these made top 5 skills that explain wage and value. These skills are the best predictors of wage and value. 
@@ -568,7 +542,6 @@ We can see however that other than these four skills, GK handling seems to expla
 
 ### Linear Model Wage-Skills
 ```{r S4e, echo=FALSE, include=TRUE}
-
 wage_lm <- lm(Wage ~ ., data = data_wage_skills)
 summary(wage_lm)
 ```
@@ -598,12 +571,14 @@ GK Diving     - 44531
 plot(wage_lm)
 ```
 
-
 ### Plots of Linear Model Value-Skills
 ```{r S4h, echo=FALSE, include=TRUE}
 plot(value_lm)
 ```
 
+### explain what the residuals mean
+### Check for pre linearmodel , normailty.. etc.. graphs etc..
+### take the log of the column to normalize it.
 
 
 
