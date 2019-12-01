@@ -20,6 +20,9 @@ options(scientific=T, digits = 3)
 ```{r basicfcn, include=F}
 # can add quietly=T option to the require() function
 loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.packages(x,dep=T,repos="http://cran.us.r-project.org"); if(!require(x,character.only=T)) stop("Package not found") } }
+loadPkg("car")
+loadPkg("pls")
+library(corrplot)
 ```
 
 ### Introduction
@@ -240,7 +243,6 @@ anova(mp.pcr1, mp.pcr2)
 # Smart Question 2 (RUSSELL)
 ## What variables contribute most to a player’s skill in penalty shots?
 ```{r S2, echo=FALSE, include=TRUE}
-loadPkg("pls")
 
 #Reload data
 data <- read.csv("data.csv", check.names = FALSE, stringsAsFactors = FALSE)
@@ -258,7 +260,7 @@ To begin the analysis, we drop all character variables and delete missing values
 
 
 ```{r EDA, echo=FALSE, include=TRUE}
-library(corrplot)
+
 barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
 
 #subset data
@@ -280,7 +282,7 @@ corrplot(M, method="circle")
 ```
 The EDA process begins by subsetting the data set to include only variables of interest. We maintain Penalties are our dependent variable and include 9 explanatory variables. The summary statistics for Penalties indicate that players' penalties skill range from a low of 5.0 to a high of 92.0 with a mean of 49.0 and a stardard deviation of 15.7. The summary output of the correlation matrix suggest that most variables are correlated in some way to other variables. The graphical display of the correlation matrix visually confirms the correlations. The data may be appropriate for linear regression, but the high correlation associated with some variables may suggest multicollinearity.     
 ```{r linear, echo=FALSE, include=TRUE}
-loadPkg("car")
+
 barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
 
 #add linear reg, calculate mse
@@ -295,6 +297,7 @@ hist(reg.res, main="Histogram of Residuals", xlab="Residuals", ylab="Frequency",
 We build a multiple linear regression model where we regress Penalties on Aggression, Age, Stamina, ShotPower, Balance, BallControl, LongPassing, HeadingAccuracy and Strength. The coefficient on the intercept suggests that the mean skill value for players is 0.76, but the coefficient is not statistically significant at any level. However, setting the explanatory variables to zero and interpreting the intercept does not make sense. Age is an explanatory variable, and a zero value of age is not realistic. Additionally, the explanatory variables in the data set do not take on values of zero.  We suggest the insignificance of the intercept is OK.  The coefficients on all explanatory variables are statistically significant at the zero percent level, and suggest that all variables in the regression contribute to predicting a player's penalty skills. The VIF values for the explanatory variables suggest that there is no multicollinearity among the variables, but the variable BallControl is close to the multicollinearity threshhold of 10 with a value of 7.17.  The multiple regression model displays an R-squared value of 0.713, and suggests that the model explains 71 percent of the variance in the dependent variable. The histogram of the regression residuals suggest that the residuals are close to normally distributed. The multiple regression model is a good model that can accurately predict a player's skill in penalty shots. 
 
 ``` {r PCA, echo=FALSE, include=TRUE}
+
 barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
 
 #scale data
