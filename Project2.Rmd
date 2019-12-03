@@ -478,64 +478,75 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 #TEST used:  multivariate regression
 ```
 
-import data
-```{r import}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
-```{r weight height conversion}
+```{r basicfcn, include=F}
+# Knit does not work with install.packages functions. Any install.packages statements in the RMD file needs to be commented out before knitting. 
+# And if the RMD is sent to another person/computer that requires installing the package, the user can remove the commenting and install the package.
+# Here, we use another option by introducting this convenient function, we named it loadPkg(), which uses install.packages() and require(). 
+# The function require() is similar to library(), except it returns a TRUE/FALSE value.
+# You can add quietly=T option to the require() function
+loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.packages(x,dep=T,repos="http://cran.us.r-project.org"); if(!require(x,character.only=T)) stop("Package not found") } }
+```
+
+#import data
+```{r import}
+library(readr)
+data <- read_csv("data.csv")
+View(data)
+str(data)
+```
+
+```{r weight height transform, include=F}
 library(stringr)
-numextract <- function(stringr){str_extract(string, "\\-*\\d+\\.*\\d*")}
+
+numextract <- function(string){str_extract(string, "\\-*\\d+\\.*\\d*")}
+
 #Weight
 data$Weight <- as.integer(numextract(data$Weight))
-#Height
-install.packages("gsubfn")
+
+#Height 
 library(gsubfn)
-data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 +
+data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + 
             as.numeric(y) * 2.54, sub('"', '', data$Height)))
 data$Height <- as.integer(data$Height)
-
 ```
+
+
 
 ```{r gk}
 gk<- subset(data,Position=="GK")
 gk <- gk[,colSums(is.na(gk))<nrow(gk)]
 gk
-View(gk)
 ```
 
 ```{r normality check}
-install.packages("car")
 library(car)
 
 hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange")
 
 qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
-# qqline(gk$Potential)
+qqline(gk$Potential)
+
 scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating")
 
 scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
 ```
-<<<<<<< HEAD
-1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. 
-2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.  
-3. The scatterplot of age and potential rating shows a general downward trend, younger goalkeepers generally have higher potential.
-=======
-1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
-2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.
-3. The scatterplot of age and potential rating shows a general downward
 
->>>>>>> 42d4cac78199323aaf8300a2d9af202657cd7102
 ```{r model1, echo=FALSE}
-fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data=gk)
 
+fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk)
 summary(fit1)
-
-vif(fit1)
-
 fit1
 ```
 
+
 ```{r model1b, echo=F, include=T}
+dev.new()
+
 plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
 ```
 
@@ -557,17 +568,15 @@ This plot helps us to find influential cases (i.e., subjects) if any. Not all ou
 
 ```{r relative importance}
 # Calculate Relative Importance for Each Predictor
-install.packages("relaimpo")
 library(relaimpo)
 calc.relimp(fit1, type = c("lmg"), rela=TRUE)
 
 # Bootstrap Measures of Relative Importance (1000 samples) 
 boot <- boot.relimp(fit1, b = 1000, rank = TRUE, 
   diff = TRUE, rela = TRUE)
-booteval.relimp(boot) # print result
 plot(booteval.relimp(boot,sort=TRUE)) # plot result
-```
 
+```
 
 ## Smart Question 4 (GREGG)
 #### How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?
