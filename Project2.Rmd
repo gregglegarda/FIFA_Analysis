@@ -372,6 +372,7 @@ data$Height <- as.integer(data$Height)
 gk<- subset(data,Position=="GK")
 gk <- gk[,colSums(is.na(gk))<nrow(gk)]
 gk
+View(gk)
 ```
 
 ```{r normality check}
@@ -431,7 +432,6 @@ boot <- boot.relimp(fit1, b = 1000, rank = TRUE,
   diff = TRUE, rela = TRUE)
 booteval.relimp(boot) # print result
 plot(booteval.relimp(boot,sort=TRUE)) # plot result
-
 ```
 
 
