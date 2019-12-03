@@ -148,16 +148,10 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 ```
 
 
-## Smart Question 1 (BIN)
-#### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
+## Player Positions, Values, and Skills (BIN)
+#### Q1: How did the value of players vary according to the positions they play?
 
-
-```{r S1, echo=FALSE, include=TRUE}
-#TEST used: Classification (KNN, Decision trees)
-```
-
-
-```{r}
+```{r, echo=F}
 library(tidyverse)
 library(ggplot2)
 library(scales)
@@ -165,12 +159,8 @@ library(ggthemes)
 ```
 
 
-```{r}
+```{r, echo=F}
 fifa <- read.csv('data.csv')
-```
-
-
-```{r}
 fifa <- fifa %>%
   mutate(cleanvalue = ifelse(str_detect(Value, "K"), 1000, ifelse(str_detect(Value, "M"), 1000000, 1))) %>%
   mutate(value = as.numeric(str_extract(Value, "[[:digit:]]+\\.*[[:digit:]]*")) * cleanvalue)
@@ -185,7 +175,9 @@ playervalue <- fifa%>%
 playervalue
 ```
 
-```{r}
+
+
+```{r, echo=F}
 playervalue <- fifa%>%
   ggplot(aes(y= value)) +
   geom_boxplot(outlier.colour="black", outlier.shape=16,
@@ -197,30 +189,23 @@ playervalue
 ```
 
 
-```{r}
+```{r, echo=F}
 positions <- unique(fifa$Position)
 positions
-```
-
-
-
-```{r}
 middle <- c("LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LDM", "CDM", "RDM")
 forward <- c("LS", "LW", "LF", "ST", "CF", "RF", "RS", "RW")
 back <- c("LWB", "LB", "CB", "LCB", "RCB", "RB", "RWB")
-
 ```
 
 
 
-```{r}
+```{r, echo=F}
 fifa <- fifa %>% 
   mutate(PositionGroup = ifelse(Position %in% back, "Back", ifelse(Position %in% middle, "Middle", ifelse(Position %in% forward, "Forward", "Unknown"))))
-
 ```
 
 
-```{r}
+```{r, echo=F}
 PositionValue <- fifa %>%
   filter(PositionGroup != "Unknown") %>%
   ggplot(aes(x= PositionGroup, y= value)) +
@@ -232,25 +217,25 @@ PositionValue <- fifa %>%
 PositionValue
 ```
 
-
-```{r}
+#### Q2: What are the main skills that attachers tend to have?
+```{r, echo=F}
 fifaAttackers <- fifa %>%
   filter(PositionGroup == "Forward")
 ```
 
 
 
-```{r}
+```{r, echo=F}
 skills_names <- c("Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle")
 ```
 
-```{r}
+```{r, echo=F}
 fifa_aplayers <- na.omit(fifaAttackers[c("Position", skills_names, "Value")])
 ```
 
 
 
-```{r}
+```{r, echo=F}
 fifa_aplayers %>%
   gather(Skills, value, 2:30) %>%
   ggplot(aes(x=value, fill=Skills)) +
@@ -262,7 +247,7 @@ fifa_aplayers %>%
 ```
 
 
-```{r}
+```{r, echo=F}
 fifa_aplayers %>%
   gather(Skills, values, 2:30) %>%
   ggplot(aes(x=reorder(Skills, values, FUN=median), y=values, fill=Skills)) +
@@ -274,20 +259,20 @@ fifa_aplayers %>%
   coord_flip()
 ```
 
-```{r}
+```{r, echo=F}
 corrplot(cor(fifa_aplayers[2:30]), type="upper", method="ellipse", tl.cex=0.9)
 ```
 
 
-```{r}
+```{r, echo=F}
 nfifa_skills <- as.data.frame(scale(fifa_aplayers[2:30]))
 ```
 
-```{r}
+```{r, echo=F}
 library(gridExtra)
 ```
 
-```{r}
+```{r, echo=F}
 bss <- numeric()
 wss <- numeric()
 
@@ -319,7 +304,7 @@ grid.arrange(p3, p4, ncol=2)
 ```
 
 
-```{r}
+```{r, echo=F}
 set.seed(1234)
 
 nfifa_skills_k4 <- kmeans(nfifa_skills, centers=4)
@@ -328,22 +313,22 @@ nfifa_skills_k4 <- kmeans(nfifa_skills, centers=4)
 
 
 
-```{r}
+```{r, echo=F}
 str(nfifa_skills_k4)
 ```
 
 
-```{r}
+```{r, echo=F}
 nfifa_skills_k4
 ```
 
 
-```{r}
+```{r, echo=F}
 library(factoextra)
 fviz_cluster(nfifa_skills_k4, data = nfifa_skills)
 ```
 
-```{r}
+```{r, echo=F}
 library(GGally)
 ggpairs(cbind(nfifa_skills, Cluster=as.factor(nfifa_skills_k4$cluster)),
         columns=1:6, aes(colour=Cluster, alpha=0.5),
@@ -354,22 +339,22 @@ ggpairs(cbind(nfifa_skills, Cluster=as.factor(nfifa_skills_k4$cluster)),
 ```
 
 
-```{r}
+```{r, echo=F}
 mps.pr.out =prcomp(nfifa_skills, scale =TRUE)
 summary(mps.pr.out)
 mps.pr.out$rotation
 ```
 
-```{r}
+```{r, echo=F}
 biplot(mps.pr.out, scale = 0)
 ```
 
 
-```{r}
+```{r, echo=F}
 plot(mps.pr.out, type="l")
 ```
 
-```{r}
+```{r, echo=F}
 mps.pr.var <- (mps.pr.out$sdev^2)
 mps.pve <- mps.pr.var/sum(mps.pr.var)
 plot(cumsum(mps.pve), xlab="Principal Component (standardized)", ylab ="Cumulative Proportion of Variance Explained",ylim=c(0,1),type="b")
@@ -377,7 +362,7 @@ plot(cumsum(mps.pve), xlab="Principal Component (standardized)", ylab ="Cumulati
 
 
 
-```{r}
+```{r, echo=F}
 mps.pr.out$rotation
 ```
 
