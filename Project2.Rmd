@@ -477,8 +477,8 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 
 
-<!-- ## Smart Question 3  -->
-<!-- #### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc...  -->
+## Smart Question 3  
+#### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
 <!-- ```{r S3, echo=FALSE, include=TRUE} -->
 <!-- #TEST used:  multivariate regression -->
 <!-- ``` -->
@@ -503,21 +503,14 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 <!--             as.numeric(y) * 2.54, sub('"', '', data$Height))) -->
 <!-- data$Height <- as.integer(data$Height) -->
 
-<<<<<<< HEAD
 <!-- ``` -->
-=======
-```{r gk}
-gk<- subset(data,Position=="GK")
-gk <- gk[,colSums(is.na(gk))<nrow(gk)]
-gk
-View(gk)
-```
->>>>>>> d8595722be3c0fb296bc3ea052e8f2f94c7f65bf
+
 
 <!-- ```{r gk} -->
 <!-- gk<- subset(data,Position=="GK") -->
 <!-- gk <- gk[,colSums(is.na(gk))<nrow(gk)] -->
 <!-- gk -->
+<!-- View(gk) -->
 <!-- ``` -->
 
 <!-- ```{r normality check} -->
@@ -526,7 +519,7 @@ View(gk)
 
 <!-- hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange") -->
 
-<<<<<<< HEAD
+
 <!-- qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
 <!-- # qqline(gk$Potential) -->
 <!-- scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating") -->
@@ -537,20 +530,16 @@ View(gk)
 <!-- 2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings. -->
 <!-- 3. The scatterplot of age and potential rating shows a general downward -->
 
-<!-- ```{r model1, echo=FALSE} -->
-=======
+```{r model1, echo=FALSE} 
+
 scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
 ```
-<<<<<<< HEAD
+
 1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. 
 2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.  
 3. The scatterplot of age and potential rating shows a general downward trend, younger goalkeepers generally have higher potential.
-=======
-1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
-2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.
-3. The scatterplot of age and potential rating shows a general downward
 
->>>>>>> 42d4cac78199323aaf8300a2d9af202657cd7102
+
 ```{r model1, echo=FALSE}
 fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data=gk)
 
@@ -560,7 +549,7 @@ vif(fit1)
 
 fit1
 ```
->>>>>>> d8595722be3c0fb296bc3ea052e8f2f94c7f65bf
+
 
 <!-- fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk) -->
 <!-- summary(fit1) -->
@@ -600,6 +589,17 @@ boot <- boot.relimp(fit1, b = 1000, rank = TRUE,
 booteval.relimp(boot) # print result
 plot(booteval.relimp(boot,sort=TRUE)) # plot result
 ```
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Smart Question 4 
