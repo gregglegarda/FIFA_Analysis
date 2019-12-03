@@ -431,6 +431,7 @@ boot <- boot.relimp(fit1, b = 1000, rank = TRUE,
   diff = TRUE, rela = TRUE)
 booteval.relimp(boot) # print result
 plot(booteval.relimp(boot,sort=TRUE)) # plot result
+
 ```
 
 
