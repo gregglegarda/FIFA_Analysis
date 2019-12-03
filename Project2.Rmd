@@ -420,6 +420,18 @@ It’s also called Spread-Location plot. This plot shows if residuals are spread
 
 This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases.
 
+```{r relative importance}
+# Calculate Relative Importance for Each Predictor
+install.packages("relaimpo")
+library(relaimpo)
+calc.relimp(fit1, type = c("lmg"), rela=TRUE)
+
+# Bootstrap Measures of Relative Importance (1000 samples) 
+boot <- boot.relimp(fit1, b = 1000, rank = TRUE, 
+  diff = TRUE, rela = TRUE)
+booteval.relimp(boot) # print result
+plot(booteval.relimp(boot,sort=TRUE)) # plot result
+```
 
 
 # Smart Question 4 (GREGG)
