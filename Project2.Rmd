@@ -505,12 +505,8 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 #TEST used:  multivariate regression
 ```
 
-#import data
+import data
 ```{r import}
-
-
-
-
 ```
 
 ```{r weight height conversion}
@@ -540,8 +536,7 @@ library(car)
 hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange")
 
 qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
-qqline(gk$Potential)
-
+# qqline(gk$Potential)
 scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating")
 
 scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
@@ -549,6 +544,7 @@ scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Pote
 1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
 2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.
 3. The scatterplot of age and potential rating shows a general downward
+
 ```{r model1, echo=FALSE}
 
 fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk)
@@ -597,10 +593,10 @@ value_skills <- c("Value", "Crossing", "Finishing", "HeadingAccuracy", "ShortPas
 
 wage_value <- c("Value","Wage")
 
+
 ```
 
-
-First, we cleaned up and formetted the Wage and Value column by first removing the pound(€) sign. We then wanted to remove the non-numerical characters in the data "M", "K", and ".". To keep the data meaningful, we created a column for M and a column for K for both Wage and Value and copied ththem in their respective columns before removing the characters. The only thing left is numbers and periods. we then multiplied the M column with 1,000,000 and K column with 1,000. After this, We merged them into their respective Wage and Value columns now formatted as numericalv values ready for operations and functions. We also omitted NA values just incase there are some.
+First, we cleaned up and formetted the Wage and Value column by first removing the pound(€) sign. We then wanted to remove the non-numerical characters in the data "M", "K", and ".". To keep the data meaningful, we created a column for M and a column for K for both Wage and Value and copied ththem in their respective columns before removing the characters. The only thing left is numbers and periods. we then multiplied the M column with 1,000,000 and K column with 1,000. After this, We merged them into their respective Wage and Value columns now formatted as numericalv values ready for operations and functions. We cahnged the skill int values to numeric and we also omitted NA values just incase there are some.
 
 ```{r S4a, echo=FALSE, include=TRUE}
 ####CLEAN DATA (Wage and Value having same range. remove M and K and period)
@@ -650,8 +646,7 @@ data_wage_skills$WageKK <- as.numeric(data_wage_skills$WageKK)*1000
 
 data_wage_skills$Wage <- data_wage_skills$WageMM + data_wage_skills$WageKK
 
-# take log
-#data_wage_skills$Wage < - log(data_wage_skills$Wage)
+
 #### End of Wage CLeanup
 ```
 
@@ -683,22 +678,36 @@ data_value_skills$ValueKK <- as.numeric(data_value_skills$ValueKK)*1000
 
 data_value_skills$Value <- data_value_skills$ValueMM + data_value_skills$ValueKK
 
-# take log
-#data_value_skills$Value < - log(data_value_skills$Value)
 #### End of Value Cleanup
 ```
 
 ```{r S4d, echo=FALSE, include=FALSE}
-#More cleanup: 
+#More cleanup and formatting 
 data_wage_skills <- na.omit(data_wage_skills[c(wage_skills)])
 data_value_skills <- na.omit(data_value_skills[c(value_skills)])
+data_wage_skills[2:35] <- lapply(data_wage_skills[2:35], as.numeric)
+data_value_skills[2:35] <- lapply(data_value_skills[2:35], as.numeric)
 
 wage_value$Wage <- data_wage_skills$Wage
 wage_value$Value <- data_value_skills$Value
+
+# take log individually
+data_wage_skills$Wage < - log(data_wage_skills$Wage)
+data_value_skills$Value < - log(data_value_skills$Value)
+wage_value$Wage <-log(wage_value$Wage)
+wage_value$Value <- log(wage_value$Value)
+
+data_wage_skills$Wage < - log(data_wage_skills$Wage)
+data_value_skills$Value < - log(data_value_skills$Value)
+wage_value$Wage <-log(wage_value$Wage)
+wage_value$Value <- log(wage_value$Value)
+
+
 ```
 
 
-``` {r outliers, echo=FALSE, include=TRUE}
+#### Structure of the Datasets
+``` {r structure1, echo=FALSE, include=TRUE}
 # # remove outliers
 # outlierKD(data_value_skills, Value, 'y')
 # summary(data_value_skills$Value)
@@ -710,17 +719,20 @@ wage_value$Value <- data_value_skills$Value
 # summary(wage_value$Wage)
 # outlierKD(wage_value, Value, 'y')
 # summary(wage_value$Value)
+
+str(data_wage_skills)
+str(data_value_skills)
 ```
 
 #### HISTOGRAM
-We can see below in the histogram the both Wage and Value of the playeds are heavily skewed to the right.
+We transformed the Wage and Value because they were heavily skewed to the right. After the log transformation, the historgam looks a little more normal. For Wage however, although it is better, is still right skewed. We tried using Tukey transformation which is stronger than log() but it was only limited to about 5,000 observations. We have morethan 1 million observations. This is one of our limitations.
 ```{r S4ee, echo=FALSE, include=TRUE}
 hist(wage_value$Wage, xlab = "Wage", main = "Histogram of Wage", col="cornsilk3")
 hist(wage_value$Value, xlab = "Value", main = "Histogram of Value", col = "cornsilk2")
 
 ```
 
-#### MULTIPLE REGRESSION
+### 4.1 Multiple Regression
 To answer the question, we performed multiple regressions for Wage and Value with Skills and have the results shown below. We showed the top 5 skills that explain Wage and Value.
 
 #### Wage-Skills
@@ -747,44 +759,51 @@ Composure     - 53780,
 Ball Control  - 52684, 
 GK Diving     - 44531
 
-#### Findings
+#### Result and Findings from the Multiple Regression
 What is interesting is the skills that affect value and wage the most are reactions, composure, ball control and GK diving. all these made top 5 skills that explain wage and value. These skills are the best predictors of wage and value. We can see however that other than these four skills, GK handling seems to explain wage and Short passing seems to explain a Players value.
 
+### 4.2 Analysis of the Models
+We analysed the models to see if it holds with the models assumptions. We plotted the residuals and  looked at the VIF values.
 
+#### Wage Plot of the Residuals
+```{r S4plotw, echo=FALSE, include=TRUE}
+#### PLOT OF RESIDUALS
+#Wage residuals
+plot(wage_lm)
+```
+
+#### Value Plot of the Residuals
+```{r S4plotv, echo=FALSE, include=TRUE}
+#Wage residuals
+plot(value_lm)
+```
+
+#### Findings from the Plots
+We reviewed the plots and both Wage and value have similar results. These are our observations:
+
+Residual vs fitted - What we want is a linear pattern and we dont want non linear patterns. It seems like in this case even if it is curved the pattern is quite linear considering we have a huge dataset (its okay)
+
+QQ plot - What we want here is the residual points not deviating so much from the line. In this case, they deviate off the line severely (not good)
+
+Scale location - We want residuals randomly spread throughout the line. In this case residuals not spread randomly spread, and appears that it is concentrated in the left and starts to spread out on the right (not good)
+
+Residual vs Leverage - we want residuals to be inside Cooks Distance or the dashed line. In this case, we cannot see the dashed line. We are not sure if it is inside or outside the dashed line.
 
 
 #### Wage VIF
 ```{r S4g, echo=FALSE, include=TRUE}
 #### VIFs and HISTOGRAM OF RESIDUALS
-
-#Wage residuals
+#Wage VIF
 vif(wage_lm)
-wage_lm_res <- resid(wage_lm)
-#hist(wage_lm_res, main="Histogram of Residuals for Wage", xlab="Residuals for Wage", ylab="Frequency", col=barcolors)
 ```
-
-We can see in the VIF results the most correlated skills with Wage:
-GK Reflexes
-GK Diving
-Standing Tackle
-GK Handling
-GK Positioning
 
 #### Value VIF
 ```{r S4gg, echo=FALSE, include=TRUE}
 vif(value_lm)
-value_lm_res <- resid(value_lm)
-#hist(value_lm_res, main="Histogram of Residuals for Value", xlab="Residuals for Value", ylab="Frequency", col=barcolors)
-
 ```
-We can see in the VIF results the most correlated skills with Value
-GK Reflexes
-GK Diving
-Standing Tackle
-GK Handling
-GK Positioning
 
-
+#### MULTICOLLINEARITY
+It seems like we have multicollinearity since our VIFs are way greater than 5. The independent variables are too correlated with each other and these Values Suggest that they are poorly estimated.
 
 
 ```{r S4i, echo=FALSE, include=TRUE}
