@@ -151,8 +151,8 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 
 ## Smart Question 1
 #### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
-=======
-## Player Positions, Values, and Skills (BIN)
+
+## Player Positions, Values, and Skills 
 #### Q1: How did the value of players vary according to the positions they play?
 
 ```{r, echo=F}
