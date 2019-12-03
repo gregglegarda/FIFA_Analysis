@@ -71,7 +71,7 @@ library(corrplot)
 
 ## FIFA Dataset 
 
-## Chapter 1: Introduction (Curtis)
+## Chapter 1: Introduction
 FIFA 19 is a football (soccer) simulation video game developed by EAsports. It is a part of the FIFA series, which has been produced for over 20 years. Every year, a FIFA game is released, FIFA 2019 was released in 2018, at the beginning of the 2018-2019 season of major soccer leagues in Europe. FIFA 2019 has over 31 leagues and more than 720 playable teams from around the world. This game contains an enormous amount of data which demonstrates different ratings and information of players, ranging from age and nationality to skillsets such as finishing, kicking, heading, tackling and even weak-foot strength. 
 
 How do they complete such a huge database of ratings for every single player from all the licensed leagues? EA Sports employs a team of 25 EA Producers and 400 outside data contributors, who are led by the Head of Data Collection & Licensing. This team is responsible for ensuring all player data is up to date, while a community of over 6,000 FIFA Data Reviewers or Talent Scouts from all over the world are constantly providing suggestions and alterations to the database. 
@@ -148,7 +148,7 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 ```
 
 
-## Smart Question 1 (BIN)
+## Smart Question 1
 #### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
 
 
@@ -284,7 +284,7 @@ anova(mp.pcr1, mp.pcr2)
 
 
 
-## Smart Question 2 (RUSSELL)
+## Smart Question 2
 #### What variables contribute most to a player’s skill in penalty shots?
 ```{r S2, echo=FALSE, include=TRUE}
 
@@ -401,83 +401,87 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 
 
-## Smart Question 3 (CURTIS)
-#### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
-```{r S3, echo=FALSE, include=TRUE}
-#TEST used:  multivariate regression
-```
+<!-- ## Smart Question 3  -->
+<!-- #### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc...  -->
+<!-- ```{r S3, echo=FALSE, include=TRUE} -->
+<!-- #TEST used:  multivariate regression -->
+<!-- ``` -->
 
-import data
-```{r import}
-```
+<!-- import data -->
+<!-- ```{r import} -->
+<!-- data <- read.csv("data.csv") -->
+<!-- ``` -->
 
-```{r weight height conversion}
-library(stringr)
-numextract <- function(stringr){str_extract(string, "\\-*\\d+\\.*\\d*")}
-#Weight
-data$Weight <- as.integer(numextract(data$Weight))
-#Height
-install.packages("gsubfn")
-library(gsubfn)
-data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 +
-            as.numeric(y) * 2.54, sub('"', '', data$Height)))
-data$Height <- as.integer(data$Height)
+<!-- ```{r weightheightconversion} -->
+<!-- library(stringr) -->
+<!-- numextract <- function(string){  -->
+<!--   str_extract(string, "\\-*\\d+\\.*\\d*") -->
+<!-- }  -->
+<!-- #Weight -->
+<!-- data$Weight <- as.integer(numextract(data$Weight)) -->
 
-```
+<!-- #Height -->
+<!-- install.packages("gsubfn") -->
+<!-- library(gsubfn) -->
+<!-- data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + -->
+<!--             as.numeric(y) * 2.54, sub('"', '', data$Height))) -->
+<!-- data$Height <- as.integer(data$Height) -->
 
-```{r gk}
-gk<- subset(data,Position=="GK")
-gk <- gk[,colSums(is.na(gk))<nrow(gk)]
-gk
-```
+<!-- ``` -->
 
-```{r normality check}
-install.packages("car")
-library(car)
+<!-- ```{r gk} -->
+<!-- gk<- subset(data,Position=="GK") -->
+<!-- gk <- gk[,colSums(is.na(gk))<nrow(gk)] -->
+<!-- gk -->
+<!-- ``` -->
 
-hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange")
+<!-- ```{r normality check} -->
+<!-- install.packages("car") -->
+<!-- library(car) -->
 
-qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
-# qqline(gk$Potential)
-scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating")
+<!-- hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange") -->
 
-scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
-```
-1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
-2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.
-3. The scatterplot of age and potential rating shows a general downward
+<!-- qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
+<!-- # qqline(gk$Potential) -->
+<!-- scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating") -->
 
-```{r model1, echo=FALSE}
+<!-- scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating") -->
+<!-- ``` -->
+<!-- 1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. -->
+<!-- 2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings. -->
+<!-- 3. The scatterplot of age and potential rating shows a general downward -->
 
-fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk)
-summary(fit1)
-vif(fit1)
-fit1
-```
+<!-- ```{r model1, echo=FALSE} -->
 
-```{r model1b, echo=F, include=T}
-plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
-```
+<!-- fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk) -->
+<!-- summary(fit1) -->
+<!-- vif(fit1) -->
+<!-- fit1 -->
+<!-- ``` -->
 
-1. Residuals vs Fitted
+<!-- ```{r model1b, echo=F, include=T} -->
+<!-- plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
+<!-- ``` -->
 
-This plot shows if residuals have non-linear patterns. There could be a non-linear relationship between predictor variables and an outcome variable and the pattern could show up in this plot if the model doesn’t capture the non-linear relationship. If you find equally spread residuals around a horizontal line without distinct patterns, that is a good indication you don’t have non-linear relationships.
+<!-- 1. Residuals vs Fitted -->
 
-2. Normal Q-Q
+<!-- This plot shows if residuals have non-linear patterns. There could be a non-linear relationship between predictor variables and an outcome variable and the pattern could show up in this plot if the model doesn’t capture the non-linear relationship. If you find equally spread residuals around a horizontal line without distinct patterns, that is a good indication you don’t have non-linear relationships. -->
 
-This plot shows if residuals are normally distributed. Do residuals follow a straight line well or do they deviate severely? It’s good if residuals are lined well on the straight dashed line.
+<!-- 2. Normal Q-Q -->
 
-3. Scale-Location
+<!-- This plot shows if residuals are normally distributed. Do residuals follow a straight line well or do they deviate severely? It’s good if residuals are lined well on the straight dashed line. -->
 
-It’s also called Spread-Location plot. This plot shows if residuals are spread equally along the ranges of predictors. This is how you can check the assumption of equal variance (homoscedasticity). It’s good if you see a horizontal line with equally (randomly) spread points.
+<!-- 3. Scale-Location -->
 
-4. Residuals vs Leverage
+<!-- It’s also called Spread-Location plot. This plot shows if residuals are spread equally along the ranges of predictors. This is how you can check the assumption of equal variance (homoscedasticity). It’s good if you see a horizontal line with equally (randomly) spread points. -->
 
-This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases.
+<!-- 4. Residuals vs Leverage -->
+
+<!-- This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases. -->
 
 
 
-## Smart Question 4 (GREGG)
+## Smart Question 4 
 #### How do specific Skill Sets/ Characteristics affect a players wage? How about value? Can we say Skills are a good predictor of Wage and value?
 
 ```{r r, echo=FALSE, include=TRUE}
@@ -740,7 +744,7 @@ library(corrplot)
 
 
 
-## Smart Question 5 (JAY)
+## Smart Question 5 
 #### How do physical factors (age, preferred foot, overall skill, international reputation, position in the field, weight, and height) help the soccer professionals to get wage for higher 100,000 Euro per week?
 ```{r S5, echo=FALSE, include=TRUE}
 #Wage(Factor) – 1 (Higher 100k euro per week), 0 (lower 100k euro per week).
