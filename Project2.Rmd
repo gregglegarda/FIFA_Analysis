@@ -148,139 +148,215 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 ```
 
 
+<<<<<<< HEAD
 ## Smart Question 1
 #### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
+=======
+## Player Positions, Values, and Skills (BIN)
+#### Q1: How did the value of players vary according to the positions they play?
 
-
-```{r S1, echo=FALSE, include=TRUE}
-#TEST used: Classification (KNN, Decision trees)
-```
-
-
-```{r}
+```{r, echo=F}
 library(tidyverse)
 library(ggplot2)
-
+library(scales)
+library(ggthemes)
 ```
+>>>>>>> d8595722be3c0fb296bc3ea052e8f2f94c7f65bf
 
 
-```{r}
+```{r, echo=F}
 fifa <- read.csv('data.csv')
+fifa <- fifa %>%
+  mutate(cleanvalue = ifelse(str_detect(Value, "K"), 1000, ifelse(str_detect(Value, "M"), 1000000, 1))) %>%
+  mutate(value = as.numeric(str_extract(Value, "[[:digit:]]+\\.*[[:digit:]]*")) * cleanvalue)
+
+playervalue <- fifa%>%
+  ggplot(aes(x= value)) +
+  geom_histogram(color = "white", fill = "darkgrey") +
+  scale_x_continuous(labels = dollar_format(prefix = "€")) +
+  ggtitle("Value of the Players") +
+  theme_economist()
+
+playervalue
 ```
 
 
-```{r}
-positions_names <- c("LS", "ST", "RS", "LW", "LF", "CF", "RF", "RW", "LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LWB", "LDM", "CDM", "RDM", "RWB", "LB", "LCB", "CB", "RCB", "RB")
-skills_names <- c("Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle", "GKDiving", "GKHandling", "GKKicking", "GKPositioning", "GKReflexes")
+
+```{r, echo=F}
+playervalue <- fifa%>%
+  ggplot(aes(y= value)) +
+  geom_boxplot(outlier.colour="black", outlier.shape=16,
+             outlier.size=2, notch=FALSE) +
+  scale_y_log10(labels = dollar_format(prefix = "€")) +
+  theme_economist()
+
+playervalue
 ```
 
-```{r}
-for (position in positions_names) {
-  fifa[position] <- lapply(fifa[position], function(rating){
-    as.integer(substr(rating, 0, 2))
-  })
+
+```{r, echo=F}
+positions <- unique(fifa$Position)
+midfielders <- c("LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LDM", "CDM", "RDM")
+strikers <- c("LS", "LW", "LF", "ST", "CF", "RF", "RS", "RW")
+defenders <- c("LWB", "LB", "CB", "LCB", "RCB", "RB", "RWB")
+fifa <- fifa %>% 
+  mutate(PositionGroup = ifelse(Position %in% defenders, "Defenders", ifelse(Position %in% midfielders, "Midfielders", ifelse(Position %in% strikers, "Strikers", "Unknown"))))
+```
+
+```{r, echo=F}
+PositionValue <- fifa %>%
+  filter(PositionGroup != "Unknown") %>%
+  ggplot(aes(x= PositionGroup, y= value)) +
+  geom_boxplot(fill = "darkgrey") +
+  scale_y_log10(labels = dollar_format(prefix = "€")) +
+  ggtitle("Player's Value based on Positions", subtitle = "Strikers have more value than Midfielders and Defenders") +
+  theme_economist()
+
+PositionValue
+```
+
+#### Q2: What skills make strikers valuable?
+```{r, echo=F}
+fifastrikers <- fifa %>%
+  filter(PositionGroup == "Strikers")
+```
+
+```{r, echo=F}
+skills_names <- c("Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle")
+```
+
+```{r, echo=F}
+fifa_aplayers <- na.omit(fifastrikers[c("Position", skills_names, "Value")])
+fifa_aplayers %>%
+  gather(Skills, value, 2:30) %>%
+  ggplot(aes(x=value, fill=Skills)) +
+  geom_histogram(colour="black", show.legend=FALSE) +
+  facet_wrap(~Skills, scales="free_x") +
+  labs(x="Scores", y="Frequency",
+       title="Skills - Histograms") +
+  theme_bw()
+```
+
+
+```{r, echo=F}
+fifa_aplayers %>%
+  gather(Skills, values, 2:30) %>%
+  ggplot(aes(x=reorder(Skills, values, FUN=median), y=values, fill=Skills)) +
+  geom_boxplot(show.legend=FALSE) +
+  labs(title="Skills - Boxplots") +
+  theme_bw() +
+  theme(axis.title.y=element_blank(),
+        axis.title.x=element_blank()) +
+  coord_flip()
+```
+
+```{r, echo=F}
+library(corrplot)
+corrplot(cor(fifa_aplayers[2:30]), type="upper", method="ellipse", tl.cex=0.9)
+```
+
+
+```{r, echo=F}
+nfifa_skills <- as.data.frame(scale(fifa_aplayers[2:30]))
+```
+
+```{r, echo=F}
+library(gridExtra)
+bss <- numeric()
+wss <- numeric()
+set.seed(1234)
+for(i in 1:10){
+  bss[i] <- kmeans(nfifa_skills, centers=i)$betweenss
+  wss[i] <- kmeans(nfifa_skills, centers=i)$tot.withinss
 }
+p1 <- qplot(1:10, bss, geom=c("point", "line"), 
+            xlab="Number of clusters", ylab="Between-cluster sum of squares") +
+  scale_x_continuous(breaks=seq(0, 10, 1)) +
+  theme_bw()
+p2 <- qplot(1:10, wss, geom=c("point", "line"),
+            xlab="Number of clusters", ylab="Total within-cluster sum of squares") +
+  scale_x_continuous(breaks=seq(0, 10, 1)) +
+  theme_bw()
+grid.arrange(p1, p2, ncol=2)
 ```
 
 
-```{r}
-fifa_players <- na.omit(fifa[c(positions_names, skills_names)])
+```{r, echo=F}
+set.seed(1234)
+nfifa_skills_k4 <- kmeans(nfifa_skills, centers=4)
+str(nfifa_skills_k4)
+```
+
+```{r, include=F}
+nfifa_skills_k4
 ```
 
 
-```{r}
-middle <- c("LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LDM", "CDM", "RDM")
-left <- c("LS", "LW", "LF", "LAM", "LM", "LCM", "LWB", "LDM", "LB", "LCB")
-right <- c("RS", "RF", "RW", "RAM", "RCM", "RM", "RDM", "RWB", "RCB", "RB")
+```{r, echo=F}
+library(factoextra)
+fviz_cluster(nfifa_skills_k4, data = nfifa_skills)
+```
+
+```{r, echo=F}
+library(GGally)
+ggpairs(cbind(nfifa_skills, Cluster=as.factor(nfifa_skills_k4$cluster)),
+        columns=1:6, aes(colour=Cluster, alpha=0.5),
+        lower=list(continuous="points"),
+        upper=list(continuous="blank"),
+        axisLabels="none", switch="both") +
+        theme_bw()
 ```
 
 
-```{r}
-middle_players <- fifa_players[c(middle, skills_names)]
-left_players <- fifa_players[c(left, skills_names)]
-right_players <- fifa_players[c(right, skills_names)]
-```
-```{r}
-head(middle_players)
-
-```
-
-```{r}
-middle_players$value <- (middle_players$LAM + middle_players$CAM + middle_players$RAM + middle_players$LM + middle_players$LCM + middle_players$CM + middle_players$RCM + middle_players$RM + middle_players$LDM + middle_players$CDM + middle_players$RDM)/11
-middle_players$value <- round(middle_players$value)
-head(middle_players)
-```
-
-
-```{r}
-middle_players_skills <- middle_players[-c(1:11, 46)]
-head(middle_players_skills)
-```
-
-```{r}
-middle_players_skills_scale = data.frame(scale(middle_players_skills))
-head(middle_players_skills_scale)
-```
-
-
-
-
-```{r}
-mps.pr.out =prcomp(middle_players_skills_scale, scale =TRUE)
+```{r, include=F}
+mps.pr.out =prcomp(nfifa_skills, scale =TRUE)
 summary(mps.pr.out)
 mps.pr.out$rotation
 ```
 
-```{r}
+```{r, echo=F}
 biplot(mps.pr.out, scale = 0)
 ```
 
 
-```{r}
+```{r, echo=F}
 plot(mps.pr.out, type="l")
 ```
 
-```{r}
+```{r, echo=F}
 mps.pr.var <- (mps.pr.out$sdev^2)
 mps.pve <- mps.pr.var/sum(mps.pr.var)
 plot(cumsum(mps.pve), xlab="Principal Component (standardized)", ylab ="Cumulative Proportion of Variance Explained",ylim=c(0,1),type="b")
 ```
 
 
-
-```{r}
-head(middle_players_skills_scale)
+```{r, echo=FALSE}
+library("FactoMineR")
+library("factoextra")
 ```
 
-```{r}
-mps.pr.out$rotation
+```{r, echo=FALSE}
+PCA(nfifa_skills, ncp = 4, graph = TRUE)
+res.mp.pca <- PCA(nfifa_skills, graph = FALSE)
+fviz_eig(res.mp.pca, addlabels = TRUE, ylim = c(0, 40))
 ```
 
-```{r}
-mp.pca <- cbind(middle_players[46], data.frame(mps.pr.out$x))
-head(mp.pca)
+```{r, echo=FALSE}
+fviz_pca_var(res.mp.pca, col.var = "contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE
+             )
 ```
-
-```{r}
-mp.pcr1 <- lm(value ~., data = mp.pca)
-summary(mp.pcr1)
+```{r, echo=FALSE} 
+var <- get_pca_var(res.mp.pca)
+corrplot(var$contrib, is.corr=FALSE)
 ```
-
 ```{r}
-mp.pcr2 <- lm(value ~ PC1 + PC2 + PC3, data = mp.pca)
-summary(mp.pcr2)
+fviz_contrib(res.mp.pca, choice = "var", axes = 1, top = 10)
+fviz_contrib(res.mp.pca, choice = "var", axes = 2, top = 10)
+fviz_contrib(res.mp.pca, choice = "var", axes = 3, top = 10)
+fviz_contrib(res.mp.pca, choice = "var", axes = 4, top = 10)
 ```
-
-```{r}
-anova(mp.pcr1, mp.pcr2)
-```
-
-
-
-
-
-
-
 
 
 
@@ -296,7 +372,7 @@ fifa <- na.omit(data)
 
 #keep numeric variables only
 fifa <- fifa[, !sapply(fifa, is.character)]
-
+<- <- <- 
 #drop ID variable
 fifa <- fifa[, c(-1, -2)]
 ```
@@ -427,7 +503,16 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 <!--             as.numeric(y) * 2.54, sub('"', '', data$Height))) -->
 <!-- data$Height <- as.integer(data$Height) -->
 
+<<<<<<< HEAD
 <!-- ``` -->
+=======
+```{r gk}
+gk<- subset(data,Position=="GK")
+gk <- gk[,colSums(is.na(gk))<nrow(gk)]
+gk
+View(gk)
+```
+>>>>>>> d8595722be3c0fb296bc3ea052e8f2f94c7f65bf
 
 <!-- ```{r gk} -->
 <!-- gk<- subset(data,Position=="GK") -->
@@ -441,6 +526,7 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 <!-- hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange") -->
 
+<<<<<<< HEAD
 <!-- qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
 <!-- # qqline(gk$Potential) -->
 <!-- scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating") -->
@@ -452,6 +538,29 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 <!-- 3. The scatterplot of age and potential rating shows a general downward -->
 
 <!-- ```{r model1, echo=FALSE} -->
+=======
+scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
+```
+<<<<<<< HEAD
+1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. 
+2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.  
+3. The scatterplot of age and potential rating shows a general downward trend, younger goalkeepers generally have higher potential.
+=======
+1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
+2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.
+3. The scatterplot of age and potential rating shows a general downward
+
+>>>>>>> 42d4cac78199323aaf8300a2d9af202657cd7102
+```{r model1, echo=FALSE}
+fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data=gk)
+
+summary(fit1)
+
+vif(fit1)
+
+fit1
+```
+>>>>>>> d8595722be3c0fb296bc3ea052e8f2f94c7f65bf
 
 <!-- fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk) -->
 <!-- summary(fit1) -->
@@ -479,6 +588,18 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 <!-- This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases. -->
 
+```{r relative importance}
+# Calculate Relative Importance for Each Predictor
+install.packages("relaimpo")
+library(relaimpo)
+calc.relimp(fit1, type = c("lmg"), rela=TRUE)
+
+# Bootstrap Measures of Relative Importance (1000 samples) 
+boot <- boot.relimp(fit1, b = 1000, rank = TRUE, 
+  diff = TRUE, rela = TRUE)
+booteval.relimp(boot) # print result
+plot(booteval.relimp(boot,sort=TRUE)) # plot result
+```
 
 
 ## Smart Question 4 
