@@ -86,7 +86,7 @@ https://www.goal.com/en-ae/news/fifa-player-ratings-explained-how-are-the-card-n
 
 
 ## Chapter 2: Description of Data
->>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
+
 
 ### 2.1 Source Data
 
@@ -148,7 +148,7 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 ```
 
 
-<<<<<<< HEAD
+
 ## Smart Question 1
 #### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
 =======
@@ -161,7 +161,7 @@ library(ggplot2)
 library(scales)
 library(ggthemes)
 ```
->>>>>>> d8595722be3c0fb296bc3ea052e8f2f94c7f65bf
+
 
 
 ```{r, echo=F}
@@ -372,7 +372,7 @@ fifa <- na.omit(data)
 
 #keep numeric variables only
 fifa <- fifa[, !sapply(fifa, is.character)]
-<- <- <- 
+
 #drop ID variable
 fifa <- fifa[, c(-1, -2)]
 ```
@@ -479,24 +479,6 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 ## Smart Question 3  
 #### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
-<!-- ```{r S3, echo=FALSE, include=TRUE} -->
-<!-- #TEST used:  multivariate regression -->
-<!-- ``` -->
-
-<<<<<<< HEAD
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
-```
-
-```{r basicfcn, include=F}
-# Knit does not work with install.packages functions. Any install.packages statements in the RMD file needs to be commented out before knitting. 
-# And if the RMD is sent to another person/computer that requires installing the package, the user can remove the commenting and install the package.
-# Here, we use another option by introducting this convenient function, we named it loadPkg(), which uses install.packages() and require(). 
-# The function require() is similar to library(), except it returns a TRUE/FALSE value.
-# You can add quietly=T option to the require() function
-loadPkg = function(x) { if (!require(x,character.only=T, quietly =T)) { install.packages(x,dep=T,repos="http://cran.us.r-project.org"); if(!require(x,character.only=T)) stop("Package not found") } }
-```
 
 #import data
 ```{r import}
@@ -531,46 +513,9 @@ gk
 
 ```{r normality check}
 library(car)
-=======
-<!-- import data -->
-<!-- ```{r import} -->
-<!-- data <- read.csv("data.csv") -->
-<!-- ``` -->
 
-<!-- ```{r weightheightconversion} -->
-<!-- library(stringr) -->
-<!-- numextract <- function(string){  -->
-<!--   str_extract(string, "\\-*\\d+\\.*\\d*") -->
-<!-- }  -->
-<!-- #Weight -->
-<!-- data$Weight <- as.integer(numextract(data$Weight)) -->
+hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange")
 
-<!-- #Height -->
-<!-- install.packages("gsubfn") -->
-<!-- library(gsubfn) -->
-<!-- data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + -->
-<!--             as.numeric(y) * 2.54, sub('"', '', data$Height))) -->
-<!-- data$Height <- as.integer(data$Height) -->
-
-<!-- ``` -->
-
-
-<!-- ```{r gk} -->
-<!-- gk<- subset(data,Position=="GK") -->
-<!-- gk <- gk[,colSums(is.na(gk))<nrow(gk)] -->
-<!-- gk -->
-<!-- View(gk) -->
-<!-- ``` -->
-
-<!-- ```{r normality check} -->
-<!-- install.packages("car") -->
-<!-- library(car) -->
-
-<!-- hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange") -->
->>>>>>> 0410b7b2ed59c47b9279e4bc0b4611235b48fdb8
-
-
-<<<<<<< HEAD
 qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
 qqline(gk$Potential)
 
@@ -579,28 +524,6 @@ scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Ratin
 scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
 ```
 
-=======
-<!-- qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
-<!-- # qqline(gk$Potential) -->
-<!-- scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating") -->
-
-<!-- scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating") -->
-<!-- ``` -->
-<!-- 1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. -->
-<!-- 2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings. -->
-<!-- 3. The scatterplot of age and potential rating shows a general downward -->
-
-```{r model1, echo=FALSE} 
-
-scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
-```
-
-1. Histogram and Q-Q plot: Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range. 
-2. The scatterplot of age and current rating shows a general upward trend, older goalkeepers tend to have greater ratings.  
-3. The scatterplot of age and potential rating shows a general downward trend, younger goalkeepers generally have higher potential.
-
-
->>>>>>> 0410b7b2ed59c47b9279e4bc0b4611235b48fdb8
 ```{r model1, echo=FALSE}
 
 fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk)
@@ -608,41 +531,28 @@ summary(fit1)
 fit1
 ```
 
-<<<<<<< HEAD
 
 ```{r model1b, echo=F, include=T}
 dev.new()
 
 plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
 ```
-=======
->>>>>>> 0410b7b2ed59c47b9279e4bc0b4611235b48fdb8
 
-<!-- fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk) -->
-<!-- summary(fit1) -->
-<!-- vif(fit1) -->
-<!-- fit1 -->
-<!-- ``` -->
+1. Residuals vs Fitted
 
-<!-- ```{r model1b, echo=F, include=T} -->
-<!-- plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00")) -->
-<!-- ``` -->
+This plot shows if residuals have non-linear patterns. There could be a non-linear relationship between predictor variables and an outcome variable and the pattern could show up in this plot if the model doesn’t capture the non-linear relationship. If you find equally spread residuals around a horizontal line without distinct patterns, that is a good indication you don’t have non-linear relationships.
 
-<!-- 1. Residuals vs Fitted -->
+2. Normal Q-Q
 
-<!-- This plot shows if residuals have non-linear patterns. There could be a non-linear relationship between predictor variables and an outcome variable and the pattern could show up in this plot if the model doesn’t capture the non-linear relationship. If you find equally spread residuals around a horizontal line without distinct patterns, that is a good indication you don’t have non-linear relationships. -->
+This plot shows if residuals are normally distributed. Do residuals follow a straight line well or do they deviate severely? It’s good if residuals are lined well on the straight dashed line.
 
-<!-- 2. Normal Q-Q -->
+3. Scale-Location
 
-<!-- This plot shows if residuals are normally distributed. Do residuals follow a straight line well or do they deviate severely? It’s good if residuals are lined well on the straight dashed line. -->
+It’s also called Spread-Location plot. This plot shows if residuals are spread equally along the ranges of predictors. This is how you can check the assumption of equal variance (homoscedasticity). It’s good if you see a horizontal line with equally (randomly) spread points.
 
-<!-- 3. Scale-Location -->
+4. Residuals vs Leverage
 
-<!-- It’s also called Spread-Location plot. This plot shows if residuals are spread equally along the ranges of predictors. This is how you can check the assumption of equal variance (homoscedasticity). It’s good if you see a horizontal line with equally (randomly) spread points. -->
-
-<!-- 4. Residuals vs Leverage -->
-
-<!-- This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases. -->
+This plot helps us to find influential cases (i.e., subjects) if any. Not all outliers are influential in linear regression analysis (whatever outliers mean). Even though data have extreme values, they might not be influential to determine a regression line. That means, the results wouldn’t be much different if we either include or exclude them from analysis. They follow the trend in the majority of cases and they don’t really matter; they are not influential. On the other hand, some cases could be very influential even if they look to be within a reasonable range of the values. They could be extreme cases against a regression line and can alter the results if we exclude them from analysis. Another way to put it is that they don’t get along with the trend in the majority of the cases.
 
 ```{r relative importance}
 # Calculate Relative Importance for Each Predictor
@@ -655,8 +565,6 @@ boot <- boot.relimp(fit1, b = 1000, rank = TRUE,
 plot(booteval.relimp(boot,sort=TRUE)) # plot result
 
 ```
-
-
 
 
 
