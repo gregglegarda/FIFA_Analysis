@@ -507,9 +507,9 @@ numextract <- function(string){str_extract(string, "\\-*\\d+\\.*\\d*")}
 #Weight
 data$Weight <- as.integer(numextract(data$Weight))
 
-#Height 
+#Height
 
-data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + 
+data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 +
             as.numeric(y) * 2.54, sub('"', '', data$Height)))
 data$Height <- as.integer(data$Height)
 ```
@@ -570,8 +570,8 @@ This plot helps us to find influential cases (i.e., subjects) if any. Not all ou
 
 calc.relimp(fit1, type = c("lmg"), rela=TRUE)
 
-# Bootstrap Measures of Relative Importance (1000 samples) 
-boot <- boot.relimp(fit1, b = 1000, rank = TRUE, 
+# Bootstrap Measures of Relative Importance (1000 samples)
+boot <- boot.relimp(fit1, b = 1000, rank = TRUE,
   diff = TRUE, rela = TRUE)
 plot(booteval.relimp(boot,sort=TRUE)) # plot result
 
@@ -741,6 +741,11 @@ We transformed the Wage and Value because they were heavily skewed to the right.
 hist(wage_value$Wage, xlab = "Wage", main = "Histogram of Wage", col="cornsilk3")
 hist(wage_value$Value, xlab = "Value", main = "Histogram of Value", col = "cornsilk2")
 
+#qqnorm(wage_value$Wage, main = "Wage Q-Q plot")
+#qqline(wage_value$Wage, col = "red")
+
+#qqnorm(wage_value$Value, main = "Value Q-Q plot")
+#qqline(wage_value$Value, col = "blue")
 ```
 
 ### 4.1 Multiple Regression
