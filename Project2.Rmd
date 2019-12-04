@@ -5,7 +5,7 @@ date: "Nov 19, 2019"
 output:
   html_document:
     number_sectiond: yes
-    toc: yes
+    toc: yes 
     toc_float:
       collapsed: no
   word_document:
