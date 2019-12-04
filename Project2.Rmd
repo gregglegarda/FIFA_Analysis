@@ -165,6 +165,7 @@ loadPkg("ggthemes")
 
 
 ```{r, echo=FALSE, include=TRUE}
+# Value of the players
 fifa <- read.csv('data.csv')
 fifa <- fifa %>%
   mutate(cleanvalue = ifelse(str_detect(Value, "K"), 1000, ifelse(str_detect(Value, "M"), 1000000, 1))) %>%
@@ -183,6 +184,7 @@ playervalue
 
 
 ```{r, echo=FALSE, include=TRUE}
+# Value of the players after log transformation
 playervalue <- fifa%>%
   ggplot(aes(y= value)) +
   geom_boxplot(outlier.colour="black", outlier.shape=16,
@@ -195,6 +197,7 @@ playervalue
 
 
 ```{r, echo=F}
+# Group players based on their positions
 positions <- unique(fifa$Position)
 midfielders <- c("LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LDM", "CDM", "RDM")
 strikers <- c("LS", "LW", "LF", "ST", "CF", "RF", "RS", "RW")
@@ -204,6 +207,7 @@ fifa <- fifa %>%
 ```
 
 ```{r, echo=FALSE, include=TRUE}
+# Value of players based on their positions
 PositionValue <- fifa %>%
   filter(PositionGroup != "Unknown") %>%
   ggplot(aes(x= PositionGroup, y= value)) +
@@ -217,6 +221,7 @@ PositionValue
 
 #### Q2: What skills make strikers valuable?
 ```{r, echo=F}
+# Select Strikers from all players
 fifastrikers <- fifa %>%
   filter(PositionGroup == "Strikers")
 ```
@@ -225,7 +230,8 @@ fifastrikers <- fifa %>%
 skills_names <- c("Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle")
 ```
 
-```{r, echo=TRUE, include= FALSE}
+```{r, echo=TRUE, include=TRUE}
+# Ploting the skills of strikers
 fifa_aplayers <- na.omit(fifastrikers[c("Position", skills_names, "Value")])
 fifa_aplayers %>%
   gather(Skills, value, 2:30) %>%
@@ -238,7 +244,8 @@ fifa_aplayers %>%
 ```
 
 
-```{r, echo=TRUE, include= FALSE}
+```{r, echo=TRUE, include=TRUE}
+# Ploting the skills of strikers
 fifa_aplayers %>%
   gather(Skills, values, 2:30) %>%
   ggplot(aes(x=reorder(Skills, values, FUN=median), y=values, fill=Skills)) +
@@ -251,16 +258,19 @@ fifa_aplayers %>%
 ```
 
 ```{r, echo=FALSE, include= TRUE}
+# See if there are correlations between skills. If there are correlations, we can perform PCA and K-means clusteing
 loadPkg("corrplot")
 corrplot(cor(fifa_aplayers[2:30]), type="upper", method="ellipse", tl.cex=0.9)
 ```
 
 
 ```{r, echo=F}
+# scale the skills
 nfifa_skills <- as.data.frame(scale(fifa_aplayers[2:30]))
 ```
 
 ```{r, echo=FALSE, include= TRUE}
+# Identifiy how many cluster should we keep
 loadPkg("gridExtra")
 bss <- numeric()
 wss <- numeric()
@@ -282,23 +292,25 @@ grid.arrange(p1, p2, ncol=2)
 
 
 ```{r, echo=F}
+# K-means clustering analysis of skills
 set.seed(1234)
 nfifa_skills_k4 <- kmeans(nfifa_skills, centers=4)
 str(nfifa_skills_k4)
 ```
 
-```{r, echo=FALSE, include= TRUE}
+```{r, echo=FALSE}
 nfifa_skills_k4
 ```
 
 
 ```{r, echo=FALSE, include= TRUE}
 loadPkg("factoextra")
-fviz_cluster(nfifa_skills_k4, data = nfifa_skills)
+fviz_cluster(nfifa_skills_k4, data = nfifa_skills) # 4 clusters identified
 ```
 
 ```{r, echo=FALSE, include= TRUE}
 loadPkg("GGally")
+# Because there are too many skills, here we only select 6 skills to show their loading in each cluster
 ggpairs(cbind(nfifa_skills, Cluster=as.factor(nfifa_skills_k4$cluster)),
         columns=1:6, aes(colour=Cluster, alpha=0.5),
         lower=list(continuous="points"),
@@ -308,19 +320,16 @@ ggpairs(cbind(nfifa_skills, Cluster=as.factor(nfifa_skills_k4$cluster)),
 ```
 
 
-```{r, echo=FALSE, include= TRUE}
+```{r, echo=FALSE}
+# In addition to the K-means clustering, we also conducted PCA
 mps.pr.out =prcomp(nfifa_skills, scale =TRUE)
 summary(mps.pr.out)
 mps.pr.out$rotation
 ```
 
-```{r, echo=FALSE, include=TRUE}
-biplot(mps.pr.out, scale = 0)
-```
-
 
 ```{r, echo=FALSE, include=TRUE}
-plot(mps.pr.out, type="l")
+plot(mps.pr.out, type="l") # Identify how many components should we use in the next several graphs
 ```
 
 ```{r, echo=FALSE, include= TRUE}
@@ -342,6 +351,7 @@ fviz_eig(res.mp.pca, addlabels = TRUE, ylim = c(0, 40))
 ```
 
 ```{r, echo=FALSE, include=TRUE}
+# Visualize the PCA reult
 fviz_pca_var(res.mp.pca, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE
