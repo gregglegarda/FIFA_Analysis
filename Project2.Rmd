@@ -869,8 +869,8 @@ library(corrplot)
 
 ```{r import fifa, include=F}
 #import data
-Dataa <- read.csv("data.csv")
-fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
+fifaOri <- read.csv("data.csv")
+#fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
 
 ```
 
@@ -939,7 +939,7 @@ After transforming some variables, we got the new data. There are 4 numeric vari
 The new data are below:
 
 ```{r EDA1, echo=F}
-fifaQQ <- select(fifaOri, Age, Overall, Height, Weight, Position, Preferred.Foot, Wage_dummy)
+fifaQQ <- fifaOri
 str(fifaQQ)
 
 ```
