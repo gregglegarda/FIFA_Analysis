@@ -122,7 +122,7 @@ merged_fifa <- merge(x = worldmap, y = overall_fifa, by.x = "region", by.y = "Na
 
 ```
 
-```{r map1a, echo=F}
+```{r map1a, echo=FALSE, include=TRUE}
 ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
   geom_polygon(aes(fill = Count)) +
   labs(fill='Number of players')
@@ -132,7 +132,7 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 
 #### The average skill level of soccer players in each area of the world (level: 0-100)
 
-```{r map2, echo=F}
+```{r map2, echo=FALSE, include=TRUE}
 overall_fifa <- fifa %>% 
   group_by(Nationality) %>% 
   summarise(Count = n(), 
@@ -164,7 +164,7 @@ loadPkg("ggthemes")
 
 
 
-```{r, echo=F}
+```{r, echo=FALSE, include=TRUE}
 fifa <- read.csv('data.csv')
 fifa <- fifa %>%
   mutate(cleanvalue = ifelse(str_detect(Value, "K"), 1000, ifelse(str_detect(Value, "M"), 1000000, 1))) %>%
@@ -182,7 +182,7 @@ playervalue
 
 
 
-```{r, echo=F}
+```{r, echo=FALSE, include=TRUE}
 playervalue <- fifa%>%
   ggplot(aes(y= value)) +
   geom_boxplot(outlier.colour="black", outlier.shape=16,
@@ -203,7 +203,7 @@ fifa <- fifa %>%
   mutate(PositionGroup = ifelse(Position %in% defenders, "Defenders", ifelse(Position %in% midfielders, "Midfielders", ifelse(Position %in% strikers, "Strikers", "Unknown"))))
 ```
 
-```{r, echo=F}
+```{r, echo=FALSE, include=TRUE}
 PositionValue <- fifa %>%
   filter(PositionGroup != "Unknown") %>%
   ggplot(aes(x= PositionGroup, y= value)) +
@@ -314,12 +314,12 @@ summary(mps.pr.out)
 mps.pr.out$rotation
 ```
 
-```{r, echo=F}
+```{r, echo=FALSE, include=TRUE}
 biplot(mps.pr.out, scale = 0)
 ```
 
 
-```{r, echo=F}
+```{r, echo=FALSE, include=TRUE}
 plot(mps.pr.out, type="l")
 ```
 
@@ -341,7 +341,7 @@ res.mp.pca <- PCA(nfifa_skills, graph = FALSE)
 fviz_eig(res.mp.pca, addlabels = TRUE, ylim = c(0, 40))
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include=TRUE}
 fviz_pca_var(res.mp.pca, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE
@@ -1062,7 +1062,7 @@ wageagetable = xtabs(~ Wage_dummy + Age, data = fifaNew)
 
 We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
 
-```{r 4.3.1a, echo=F}
+```{r 4.3.1a, echo=FALSE, include=TRUE}
 chisqres_Q1 = chisq.test(wageagetable)
 chisqres_Q1
 
@@ -1083,7 +1083,7 @@ wagefoottable = xtabs(~ Wage_dummy + Preferred.Foot, data = fifaNew)
 
 We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
 
-```{r 4.3.2a, echo=F}
+```{r 4.3.2a, echo=FALSE, include=TRUE}
 chisqres_Q2 = chisq.test(wagefoottable)
 chisqres_Q2
 
@@ -1104,7 +1104,7 @@ wageskilltable = xtabs(~ Wage_dummy + Overall, data = fifaNew)
 
 We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
 
-```{r 4.3.3a, echo=F}
+```{r 4.3.3a, echo=FALSE, include=TRUE}
 chisqres_Q3 = chisq.test(wageskilltable)
 chisqres_Q3
 
@@ -1125,7 +1125,7 @@ wageheitable = xtabs(~ Wage_dummy + Height, data = fifaNew)
 
 We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
 
-```{r 4.3.4a, echo=F}
+```{r 4.3.4a, echo=FALSE, include=TRUE}
 chisqres_Q4 = chisq.test(wageheitable)
 chisqres_Q4
 
@@ -1147,7 +1147,7 @@ wageweitable = xtabs(~ Wage_dummy + Weight, data = fifaNew)
 
 We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
 
-```{r 4.3.5a, echo=F}
+```{r 4.3.5a, echo=FALSE, include=TRUE}
 chisqres_Q5 = chisq.test(wageweitable)
 chisqres_Q5
 
@@ -1159,7 +1159,7 @@ From the large p-value of `r chisqres_Q5$p.value`, we fall to reject the null hy
 
 To study the effects on wage by the position (two categorical variables), we can create two-way contingency table of the outcome and predictors.
 
-```{r 4.3.6, include=F}
+```{r 4.3.6, echo=FALSE, include=TRUE}
 wagepositable = xtabs(~ Wage_dummy + Position, data = fifaNew)
 
 ```
@@ -1168,7 +1168,7 @@ wagepositable = xtabs(~ Wage_dummy + Position, data = fifaNew)
 
 We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
 
-```{r 4.3.6a, echo=F}
+```{r 4.3.6a, echo=FALSE, include=TRUE}
 chisqres_Q6 = chisq.test(wagepositable)
 chisqres_Q6
 #>>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
@@ -1187,7 +1187,7 @@ wageLogit <- glm(Wage_dummy ~ Age + Preferred.Foot + Overall + Position + Weight
 ```
 
 #### We can see the summary of the logistic regression model here:  
-```{r 4.4a, echo=F}
+```{r 4.4a, echo=FALSE, include=TRUE}
 summary(wageLogit)
 ```
 #### Model interpretation: 
@@ -1226,7 +1226,7 @@ auc(h) # area-under-curve prefer 0.8 or higher.
 
 The result is shown here: 
 
-```{r 4.5.1a, echo=F}
+```{r 4.5.1a, echo=FALSE, include=TRUE}
 plot(h)
 # detach("package:pROC", unload = T) # good habit to remove unload packages no longer needed 
 ```
