@@ -480,16 +480,27 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 ## Smart Question 3  
 #### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
 
+```{r, include=F}
+
+
+library(readr)
+library(stringr)
+library(gsubfn)
+library(car)
+
+library(relaimpo)
+
+```
+
 #import data
 ```{r import}
-library(readr)
 data <- read_csv("data.csv")
 View(data)
 str(data)
 ```
 
 ```{r weight height transform, include=F}
-library(stringr)
+
 
 numextract <- function(string){str_extract(string, "\\-*\\d+\\.*\\d*")}
 
@@ -497,7 +508,7 @@ numextract <- function(string){str_extract(string, "\\-*\\d+\\.*\\d*")}
 data$Weight <- as.integer(numextract(data$Weight))
 
 #Height 
-library(gsubfn)
+
 data$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + 
             as.numeric(y) * 2.54, sub('"', '', data$Height)))
 data$Height <- as.integer(data$Height)
@@ -512,7 +523,7 @@ gk
 ```
 
 ```{r normality check}
-library(car)
+
 
 hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange")
 
@@ -556,7 +567,7 @@ This plot helps us to find influential cases (i.e., subjects) if any. Not all ou
 
 ```{r relative importance}
 # Calculate Relative Importance for Each Predictor
-library(relaimpo)
+
 calc.relimp(fit1, type = c("lmg"), rela=TRUE)
 
 # Bootstrap Measures of Relative Importance (1000 samples) 
