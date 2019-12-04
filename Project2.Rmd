@@ -225,7 +225,7 @@ fifastrikers <- fifa %>%
 skills_names <- c("Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle")
 ```
 
-```{r, echo=F}
+```{r, echo=TRUE, include= FALSE}
 fifa_aplayers <- na.omit(fifastrikers[c("Position", skills_names, "Value")])
 fifa_aplayers %>%
   gather(Skills, value, 2:30) %>%
@@ -238,7 +238,7 @@ fifa_aplayers %>%
 ```
 
 
-```{r, echo=F}
+```{r, echo=TRUE, include= FALSE}
 fifa_aplayers %>%
   gather(Skills, values, 2:30) %>%
   ggplot(aes(x=reorder(Skills, values, FUN=median), y=values, fill=Skills)) +
@@ -250,7 +250,7 @@ fifa_aplayers %>%
   coord_flip()
 ```
 
-```{r, echo=F}
+```{r, echo=FALSE, include= TRUE}
 loadPkg("corrplot")
 corrplot(cor(fifa_aplayers[2:30]), type="upper", method="ellipse", tl.cex=0.9)
 ```
@@ -260,7 +260,7 @@ corrplot(cor(fifa_aplayers[2:30]), type="upper", method="ellipse", tl.cex=0.9)
 nfifa_skills <- as.data.frame(scale(fifa_aplayers[2:30]))
 ```
 
-```{r, echo=F}
+```{r, echo=FALSE, include= TRUE}
 loadPkg("gridExtra")
 bss <- numeric()
 wss <- numeric()
@@ -287,17 +287,17 @@ nfifa_skills_k4 <- kmeans(nfifa_skills, centers=4)
 str(nfifa_skills_k4)
 ```
 
-```{r, include=F}
+```{r, echo=FALSE, include= TRUE}
 nfifa_skills_k4
 ```
 
 
-```{r, echo=F}
+```{r, echo=FALSE, include= TRUE}
 loadPkg("factoextra")
 fviz_cluster(nfifa_skills_k4, data = nfifa_skills)
 ```
 
-```{r, echo=F}
+```{r, echo=FALSE, include= TRUE}
 loadPkg("GGally")
 ggpairs(cbind(nfifa_skills, Cluster=as.factor(nfifa_skills_k4$cluster)),
         columns=1:6, aes(colour=Cluster, alpha=0.5),
@@ -308,7 +308,7 @@ ggpairs(cbind(nfifa_skills, Cluster=as.factor(nfifa_skills_k4$cluster)),
 ```
 
 
-```{r, include=F}
+```{r, echo=FALSE, include= TRUE}
 mps.pr.out =prcomp(nfifa_skills, scale =TRUE)
 summary(mps.pr.out)
 mps.pr.out$rotation
@@ -323,7 +323,7 @@ biplot(mps.pr.out, scale = 0)
 plot(mps.pr.out, type="l")
 ```
 
-```{r, echo=F}
+```{r, echo=FALSE, include= TRUE}
 mps.pr.var <- (mps.pr.out$sdev^2)
 mps.pve <- mps.pr.var/sum(mps.pr.var)
 plot(cumsum(mps.pve), xlab="Principal Component (standardized)", ylab ="Cumulative Proportion of Variance Explained",ylim=c(0,1),type="b")
@@ -335,7 +335,7 @@ loadPkg("FactoMineR")
 loadPkg("factoextra")
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include= TRUE}
 PCA(nfifa_skills, ncp = 4, graph = TRUE)
 res.mp.pca <- PCA(nfifa_skills, graph = FALSE)
 fviz_eig(res.mp.pca, addlabels = TRUE, ylim = c(0, 40))
@@ -347,11 +347,13 @@ fviz_pca_var(res.mp.pca, col.var = "contrib",
              repel = TRUE
              )
 ```
-```{r, echo=FALSE} 
+
+```{r, echo=FALSE, include=TRUE} 
 var <- get_pca_var(res.mp.pca)
 corrplot(var$contrib, is.corr=FALSE)
 ```
-```{r}
+
+```{r,  echo=FALSE, include=TRUE}
 fviz_contrib(res.mp.pca, choice = "var", axes = 1, top = 10)
 fviz_contrib(res.mp.pca, choice = "var", axes = 2, top = 10)
 fviz_contrib(res.mp.pca, choice = "var", axes = 3, top = 10)
@@ -522,7 +524,7 @@ gk <- gk[,colSums(is.na(gk))<nrow(gk)]
 gk
 ```
 
-```{r normality check}
+```{r, echo=FALSE, include= TRUE}
 
 
 hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rating", col="orange")
@@ -535,7 +537,7 @@ scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Ratin
 scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
 ```
 
-```{r model1, echo=FALSE}
+```{r, echo=FALSE, include= TRUE}
 
 fit1 <- lm(Potential ~ Age + Height + Weight + Reactions+ Jumping+ GKDiving + GKHandling + GKKicking + GKPositioning + GKReflexes , data = gk)
 summary(fit1)
@@ -543,7 +545,7 @@ fit1
 ```
 
 
-```{r model1b, echo=F, include=T}
+```{r, echo=FALSE, include= TRUE}
 plot(fit1, col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
 ```
 
@@ -578,7 +580,7 @@ outliers.
 
 Outliers are not influential.
 
-```{r relative importance}
+```{r, echo=FALSE, include= TRUE}
 # Calculate Relative Importance for Each Predictor
 
 calc.relimp(fit1, type = c("lmg"), rela=TRUE)
@@ -731,7 +733,7 @@ wage_value$Value <- log(wage_value$Value)
 
 
 #### Structure of the Datasets
-``` {r structure1, echo=FALSE, include=TRUE}
+``` {r structure1, echo=TRUE, include=FALSE}
 # # remove outliers
 # outlierKD(data_value_skills, Value, 'y')
 # summary(data_value_skills$Value)
