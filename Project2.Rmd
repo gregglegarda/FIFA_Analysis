@@ -152,7 +152,7 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 ## Smart Question 1
 #### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
 
-## Player Positions, Values, and Skills 
+## Player Positions, Values, and Skills
 #### Q1: How did the value of players vary according to the positions they play?
 
 ```{r, echo=F}
@@ -202,7 +202,7 @@ positions <- unique(fifa$Position)
 midfielders <- c("LAM", "CAM", "RAM", "LM", "LCM", "CM", "RCM", "RM", "LDM", "CDM", "RDM")
 strikers <- c("LS", "LW", "LF", "ST", "CF", "RF", "RS", "RW")
 defenders <- c("LWB", "LB", "CB", "LCB", "RCB", "RB", "RWB")
-fifa <- fifa %>% 
+fifa <- fifa %>%
   mutate(PositionGroup = ifelse(Position %in% defenders, "Defenders", ifelse(Position %in% midfielders, "Midfielders", ifelse(Position %in% strikers, "Strikers", "Unknown"))))
 ```
 
@@ -279,7 +279,7 @@ for(i in 1:10){
   bss[i] <- kmeans(nfifa_skills, centers=i)$betweenss
   wss[i] <- kmeans(nfifa_skills, centers=i)$tot.withinss
 }
-p1 <- qplot(1:10, bss, geom=c("point", "line"), 
+p1 <- qplot(1:10, bss, geom=c("point", "line"),
             xlab="Number of clusters", ylab="Between-cluster sum of squares") +
   scale_x_continuous(breaks=seq(0, 10, 1)) +
   theme_bw()
@@ -353,12 +353,12 @@ fviz_eig(res.mp.pca, addlabels = TRUE, ylim = c(0, 40))
 ```{r, echo=FALSE, include=TRUE}
 # Visualize the PCA reult
 fviz_pca_var(res.mp.pca, col.var = "contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE
              )
 ```
 
-```{r, echo=FALSE, include=TRUE} 
+```{r, echo=FALSE, include=TRUE}
 var <- get_pca_var(res.mp.pca)
 corrplot(var$contrib, is.corr=FALSE)
 ```
@@ -388,7 +388,7 @@ fifa <- fifa[, !sapply(fifa, is.character)]
 #drop ID variable
 fifa <- fifa[, c(-1, -2)]
 ```
-To begin the analysis, we drop all character variables and delete missing values. Additionally we drop the ID variable as it provides no usable information for our analysis. 
+To begin the analysis, we drop all character variables and delete missing values. Additionally we drop the ID variable as it provides no usable information for our analysis.
 
 
 ```{r EDA, echo=FALSE, include=TRUE}
@@ -412,7 +412,7 @@ M
 corrplot(M, method="circle")
 
 ```
-The EDA process begins by subsetting the data set to include only variables of interest. We maintain Penalties are our dependent variable and include 9 explanatory variables. The summary statistics for Penalties indicate that players' penalties skill range from a low of 5.0 to a high of 92.0 with a mean of 49.0 and a stardard deviation of 15.7. The summary output of the correlation matrix suggest that most variables are correlated in some way to other variables. The graphical display of the correlation matrix visually confirms the correlations. The data may be appropriate for linear regression, but the high correlation associated with some variables may suggest multicollinearity.     
+The EDA process begins by subsetting the data set to include only variables of interest. We maintain Penalties are our dependent variable and include 9 explanatory variables. The summary statistics for Penalties indicate that players' penalties skill range from a low of 5.0 to a high of 92.0 with a mean of 49.0 and a stardard deviation of 15.7. The summary output of the correlation matrix suggest that most variables are correlated in some way to other variables. The graphical display of the correlation matrix visually confirms the correlations. The data may be appropriate for linear regression, but the high correlation associated with some variables may suggest multicollinearity.
 ```{r linear, echo=FALSE, include=TRUE}
 
 barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
@@ -426,7 +426,7 @@ reg.res <- resid(reg)
 hist(reg.res, main="Histogram of Residuals", xlab="Residuals", ylab="Frequency", col=barcolors)
 
 ```
-We build a multiple linear regression model where we regress Penalties on Aggression, Age, Stamina, ShotPower, Balance, BallControl, LongPassing, HeadingAccuracy and Strength. The coefficient on the intercept suggests that the mean skill value for players is 0.76, but the coefficient is not statistically significant at any level. However, setting the explanatory variables to zero and interpreting the intercept does not make sense. Age is an explanatory variable, and a zero value of age is not realistic. Additionally, the explanatory variables in the data set do not take on values of zero.  We suggest the insignificance of the intercept is OK.  The coefficients on all explanatory variables are statistically significant at the zero percent level, and suggest that all variables in the regression contribute to predicting a player's penalty skills. The VIF values for the explanatory variables suggest that there is no multicollinearity among the variables, but the variable BallControl is close to the multicollinearity threshhold of 10 with a value of 7.17.  The multiple regression model displays an R-squared value of 0.713, and suggests that the model explains 71 percent of the variance in the dependent variable. The histogram of the regression residuals suggest that the residuals are close to normally distributed. The multiple regression model is a good model that can accurately predict a player's skill in penalty shots. 
+We build a multiple linear regression model where we regress Penalties on Aggression, Age, Stamina, ShotPower, Balance, BallControl, LongPassing, HeadingAccuracy and Strength. The coefficient on the intercept suggests that the mean skill value for players is 0.76, but the coefficient is not statistically significant at any level. However, setting the explanatory variables to zero and interpreting the intercept does not make sense. Age is an explanatory variable, and a zero value of age is not realistic. Additionally, the explanatory variables in the data set do not take on values of zero.  We suggest the insignificance of the intercept is OK.  The coefficients on all explanatory variables are statistically significant at the zero percent level, and suggest that all variables in the regression contribute to predicting a player's penalty skills. The VIF values for the explanatory variables suggest that there is no multicollinearity among the variables, but the variable BallControl is close to the multicollinearity threshhold of 10 with a value of 7.17.  The multiple regression model displays an R-squared value of 0.713, and suggests that the model explains 71 percent of the variance in the dependent variable. The histogram of the regression residuals suggest that the residuals are close to normally distributed. The multiple regression model is a good model that can accurately predict a player's skill in penalty shots.
 
 ``` {r PCA, echo=FALSE, include=TRUE}
 
@@ -440,7 +440,7 @@ summary(prscale)
 
 plot(prscale, main="PCA", type = "l", col=barcolors)
 ```
-Although the multiple linear regression model performs well, we investigate the use of PCA/PCR to attempt to reduce the demensions of the model.  The output of the scaled data displays the principal components and their summary statistics.  4 principal components are enough to explain 85 percent of the variation in the data set while 6 principal components are enough to explain  93 percent.  The PCA graph displays a graphical representation of the proportion of variance explained by each principal component.  
+Although the multiple linear regression model performs well, we investigate the use of PCA/PCR to attempt to reduce the demensions of the model.  The output of the scaled data displays the principal components and their summary statistics.  4 principal components are enough to explain 85 percent of the variation in the data set while 6 principal components are enough to explain  93 percent.  The PCA graph displays a graphical representation of the proportion of variance explained by each principal component.
 
 ```{r PCR, echo=FALSE, include=TRUE}
 loadPkg("pls")
@@ -478,7 +478,7 @@ predplot(pcr.fit2, main="Penalties Prediction Vs Penalties Observed")
 
 
 ```
-We decide to build a PCA model and perform PCR. Ultimately, we would like to compare the MSE from the multiple linear regresson model to the MSE of the PCR model, and choose the model with the lower MSE. We split the data into training and testing data sets using and 80/20 split. We then fit the PCR model on the training dataset using 10-fold cross validation.  The output from the PCR fit of the training data set suggests that 6 principal components achieve the lowest RMSEP value at 8.502. The validation plot of the PCR graphically displays the RMSEP values of each principal component. We then compare the MSE from the linear regression model to the MSE of the PCR model. The MSE of the linear regression is higher (70.8) than the MSE of PCR (69.9). The PCR with 6 principal components performs well and displays a lower MSE then linear regression; therefore, we build a PCR model with 6 principal components and suggest that PCR is the better model.  
+We decide to build a PCA model and perform PCR. Ultimately, we would like to compare the MSE from the multiple linear regresson model to the MSE of the PCR model, and choose the model with the lower MSE. We split the data into training and testing data sets using and 80/20 split. We then fit the PCR model on the training dataset using 10-fold cross validation.  The output from the PCR fit of the training data set suggests that 6 principal components achieve the lowest RMSEP value at 8.502. The validation plot of the PCR graphically displays the RMSEP values of each principal component. We then compare the MSE from the linear regression model to the MSE of the PCR model. The MSE of the linear regression is higher (70.8) than the MSE of PCR (69.9). The PCR with 6 principal components performs well and displays a lower MSE then linear regression; therefore, we build a PCR model with 6 principal components and suggest that PCR is the better model.
 
 
 
@@ -489,8 +489,8 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 
 
-## Smart Question 3  
-#### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc... 
+## Smart Question 3
+#### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc...
 
 ```{r, include=F}
 
@@ -632,7 +632,7 @@ wage_value <- c("Value","Wage")
 
 ```
 
-First, we cleaned up and formetted the Wage and Value column by first removing the pound(€) sign. We then wanted to remove the non-numerical characters in the data "M", "K", and ".". To keep the data meaningful, we created a column for M and a column for K for both Wage and Value and copied ththem in their respective columns before removing the characters. The only thing left is numbers and periods. we then multiplied the M column with 1,000,000 and K column with 1,000. After this, We merged them into their respective Wage and Value columns now formatted as numericalv values ready for operations and functions. We cahnged the skill int values to numeric and we also omitted NA values just incase there are some.
+First, we cleaned up and formatted the Wage and Value column by first removing the pound(€) sign. We then wanted to remove the non-numerical characters in the data "M", "K", and ".". To keep the data meaningful, we created a column for M and a column for K for both Wage and Value and copied ththem in their respective columns before removing the characters. The only thing left is numbers and periods. we then multiplied the M column with 1,000,000 and K column with 1,000. After this, We merged them into their respective Wage and Value columns now formatted as numericalv values ready for operations and functions. We cahnged the skill int values to numeric and we also omitted NA values just incase there are some.
 
 ```{r S4a, echo=FALSE, include=TRUE}
 ####CLEAN DATA (Wage and Value having same range. remove M and K and period)
@@ -742,8 +742,9 @@ wage_value$Value <- log(wage_value$Value)
 ```
 
 
-#### Structure of the Datasets
-``` {r structure1, echo=TRUE, include=FALSE}
+
+
+``` {r structure11 }
 # # remove outliers
 # outlierKD(data_value_skills, Value, 'y')
 # summary(data_value_skills$Value)
@@ -755,12 +756,16 @@ wage_value$Value <- log(wage_value$Value)
 # summary(wage_value$Wage)
 # outlierKD(wage_value, Value, 'y')
 # summary(wage_value$Value)
+```
 
+#### Structure of the Datasets
+``` {r structure1, echo=TRUE, results='hide', include= TRUE}
+#Check to view the structure of the datasets
 str(data_wage_skills)
 str(data_value_skills)
 ```
 
-#### HISTOGRAM
+#### Histogram
 We transformed the Wage and Value because they were heavily skewed to the right. After the log transformation, the historgam looks a little more normal. For Wage however, although it is better, is still right skewed. We tried using Tukey transformation which is stronger than log() but it was only limited to about 5,000 observations. We have morethan 1 million observations. This is one of our limitations.
 ```{r S4ee, echo=FALSE, include=TRUE}
 hist(wage_value$Wage, xlab = "Wage", main = "Histogram of Wage", col="cornsilk3")
@@ -777,7 +782,8 @@ hist(wage_value$Value, xlab = "Value", main = "Histogram of Value", col = "corns
 To answer the question, we performed multiple regressions for Wage and Value with Skills and have the results shown below. We showed the top 5 skills that explain Wage and Value.
 
 #### Wage-Skills
-```{r S4e, echo=FALSE, include=TRUE}
+```{r S4e, echo=TRUE, results='hide', include= TRUE}
+#Perform Regression for Wage vs Skills
 wage_lm <- lm(Wage ~ ., data = data_wage_skills)
 summary(wage_lm)
 ```
@@ -789,7 +795,8 @@ GK Handling  - 176.8,
 GK Diving    - 174.0
 
 #### Value-Skills
-```{r S4f, echo=FALSE, include=TRUE}
+```{r S4f, echo=TRUE, results='hide', include= TRUE}
+#Perform Regression for Values vs Skills
 value_lm <- lm(Value ~ ., data = data_value_skills)
 summary(value_lm)
 ```
@@ -832,18 +839,18 @@ Residual vs Leverage - we want residuals to be inside Cooks Distance or the dash
 
 
 #### Wage VIF
-```{r S4g, echo=FALSE, include=TRUE}
-#### VIFs and HISTOGRAM OF RESIDUALS
-#Wage VIF
+```{r S4g, echo=TRUE, results='hide', include= TRUE}
+#Perforsm VIF for Wage vs Skills Linear Model
 vif(wage_lm)
 ```
 
 #### Value VIF
-```{r S4gg, echo=FALSE, include=TRUE}
+```{r S4gg, echo=TRUE, results='hide', include= TRUE}
+#Perforsm VIF for Value vs Skills Linear Model
 vif(value_lm)
 ```
 
-#### MULTICOLLINEARITY
+#### Multicollinearity
 It seems like we have multicollinearity since our VIFs are way greater than 5. The independent variables are too correlated with each other and these Values Suggest that they are poorly estimated.
 
 
