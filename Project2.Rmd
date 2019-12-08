@@ -490,7 +490,7 @@ We decide to build a PCA model and perform PCR. Ultimately, we would like to com
 
 
 ## Smart Question 3
-#### What variables contribute the most to a goalkeeper’s potential? Age, physical factors, current gk skills, etc...
+#### What variables are important for a goalkeeper’s potential? 
 
 ```{r, include=F}
 
@@ -542,10 +542,15 @@ hist(gk$Potential,main="Histogram for goalkeepers' potential ratings", xlab="rat
 qqnorm(gk$Potential, main = "GK's potential ratings Q-Q plot", ylab="rating quantiles", col=c("#ff0000","#00ff00","#0000ff","#ffff00"))
 qqline(gk$Potential)
 
-scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Age and Current Rating")
+scatterplot(gk$Age, gk$Overall, col = "red", xlab = "Age", ylab = "Current Rating",main = "Current Rating vs. Age")
 
-scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Age and Potential Rating")
+scatterplot(gk$Age, gk$Potential, col = "dark green", xlab = "Age", ylab = "Potential Rating",main = "Potential Rating vs. Age")
 ```
+Goalkeepers' potential ratings are normally distributed, the majority of ratings lies in the 60-70 range.
+
+The scatterplot of current rating and age shows a general upward trend, older goalkeepers tend to have greater ratings.
+
+The scatterplot of age and potential rating shows a generaldownward trend, younger goalkeepers generally have higher potential.
 
 ```{r, echo=FALSE, include= TRUE}
 
@@ -602,7 +607,7 @@ plot(booteval.relimp(boot,sort=TRUE)) # plot result
 
 ```
 
-
+Age is the most important component of the model's R-squared value, which can be used to explain 83.27% in variance of a goalkeeper's potential rating. Current abilities in diving and reflexes are also important determinants of the model.  
 
 
 
