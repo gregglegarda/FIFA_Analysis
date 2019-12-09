@@ -426,7 +426,13 @@ reg.res <- resid(reg)
 hist(reg.res, main="Histogram of Residuals", xlab="Residuals", ylab="Frequency", col=barcolors)
 
 ```
-We build a multiple linear regression model where we regress Penalties on Aggression, Age, Stamina, ShotPower, Balance, BallControl, LongPassing, HeadingAccuracy and Strength. The coefficient on the intercept suggests that the mean skill value for players is 0.76, but the coefficient is not statistically significant at any level. However, setting the explanatory variables to zero and interpreting the intercept does not make sense. Age is an explanatory variable, and a zero value of age is not realistic. Additionally, the explanatory variables in the data set do not take on values of zero.  We suggest the insignificance of the intercept is OK.  The coefficients on all explanatory variables are statistically significant at the zero percent level, and suggest that all variables in the regression contribute to predicting a player's penalty skills. The VIF values for the explanatory variables suggest that there is no multicollinearity among the variables, but the variable BallControl is close to the multicollinearity threshhold of 10 with a value of 7.17.  The multiple regression model displays an R-squared value of 0.713, and suggests that the model explains 71 percent of the variance in the dependent variable. The histogram of the regression residuals suggest that the residuals are close to normally distributed. The multiple regression model is a good model that can accurately predict a player's skill in penalty shots.
+We build a multiple linear regression model where we regress Penalties on Aggression, Age, Stamina, ShotPower, Balance, BallControl, LongPassing, HeadingAccuracy and Strength. The coefficient on the intercept suggests that the mean skill value for players is 0.76, but the coefficient is not statistically significant at any level. However, setting the explanatory variables to zero and interpreting the intercept does not make sense. Age is an explanatory variable, and a zero value of age is not realistic. Additionally, the explanatory variables in the data set do not take on values of zero.  We suggest the insignificance of the intercept is OK.  
+
+The coefficients on all explanatory variables are statistically significant at the zero percent level, and suggest that all variables in the regression contribute to predicting a player's penalty skills. Age, Ball Control and Heading Accuracy are the top three most postive contributors to a player's penalty skills.  Aggression, Long Passing and Strength are the top three most negative contributors to a player's penalty skills. Skills in penalty shots seem to be influenced positvely by experiece and finesse rather than brute strength. 
+
+The VIF values for the explanatory variables suggest that there is no multicollinearity among the variables, but the variable BallControl is close to the multicollinearity threshhold of 10 with a value of 7.17.  The multiple regression model displays an R-squared value of 0.713, and suggests that the model explains 71 percent of the variance in the dependent variable. 
+
+The histogram of the regression residuals suggest that the residuals are close to normally distributed. The multiple regression model is a good model that can accurately predict a player's skill in penalty shots.
 
 ``` {r PCA, echo=FALSE, include=TRUE}
 
@@ -478,15 +484,9 @@ predplot(pcr.fit2, main="Penalties Prediction Vs Penalties Observed")
 
 
 ```
+
+
 We decide to build a PCA model and perform PCR. Ultimately, we would like to compare the MSE from the multiple linear regresson model to the MSE of the PCR model, and choose the model with the lower MSE. We split the data into training and testing data sets using and 80/20 split. We then fit the PCR model on the training dataset using 10-fold cross validation.  The output from the PCR fit of the training data set suggests that 6 principal components achieve the lowest RMSEP value at 8.502. The validation plot of the PCR graphically displays the RMSEP values of each principal component. We then compare the MSE from the linear regression model to the MSE of the PCR model. The MSE of the linear regression is higher (70.8) than the MSE of PCR (69.9). The PCR with 6 principal components performs well and displays a lower MSE then linear regression; therefore, we build a PCR model with 6 principal components and suggest that PCR is the better model.
-
-
-
-
-
-
-
-
 
 
 ## Smart Question 3
