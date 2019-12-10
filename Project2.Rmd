@@ -85,21 +85,18 @@ https://www.goal.com/en-ae/news/fifa-player-ratings-explained-how-are-the-card-n
 
 
 
-## Chapter 2: Description of Data
-
+## Description of Data
 
 ### 2.1 Source Data
 
 In this study, the CSV data file comes from FIFA 2019 database (https://www.kaggle.com/karangadiya/fifa19). This dataset contains 18,207 soccer player information in FIFA 2019 with 89 variables such as name, age, nationality, skill level, potential, club, transferred value, wage, preferred foot, body type, position in the field, height, and weight.	
 
 ```{r source data, include=F}
-loadPkg("readr")
+library(readr)
 fifa <- read_csv("data.csv")
 str(fifa)
 
 ```
-
-
 
 ### 2.2 Geographic Coverage of Data
 
@@ -108,9 +105,9 @@ To do a basic data visualization, latitude and longitude in the dataset are used
 #### The number of soccer players in each area of the world
 
 ```{r map1, include=F}
-loadPkg("dplyr")
-loadPkg("ggplot2")
-loadPkg("maps")
+library(dplyr)
+library(ggplot2)
+library(maps)
 overall_fifa <- fifa %>% 
   group_by(Nationality) %>% 
   summarise(Count = n(), 
@@ -146,7 +143,6 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 
 
 ```
-
 
 
 ## Smart Question 1
@@ -892,40 +888,24 @@ loadPkg("corrplot")
 
 
 ## Smart Question 5 
-#### How do physical factors (age, preferred foot, overall skill, international reputation, position in the field, weight, and height) help the soccer professionals to get wage for higher 100,000 Euro per week?
-```{r S5, echo=FALSE, include=TRUE}
-#Wage(Factor) – 1 (Higher 100k euro per week), 0 (lower 100k euro per week).
-#Age (Integer)
-#Foot (Factor)
-#Skill (Integer)
-#Weight (Integer)
-#Height (Integer)
-#International reputation (Factor) – 5 level.
-#Position (Factor) – 4 types, including Goalkeeper, defense, midfield, and attack.
-#=======
-## Chapter 7: Earning higher 100,000 Euro per week of soccer players (Jay)
-
-### 7.1 SMART Question
+### 5.1 Question
 #### How do physical factors help the soccer professionals to get wage for higher 100,000 Euro per week?
-```
 
 ```{r import fifa, include=F}
 #import data
-fifaOri <- read.csv("data.csv")
-#fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
+Dataa <- read.csv("data.csv")
+fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
 
 ```
 
-### 7.2 Exploratory Data Analysis
+### 5.2 Exploratory Data Analysis
 In this section, we perform the exloratory data analysis (EDA) on several numerical variables in the dataset. After assessing some of the characteristics of those variables, we decided to clean the data by omitting outliers and NA values. 
 
-#### 7.2.1. Data tranformation and Descriptive Statistics
+#### 5.2.1. Data tranformation
 ##### Data tranformation 
-In this chapter, we use logistic regression with 7 variables including age, skill level, wage, preferred foot, position, height, and weight. However, we have not cleaned the data yet.
+In this chapter, we use logistic regression with 7 variables including age, skill level, wage, preferred foot, position, height, and weight. 
 
-The original data are below:
-
-```{r EDA11, echo=F}
+```{r EDA, include=F}
 str(fifaOri)
 
 ```
@@ -933,7 +913,7 @@ str(fifaOri)
 ```{r clean data, include=F}
 #clean data
 #wage
-loadPkg("stringr")
+library(stringr)
 numextract <- function(string){ 
   str_extract(string, "\\-*\\d+\\.*\\d*")
 } 
@@ -949,9 +929,7 @@ fifaOri <- mutate(fifaOri, Preferred.Foot = y)
 #Weight
 fifaOri$Weight <- as.integer(numextract(fifaOri$Weight))
 #Height 
-
-loadPkg("gsubfn")
-
+library(gsubfn)
 fifaOri$Height <- as.numeric(gsubfn("(\\d)'(\\d+)", ~ as.numeric(x) * 30.48 + 
             as.numeric(y) * 2.54, sub('"', '', fifaOri$Height)))
 fifaOri$Height <- as.integer(fifaOri$Height)
@@ -980,28 +958,17 @@ After transforming some variables, we got the new data. There are 4 numeric vari
 
 The new data are below:
 
-```{r EDA1, echo=F}
-fifaQQ <- fifaOri
+```{r EDA1, echo=FALSE, include=TRUE}
+fifaQQ <- select(fifaOri, Age, Overall, Height, Weight, Position, Preferred.Foot, Wage_dummy)
 str(fifaQQ)
 
 ```
 
-##### Descriptive Statistics
-
-The descriptive statistics are presented below:
-
-```{r EDA2, echo=F}
-summary(fifaQQ)
-
-```
-
-According to the above statistics, it can be seen that mean and median of 4 numeric variables are very close. However, There are a lot of missing values (NAs) in height, weight, position, and preferred foot.
-
-#### 7.2.2. Normality (Q-Q plots)
+#### 5.2.2. Normality (Q-Q plots)
 
 In this step, we need to check normality for 4 numeric variable, including age, skill level, height, and weight. 
 
-```{r EDA3, echo=F}
+```{r EDA3, echo=FALSE, include=TRUE}
 par(mfrow=c(2,2))
 qqnorm(fifaQQ$Age, main = "Age Q-Q plot", ylab="Age quantiles")
 qqline(fifaQQ$Age, col = "red")
@@ -1067,141 +1034,26 @@ fifaNew <- na.omit(fifaQQ) #Eliminate NAs
 summary(fifaNew) #Check the summary statistics of fifa
 str(fifaNew)
 
+par(mfrow=c(2,2))
+qqnorm(fifaNew$Age, main = "Age Q-Q plot", ylab="Age quantiles")
+qqline(fifaNew$Age, col = "red")
+qqnorm(fifaNew$Overall, main = "Skill level Q-Q plot", ylab="Skill level quantiles")
+qqline(fifaNew$Overall, col = "red")
+qqnorm(fifaNew$Height, main = "Height Q-Q plot", ylab="Height quantiles")
+qqline(fifaNew$Height, col = "red")
+qqnorm(fifaNew$Weight, main = "Weight Q-Q plot", ylab="Weight quantiles")
+qqline(fifaNew$Weight, col = "red")
+
 ```
 
-### 7.3 Pre-Logistic Regression
+### 5.3 Pre-Logistic Regression
 
 #### Does the data support that “Age”, "Preferred foot", "Overall skill level", "Preferred position", "Weight", and "Height" affect “Wage”?
 
-#### 7.3.1 Age VS Wage
-
-To study the effects on wage by the age (one categorical variable and one qualitative variable, respectively), we can create two-way contingency table of the outcome and predictors.
-
-```{r 4.3.1, include=F}
-wageagetable = xtabs(~ Wage_dummy + Age, data = fifaNew)
-
-```
-
-##### Chi squared test
-
-We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
-
-```{r 4.3.1a, echo=FALSE, include=TRUE}
-chisqres_Q1 = chisq.test(wageagetable)
-chisqres_Q1
-
-```
-
-From the small p-value of `r chisqres_Q1$p.value`, we reject the null hypothesis that the "Wage" and  "Age" are independent. Therefore, the data supports “age” may have an effect on “Wage”. 
-
-#### 7.3.2 Preferred foot VS Wage
-
-To study the effects on wage by preferred foot (both of them categorical variables), we can create two-way contingency table of the outcome and predictors.
-
-```{r 4.3.2, include=F}
-wagefoottable = xtabs(~ Wage_dummy + Preferred.Foot, data = fifaNew)
-
-```
-
-##### Chi squared test
-
-We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
-
-```{r 4.3.2a, echo=FALSE, include=TRUE}
-chisqres_Q2 = chisq.test(wagefoottable)
-chisqres_Q2
-
-```
-
-From the large p-value of `r chisqres_Q2$p.value`, we fall to reject the null hypothesis that the "Wage" and  "Foot" are independent. Therefore, the data supports “Prefered foot” might not have an effect on “Wage”. 
-
-##### 7.3.3 Wage VS Overall skill level
-
-To study the effects on wage by the skill level (one categorical variable and one qualitative variable, respectively), we can create two-way contingency table of the outcome and predictors.
-
-```{r 4.3.3, include=F}
-wageskilltable = xtabs(~ Wage_dummy + Overall, data = fifaNew)
-
-```
-
-##### Chi squared test
-
-We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
-
-```{r 4.3.3a, echo=FALSE, include=TRUE}
-chisqres_Q3 = chisq.test(wageskilltable)
-chisqres_Q3
-
-```
-
-From the small p-value of `r chisqres_Q3$p.value`, we reject the null hypothesis that the "Wage" and  "Skill level" are independent. Therefore, the data supports “Skill level” might have an effect on “Wage”.
-
-##### 7.3.4 Wage VS Height
-
-To study the effects on wage by the height (one categorical variable and one qualitative variable, respectively), we can create two-way contingency table of the outcome and predictors.  
-
-```{r 4.3.4, include=F}
-wageheitable = xtabs(~ Wage_dummy + Height, data = fifaNew)
-
-```
-
-##### Chi squared test
-
-We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
-
-```{r 4.3.4a, echo=FALSE, include=TRUE}
-chisqres_Q4 = chisq.test(wageheitable)
-chisqres_Q4
-
-```
-
-From the large p-value of `r chisqres_Q4$p.value`, we fall to reject the null hypothesis that the "Wage" and  "Height" are independent. Therefore, the data supports “Height” might not have an effect on “Wage”.
+To study the effects on wage by the independent variable,  we can create two-way contingency table of the outcome (wage) and each predictors. We use a chi-squared test to see if the two are independent (or same frequency distribution). According to the results, we found that the "Wage" are dependent with "age, skill level, and position in the field". However, the rest of independent variables are independent with "Wage"   
 
 
-#### 7.3.5 Wage VS Weight
-
-To study the effects on wage by the weight (one categorical variable and one qualitative variable, respectively), we can create two-way contingency table of the outcome and predictors.  
-
-```{r 4.3.5, include=F}
-wageweitable = xtabs(~ Wage_dummy + Weight, data = fifaNew)
-
-```
-
-##### Chi squared test
-
-We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
-
-```{r 4.3.5a, echo=FALSE, include=TRUE}
-chisqres_Q5 = chisq.test(wageweitable)
-chisqres_Q5
-
-```
-
-From the large p-value of `r chisqres_Q5$p.value`, we fall to reject the null hypothesis that the "Wage" and  "weight" are independent. Therefore, the data supports “Weight” might not have an effect on “Wage”.
-
-#### 7.3.6 Wage VS Perferred position in the field
-
-To study the effects on wage by the position (two categorical variables), we can create two-way contingency table of the outcome and predictors.
-
-```{r 4.3.6, echo=FALSE, include=TRUE}
-wagepositable = xtabs(~ Wage_dummy + Position, data = fifaNew)
-
-```
-
-##### Chi squared test
-
-We can then quickly run a chi-squared test to see if the two are independent (or same frequency distribution).
-
-```{r 4.3.6a, echo=FALSE, include=TRUE}
-chisqres_Q6 = chisq.test(wagepositable)
-chisqres_Q6
-#>>>>>>> c62f819f41a0539212ee1fa7fe260fdac0397553
-
-```
-
-From the small p-value of `r chisqres_Q6$p.value`, we reject the null hypothesis that the "Wage" and  "Position" are independent at the 1% significance level. Therefore, the data supports “Position” might have an effect on “Wage”.
-
-### 7.4 Logistic Regression
+### 5.4 Logistic Regression
 
 Let us now turn our attention to logistic regression models. We run the Wage model including age, preferred.Foot, overall skill level, preferred position in the field, weight, and height.
 
@@ -1219,28 +1071,21 @@ summary(wageLogit)
 ##### The age effect on wage
 According to the above regression results, the cofficient on age indicates that for every one year increases in age, ln(odds-ratio) of wage at higher 100,000 Euro per week level decreases by 0.06. In other word, it means that the young player have more opportunity to earn higher 100k Euro per week than the olders. Furthermore, it is statistically significant.
 
-##### The preferred foot effect on wage
-For preferred foot: use left foot as baseline, ln(odds-ratio) of wage at higher 100,000 Euro per week level deceases by 0.02 when changing from left to right foot. So, it is likely that the left foot players have more the opportunity to earn higher 100,000 Euro per week than the right foot player. However, it is not statistically significant. 
-
 ##### The skill level effect on wage
 The cofficient on skill level indicates that for every one level increases in overall skill, ln(odds-ratio) of wage at higher 100,000 Euro per week level increase by 0.72. In other word, it means that the high skill players have more opportunity to earn higher 100k Euro per week than the low skill players. In addition, it is statistically significant.
 
 ##### The effect of position of the player in the field on wage 
 For position: use Goalkeeper as baseline, ln(odds-ratio) of wage at higher 100,000 Euro per week level increases by 1.42 when changing from Goalkeeper to Defender. And, ln(odds-ratio) of higher 100,000 euro wage increases by 1.35 when changing from Goalkeeper to Midfielder. Finally, ln(odds-ratio) of higher 100,000 euro wage increases by 1.49 when changing from Goalkeeper to Forward. It is likely that the opportunity to earn higher 100k Euro per week will increase if the preferred position of soccer players are far from goalkeeper. In addition, the case is statistically significant. 
 
-##### The weight effect on wage
-The cofficient on weight indicates that for every one lbs increases in weight, ln(odds-ratio) of wage at higher 100,000 Euro per week level decreases by 0.006. In other word, it means that the low weight players have more opportunity to earn higher 100k Euro per week than the high weight players. However, this case is not statistically significant.
+Whereas, preferred.Foot, and weight, and height are not statistically significant. 
 
-##### The height effect on wage
-The cofficient on height indicates that for every one centimeter (CM) increases in height, ln(odds-ratio) of wage at higher 100,000 Euro per week level decreases by 0.002. In other word, it seems that the short players have more opportunity to earn higher 100k Euro per week than the tall players height. However, it is not statistically significant.
+### 5.5 Model evaluation
 
-### 7.5 Model evaluation
-
-#### 7.5.1. ROC curve and AUC
+#### 5.5.1. ROC curve and AUC
 Receiver-Operator-Characteristic (ROC) curve and Area-Under-Curve (AUC) measures the true positive rate (or sensitivity) against the false positive rate (or specificity). The area-under-curve is always between 0.5 and 1. Values higher than 0.8 is considered good model fit.  
 
 ```{r 4.5.1, include=F}
-loadPkg("pROC") # receiver operating characteristic curve, gives the diagnostic ability of a binary classifier system as its discrimination threshold is varied. The curve is on sensitivity/recall/true-positive-rate vs false_alarm/false-positive-rate/fall-out.
+library(pROC) # receiver operating characteristic curve, gives the diagnostic ability of a binary classifier system as its discrimination threshold is varied. The curve is on sensitivity/recall/true-positive-rate vs false_alarm/false-positive-rate/fall-out.
 prob=predict(wageLogit, type = c("response"))
 fifaNew$prob=prob
 h <- roc(Wage_dummy~prob, data=fifaNew)
@@ -1257,11 +1102,11 @@ plot(h)
 
 We have here the area-under-curve of `r auc(h)`, which is higher than 0.8. This indicates the model is really a good fit, and all the coefficients are significant.  
 
-#### 7.5.2. McFadden  
+#### 5.5.2. McFadden  
 McFadden is another evaluation tool we can use on logitistic regressions. This is part of what is called pseudo-R-squared values for evaluation tests.
 
 ```{r 4.5.2, include=F}
-loadPkg("pscl") # use pR2( ) function to calculate McFadden statistics for model eval
+library(pscl) # use pR2( ) function to calculate McFadden statistics for model eval
 wageLogitpr2 = pR2(wageLogit)
 wageLogitpr2
 # detach("package:pscl", unload = T) # good habit to remove unload packages no longer needed 
