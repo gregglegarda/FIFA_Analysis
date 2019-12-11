@@ -893,8 +893,8 @@ loadPkg("corrplot")
 
 ```{r import fifa, include=F}
 #import data
-Dataa <- read.csv("data.csv")
-fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
+fifaOri <- read.csv("data.csv")
+#fifaOri <- select(Dataa, Age, Overall, Wage, Preferred.Foot, Position, Height, Weight)
 
 ```
 
@@ -948,21 +948,12 @@ fifaOri <- mutate(fifaOri, Position = x)
                            # destination = "continent"))
 #fifa <- mutate(fifa, Position = x)
 
-str(fifaOri)
-head(fifaOri)
+fifaQQ <- fifaOri
 
 
 ```
 
 After transforming some variables, we got the new data. There are 4 numeric variables (age, skill level, height, and weight) and 3 categorical variables (Wage_dummy, position, and preferred foot)    
-
-The new data are below:
-
-```{r EDA1, echo=FALSE, include=TRUE}
-fifaQQ <- select(fifaOri, Age, Overall, Height, Weight, Position, Preferred.Foot, Wage_dummy)
-str(fifaQQ)
-
-```
 
 #### 5.2.2. Normality (Q-Q plots)
 
