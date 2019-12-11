@@ -146,11 +146,9 @@ ggplot(data = merged_fifa, aes(x = long, y = lat, group = group)) +
 
 
 ## Smart Question 1
-#### How can we predict a dream team by determining the optimal skills(strength, heading, kick, jump) and vcharacteristics( leftfooted, bodytype, vision)in certain positions? And who would be the best players for the position?
 
-## Player Positions, Values, and Skills
-#### Q1: How did the value of players vary according to the positions they play?
-
+#### Q1.1: How did the value of players vary according to the positions they play?
+First of all, we analyzed the differences in the value of players based on the positions they play and found that strikers valued more than midfielders and defenders.
 ```{r, echo=F}
 loadPkg("tidyverse")
 loadPkg("ggplot2")
@@ -215,7 +213,8 @@ PositionValue <- fifa %>%
 PositionValue
 ```
 
-#### Q2: What skills make strikers valuable?
+#### Q1.2: What skills make strikers valuable?
+Because strikers are the most valuable players, we focus on analyzing what skills made them so valuable.
 ```{r, echo=F}
 # Select Strikers from all players
 fifastrikers <- fifa %>%
@@ -226,7 +225,7 @@ fifastrikers <- fifa %>%
 skills_names <- c("Crossing", "Finishing", "HeadingAccuracy", "ShortPassing", "Volleys", "Dribbling", "Curve", "FKAccuracy", "LongPassing", "BallControl", "Acceleration", "SprintSpeed", "Agility", "Reactions", "Balance", "ShotPower", "Jumping", "Stamina", "Strength", "LongShots", "Aggression", "Interceptions", "Positioning", "Vision", "Penalties", "Composure", "Marking", "StandingTackle", "SlidingTackle")
 ```
 
-```{r, echo=TRUE, include=TRUE}
+```{r, echo=F, include=TRUE}
 # Ploting the skills of strikers
 fifa_aplayers <- na.omit(fifastrikers[c("Position", skills_names, "Value")])
 fifa_aplayers %>%
@@ -240,7 +239,7 @@ fifa_aplayers %>%
 ```
 
 
-```{r, echo=TRUE, include=TRUE}
+```{r, echo=F, include=TRUE}
 # Ploting the skills of strikers
 fifa_aplayers %>%
   gather(Skills, values, 2:30) %>%
@@ -259,6 +258,7 @@ loadPkg("corrplot")
 corrplot(cor(fifa_aplayers[2:30]), type="upper", method="ellipse", tl.cex=0.9)
 ```
 
+As can be seen from the above correlation plot, many of the skills are correlated. Therefore, to simply the data and give us a clearer understanding of what skills made strikers so valuable, we further conducted a K-means clustering and a PCA test.
 
 ```{r, echo=F}
 # scale the skills
@@ -304,6 +304,7 @@ loadPkg("factoextra")
 fviz_cluster(nfifa_skills_k4, data = nfifa_skills) # 4 clusters identified
 ```
 
+Four clusters are generated from the skills. ecause there are too many skills, here we only select 6 skills to show their loading in each cluster.
 ```{r, echo=FALSE, include= TRUE}
 loadPkg("GGally")
 # Because there are too many skills, here we only select 6 skills to show their loading in each cluster
@@ -346,6 +347,7 @@ res.mp.pca <- PCA(nfifa_skills, graph = FALSE)
 fviz_eig(res.mp.pca, addlabels = TRUE, ylim = c(0, 40))
 ```
 
+The scree plot suggests that four principle components might be optimal for the PCA test.
 ```{r, echo=FALSE, include=TRUE}
 # Visualize the PCA reult
 fviz_pca_var(res.mp.pca, col.var = "contrib",
@@ -366,6 +368,7 @@ fviz_contrib(res.mp.pca, choice = "var", axes = 3, top = 10)
 fviz_contrib(res.mp.pca, choice = "var", axes = 4, top = 10)
 ```
 
+We also checked the contribution of each skill to each of the four principle components.
 
 
 ## Smart Question 2
@@ -905,7 +908,7 @@ In this section, we perform the exloratory data analysis (EDA) on several numeri
 ##### Data tranformation 
 In this chapter, we use logistic regression with 7 variables including age, skill level, wage, preferred foot, position, height, and weight. 
 
-```{r EDA, include=F}
+```{r EDA4, include=F}
 str(fifaOri)
 
 ```
